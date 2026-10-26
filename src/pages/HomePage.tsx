@@ -305,14 +305,23 @@ export const HomePage: React.FC = () => {
           <p className="lead">Each category includes ready-to-use legal formats and mandatory document checklists.</p>
           <div className="cats">
             {CATEGORY_TEMPLATES.map((cat, idx) => {
-              const imgMap = [
+              const imgMap: Record<string, string> = {
+                'Matrimonial': 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80',
+                'Change of name': '/images/change-of-name.png',
+                'Property': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80',
+                'Public notice': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
+                'Recruitment': 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
+                'Obituary': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
+              };
+              const defaultImgs = [
                 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80',
-                'https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80',
+                '/images/change-of-name.png',
                 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80',
                 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
                 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
                 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
               ];
+              const imgSrc = imgMap[cat.name] || defaultImgs[idx % defaultImgs.length];
               return (
                 <a
                   key={cat.name}
@@ -326,7 +335,7 @@ export const HomePage: React.FC = () => {
                   }}
                 >
                   <div className="cat-thumb">
-                    <img src={imgMap[idx % imgMap.length]} alt={cat.name} loading="lazy" />
+                    <img src={imgSrc} alt={cat.name} loading="lazy" />
                     <span className="cat-tag">{cat.name}</span>
                   </div>
                   <div className="cat-body">
