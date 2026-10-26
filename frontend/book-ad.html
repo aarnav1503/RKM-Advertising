@@ -103,9 +103,9 @@
 </header>
 
 <div class="stepper-bar">
-  <div class="step-item"><span class="step-num">1</span> Newspaper &amp; Edition</div>
+  <div class="step-item active"><span class="step-num">1</span> Newspaper &amp; Edition</div>
   <div class="step-item"><span class="step-num">2</span> Category &amp; Date</div>
-  <div class="step-item active"><span class="step-num">3</span> Compose &amp; Preview</div>
+  <div class="step-item"><span class="step-num">3</span> Compose &amp; Preview</div>
   <div class="step-item"><span class="step-num">4</span> Checkout</div>
 </div>
 
@@ -274,6 +274,8 @@ const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
 fill($('pub'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
 fill($('cat'),C,c=>`<option>${c[0]}</option>`);
 fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
+const urlParams=new URLSearchParams(window.location.search),catParam=urlParams.get('cat');
+if(catParam){const f=C.find(x=>x[0].toLowerCase()===catParam.toLowerCase());if(f)$('cat').value=f[0];}
 
 function useTemplate(){
   const c=C.find(x=>x[0]==$('cat').value);

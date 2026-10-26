@@ -1,7 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
 import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES, calculateLines, formatINR } from '../data/publicationsData';
+
+const AD_FORMATS = [
+  {
+    id: 'text' as const,
+    name: 'Classified Text (ROD)',
+    tagline: 'Run-on-line notices',
+    badge: 'Popular',
+    pricingNote: 'Per line/word tariff',
+  },
+  {
+    id: 'cd' as const,
+    name: 'Classified Display (CD)',
+    tagline: 'Boxed ad with custom border',
+    badge: 'High Impact',
+    pricingNote: 'Boxed column tariff (+₹350)',
+  },
+  {
+    id: 'display' as const,
+    name: 'Commercial Display',
+    tagline: 'Quarter, half or full page',
+    badge: 'Impact Ad',
+    pricingNote: 'From ₹12,000 / insertion',
+  },
+];
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,16 +41,25 @@ export const HomePage: React.FC = () => {
   const [builderPub, setBuilderPub] = useState(booking.publicationId || '');
   const [builderEd, setBuilderEd] = useState(booking.edition || '');
   const [builderCat, setBuilderCat] = useState(booking.category || '');
+  const [builderFormat, setBuilderFormat] = useState<'text' | 'cd' | 'display'>('text');
   const [builderDate, setBuilderDate] = useState(booking.publishDate || '');
   const [builderText, setBuilderText] = useState(booking.adText || '');
   const [isBold, setIsBold] = useState(booking.enhancements.bold || false);
   const [isColor, setIsColor] = useState(booking.enhancements.colorBg || false);
   const [isBorder, setIsBorder] = useState(booking.enhancements.borderTick || false);
   const [checkoutMsg, setCheckoutMsg] = useState('');
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [pickerMonth, setPickerMonth] = useState<Date>(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
+  const datePickerRef = useRef<HTMLDivElement>(null);
+
   const [simulatedSummary, setSimulatedSummary] = useState<null | {
     pubName: string;
     edition: string;
     category: string;
+    format: string;
     date: string;
     words: number;
     lines: number;
@@ -67,15 +101,25 @@ export const HomePage: React.FC = () => {
   const currentPub = builderPub && P[builderPub] ? P[builderPub] : null;
   const currentEdMult = (builderEd && E[builderEd]) ? E[builderEd] : 1;
 
-  // Calculation logic
+  // Calculation logic with Ad Format support
   const trimmed = builderText.trim();
   const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
   const lineCount = trimmed ? calculateLines(trimmed, 35) : 0;
   const usedUnits = currentPub ? (currentPub.u === 'line' ? lineCount : wordCount) : 0;
   const extraUnits = currentPub ? Math.max(0, usedUnits - currentPub.bu) : 0;
-  const baseRate = currentPub ? currentPub.base * currentEdMult : 0;
-  const extraRate = currentPub ? extraUnits * currentPub.ex * currentEdMult : 0;
-  const enhRate = (isBold ? 50 : 0) + (isColor ? 150 : 0) + (isBorder ? 30 : 0);
+
+  let baseRate = currentPub ? currentPub.base * currentEdMult : 0;
+  let extraRate = currentPub ? extraUnits * currentPub.ex * currentEdMult : 0;
+  let enhRate = (isBold ? 50 : 0) + (isColor ? 150 : 0) + (isBorder ? 30 : 0);
+
+  if (builderFormat === 'cd') {
+    baseRate = baseRate ? baseRate + 350 : 350;
+  } else if (builderFormat === 'display') {
+    baseRate = 12000;
+    extraRate = 0;
+    enhRate = 0;
+  }
+
   const subTotal = (baseRate || extraRate || (trimmed && enhRate)) ? (baseRate + extraRate + enhRate) : 0;
   const gst = subTotal * 0.05;
   const totalPayable = subTotal + gst;
@@ -83,14 +127,12 @@ export const HomePage: React.FC = () => {
   // Selected Category Object for required legal documents
   const selectedCatObj = CATEGORY_TEMPLATES.find((c) => c.name === builderCat);
 
-  // Sync date min & cut-off timer
+  // Sync date min & cut-off timer (does not auto-force builderDate so it stays blank initially)
   useEffect(() => {
     const updateCutoff = () => {
       const now = new Date();
       const a = new Date(now);
       a.setDate(a.getDate() + (now.getHours() >= 15 ? 2 : 1));
-      const s = a.toISOString().slice(0, 10);
-      if (!builderDate) setBuilderDate(s);
 
       const e = new Date(now);
       e.setHours(15, 0, 0, 0);
@@ -109,7 +151,37 @@ export const HomePage: React.FC = () => {
     updateCutoff();
     const timer = setInterval(updateCutoff, 1000);
     return () => clearInterval(timer);
-  }, [builderDate]);
+  }, []);
+
+  // Close datepicker when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (datePickerRef.current && !datePickerRef.current.contains(e.target as Node)) {
+        setIsDatePickerOpen(false);
+      }
+    };
+    if (isDatePickerOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isDatePickerOpen]);
+
+  // Calendar calculations
+  const now = new Date();
+  const minAllowedDateObj = new Date(now);
+  minAllowedDateObj.setDate(minAllowedDateObj.getDate() + (now.getHours() >= 15 ? 2 : 1));
+  const minDateStr = minAllowedDateObj.toISOString().slice(0, 10);
+  const minDateDisplay = minAllowedDateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+
+  const nextSundayObj = new Date(minAllowedDateObj);
+  const daysUntilSunday = (7 - nextSundayObj.getDay()) % 7 || 7;
+  nextSundayObj.setDate(nextSundayObj.getDate() + daysUntilSunday);
+  const nextSundayStr = nextSundayObj.toISOString().slice(0, 10);
+
+  const currentViewYear = pickerMonth.getFullYear();
+  const currentViewMonth = pickerMonth.getMonth();
+  const totalDaysInMonth = new Date(currentViewYear, currentViewMonth + 1, 0).getDate();
+  const firstDayOfWeek = new Date(currentViewYear, currentViewMonth, 1).getDay();
 
   // Set category template
   const applyCategory = (catName: string) => {
@@ -154,13 +226,19 @@ export const HomePage: React.FC = () => {
       setSimulatedSummary(null);
       return;
     }
+    if (!builderDate) {
+      setCheckoutMsg('⚠️ Please select an insertion date.');
+      setSimulatedSummary(null);
+      return;
+    }
 
     setCheckoutMsg('');
     setSimulatedSummary({
       pubName: currentPub ? currentPub.n : builderPub,
       edition: builderEd,
       category: builderCat,
-      date: builderDate || new Date().toISOString().slice(0, 10),
+      format: AD_FORMATS.find((f) => f.id === builderFormat)?.name || 'Classified Text (ROD)',
+      date: builderDate,
       words: wordCount,
       lines: lineCount,
       total: totalPayable,
@@ -361,15 +439,12 @@ export const HomePage: React.FC = () => {
               ];
               const imgSrc = imgMap[cat.name] || defaultImgs[idx % defaultImgs.length];
               return (
-                <a
+                <Link
                   key={cat.name}
                   className="cat"
-                  href="#book"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    applyCategory(cat.name);
-                    const bookEl = document.getElementById('book');
-                    if (bookEl) bookEl.scrollIntoView({ behavior: 'smooth' });
+                  to={`/book-ad?cat=${encodeURIComponent(cat.name)}`}
+                  onClick={() => {
+                    setCategoryTemplate(cat.name);
                   }}
                 >
                   <div className="cat-thumb">
@@ -381,7 +456,7 @@ export const HomePage: React.FC = () => {
                     <p>{cat.description}</p>
                     <span>Starting from {formatINR(cat.baseMinRate)} ➔</span>
                   </div>
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -420,6 +495,42 @@ export const HomePage: React.FC = () => {
                 </div>
               </div>
 
+              {/* AVAILABLE FORMATS */}
+              <div className="form-field" style={{ marginBottom: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <label style={{ margin: 0 }}>Available Formats</label>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--accent)', letterSpacing: '.04em' }}>
+                    INS Approved Formats
+                  </span>
+                </div>
+                <div className="format-options-grid">
+                  {AD_FORMATS.map((fmt) => {
+                    const isActive = builderFormat === fmt.id;
+                    return (
+                      <button
+                        key={fmt.id}
+                        type="button"
+                        className={`format-card ${isActive ? 'active' : ''}`}
+                        onClick={() => {
+                          setBuilderFormat(fmt.id);
+                          if (fmt.id === 'cd') setIsBorder(true);
+                        }}
+                      >
+                        <div className="format-card-top">
+                          <span className="format-card-badge">{fmt.badge}</span>
+                          <span style={{ fontSize: '14px', color: isActive ? 'var(--accent)' : '#A39990' }}>
+                            {isActive ? '●' : '○'}
+                          </span>
+                        </div>
+                        <div className="format-card-title">{fmt.name}</div>
+                        <div className="format-card-desc">{fmt.tagline}</div>
+                        <div className="format-card-rate">{fmt.pricingNote}</div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               <div className="row">
                 <div className="form-field">
                   <label htmlFor="cat">Category</label>
@@ -432,12 +543,153 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="form-field">
                   <label htmlFor="date">Insertion Date</label>
-                  <input
-                    type="date"
-                    id="date"
-                    value={builderDate}
-                    onChange={(e) => setBuilderDate(e.target.value)}
-                  />
+                  <div className="custom-datepicker" ref={datePickerRef}>
+                    <button
+                      type="button"
+                      id="date"
+                      className={`datepicker-trigger ${isDatePickerOpen ? 'active' : ''}`}
+                      onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
+                      aria-haspopup="dialog"
+                      aria-expanded={isDatePickerOpen}
+                    >
+                      <div className="trigger-icon">
+                        <Calendar style={{ width: '16px', height: '16px', color: 'var(--accent)' }} />
+                        <span className={builderDate ? '' : 'placeholder'}>
+                          {builderDate
+                            ? new Date(builderDate + 'T00:00').toLocaleDateString('en-IN', {
+                                weekday: 'short',
+                                day: 'numeric',
+                                month: 'short',
+                                year: 'numeric',
+                              })
+                            : 'Select Insertion Date'}
+                        </span>
+                      </div>
+                      <ChevronDown
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          color: '#70665E',
+                          transform: isDatePickerOpen ? 'rotate(180deg)' : 'none',
+                          transition: 'transform 0.2s ease',
+                        }}
+                      />
+                    </button>
+
+                    {isDatePickerOpen && (
+                      <div className="datepicker-popover" role="dialog" aria-label="Choose insertion date">
+                        {/* Quick Presets */}
+                        <div className="datepicker-chips">
+                          <button
+                            type="button"
+                            className="datepicker-chip"
+                            onClick={() => {
+                              setBuilderDate(minDateStr);
+                              setIsDatePickerOpen(false);
+                            }}
+                          >
+                            Tomorrow ({minDateDisplay})
+                          </button>
+                          <button
+                            type="button"
+                            className="datepicker-chip"
+                            onClick={() => {
+                              const plus2 = new Date(minAllowedDateObj);
+                              plus2.setDate(plus2.getDate() + 1);
+                              setBuilderDate(plus2.toISOString().slice(0, 10));
+                              setIsDatePickerOpen(false);
+                            }}
+                          >
+                            +2 Days
+                          </button>
+                          <button
+                            type="button"
+                            className="datepicker-chip"
+                            onClick={() => {
+                              setBuilderDate(nextSundayStr);
+                              setIsDatePickerOpen(false);
+                            }}
+                          >
+                            Sunday Print
+                          </button>
+                        </div>
+
+                        {/* Month Nav */}
+                        <div className="datepicker-header">
+                          <button
+                            type="button"
+                            className="datepicker-nav-btn"
+                            onClick={() => {
+                              setPickerMonth(new Date(pickerMonth.getFullYear(), pickerMonth.getMonth() - 1, 1));
+                            }}
+                          >
+                            ‹
+                          </button>
+                          <span className="datepicker-month-title">
+                            {pickerMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                          </span>
+                          <button
+                            type="button"
+                            className="datepicker-nav-btn"
+                            onClick={() => {
+                              setPickerMonth(new Date(pickerMonth.getFullYear(), pickerMonth.getMonth() + 1, 1));
+                            }}
+                          >
+                            ›
+                          </button>
+                        </div>
+
+                        {/* Weekday headers */}
+                        <div className="datepicker-weekdays">
+                          {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((d) => (
+                            <span key={d}>{d}</span>
+                          ))}
+                        </div>
+
+                        {/* Days Grid */}
+                        <div className="datepicker-grid">
+                          {Array.from({ length: firstDayOfWeek }).map((_, i) => (
+                            <div key={`empty-${i}`} />
+                          ))}
+                          {Array.from({ length: totalDaysInMonth }).map((_, i) => {
+                            const day = i + 1;
+                            const curDateStr = `${pickerMonth.getFullYear()}-${String(pickerMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                            const isPast = curDateStr < minDateStr;
+                            const isSelected = curDateStr === builderDate;
+                            const isToday = curDateStr === new Date().toISOString().slice(0, 10);
+                            return (
+                              <button
+                                key={day}
+                                type="button"
+                                disabled={isPast}
+                                className={`datepicker-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
+                                onClick={() => {
+                                  setBuilderDate(curDateStr);
+                                  setIsDatePickerOpen(false);
+                                }}
+                              >
+                                {day}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Footer */}
+                        <div className="datepicker-footer">
+                          <span>Earliest Print: {minDateDisplay}</span>
+                          {builderDate && (
+                            <button
+                              type="button"
+                              className="datepicker-clear-btn"
+                              onClick={() => setBuilderDate('')}
+                            >
+                              Clear
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -489,7 +741,13 @@ export const HomePage: React.FC = () => {
             <div className="proof-stage">
               <div className="proof-topbar">
                 <span className="proof-tag">Live Broadsheet Simulation</span>
-                <span className="proof-dims">Single Column (3.8 cm)</span>
+                <span className="proof-dims">
+                  {builderFormat === 'cd'
+                    ? 'Classified Display Box (3.8 cm)'
+                    : builderFormat === 'display'
+                    ? 'Quarter Broadsheet (16 × 25 cm)'
+                    : 'Single Column (3.8 cm)'}
+                </span>
               </div>
 
               {/* The Live Simulated Newsprint Clipping */}
@@ -510,13 +768,75 @@ export const HomePage: React.FC = () => {
                   </div>
 
                   {/* Target User Ad */}
-                  <div
-                    className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''} ${isBorder ? 't' : ''}`}
-                    style={!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}}
-                  >
-                    {isBorder ? '✓ ' : ''}
-                    {builderText.trim() ? builderText : 'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.'}
-                  </div>
+                  {builderFormat === 'display' ? (
+                    <div
+                      style={{
+                        border: '2px solid #1A1715',
+                        padding: '10px 8px',
+                        background: '#FAF7EE',
+                        textAlign: 'center',
+                        borderRadius: '2px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '9px',
+                          fontWeight: 800,
+                          letterSpacing: '0.12em',
+                          color: 'var(--accent)',
+                          textTransform: 'uppercase',
+                          marginBottom: '3px',
+                        }}
+                      >
+                        Commercial Display
+                      </div>
+                      <div style={{ font: '700 13px var(--news-serif)', color: '#1A1715', marginBottom: '4px' }}>
+                        {builderCat ? builderCat.toUpperCase() : 'DISPLAY CAMPAIGN'}
+                      </div>
+                      <div style={{ fontSize: '11px', color: '#453E38', lineHeight: 1.3, whiteSpace: 'pre-wrap' }}>
+                        {builderText.trim() ? builderText : 'Full commercial creative placement with image & custom layout.'}
+                      </div>
+                      <div style={{ marginTop: '6px', fontSize: '9.5px', color: '#8C827A', borderTop: '1px dashed #D5CEBF', paddingTop: '3px' }}>
+                        Quarter Page (16 × 25 cm)
+                      </div>
+                    </div>
+                  ) : builderFormat === 'cd' ? (
+                    <div
+                      className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''}`}
+                      style={{
+                        border: '2px double #1A1715',
+                        padding: '8px',
+                        background: isColor ? 'var(--highlight-bg)' : '#FFF',
+                        ...(!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}),
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '9px',
+                          fontWeight: 800,
+                          letterSpacing: '0.1em',
+                          background: '#1A1715',
+                          color: '#FAF7EE',
+                          padding: '2px 4px',
+                          marginBottom: '5px',
+                          textAlign: 'center',
+                          textTransform: 'uppercase',
+                        }}
+                      >
+                        Classified Display Box
+                      </div>
+                      {isBorder ? '✓ ' : ''}
+                      {builderText.trim() ? builderText : 'Your ad text will appear here formatted with a prominent display box and custom typography.'}
+                    </div>
+                  ) : (
+                    <div
+                      className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''} ${isBorder ? 't' : ''}`}
+                      style={!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}}
+                    >
+                      {isBorder ? '✓ ' : ''}
+                      {builderText.trim() ? builderText : 'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.'}
+                    </div>
+                  )}
 
                   <div className="paper-col-side">
                     <b>SITUATIONS VACANT</b><br />Receptionist required for clinic. Graduate, fluent English.<br /><br />
@@ -530,15 +850,21 @@ export const HomePage: React.FC = () => {
                 <table className="bill" aria-label="Price breakdown">
                   <tbody>
                     <tr>
-                      <td>Base Rate {currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}</td>
+                      <td>
+                        {builderFormat === 'display'
+                          ? 'Commercial Display Space (Quarter Page)'
+                          : builderFormat === 'cd'
+                          ? `CD Box Base Rate ${currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}`
+                          : `Base Rate ${currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}`}
+                      </td>
                       <td>{formatINR(baseRate)}</td>
                     </tr>
                     <tr>
-                      <td>Extra Units ({extraUnits})</td>
+                      <td>Extra Units ({builderFormat === 'display' ? 0 : extraUnits})</td>
                       <td>{formatINR(extraRate)}</td>
                     </tr>
                     <tr>
-                      <td>Enhancements</td>
+                      <td>Visual Enhancements</td>
                       <td>{formatINR(enhRate)}</td>
                     </tr>
                     <tr>
@@ -598,6 +924,10 @@ export const HomePage: React.FC = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
                       <strong style={{ color: '#166534' }}>Category:</strong>
                       <span style={{ fontWeight: 600 }}>{simulatedSummary.category}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Format:</strong>
+                      <span style={{ fontWeight: 600 }}>{simulatedSummary.format}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
                       <strong style={{ color: '#166534' }}>Scheduled Print:</strong>
@@ -736,7 +1066,11 @@ export const HomePage: React.FC = () => {
 
             <div className="service-feature-card">
               <div className="service-feature-visual">
-                <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio Advertising" />
+                <img
+                  src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80"
+                  alt="Radio Advertising"
+                  style={{ objectPosition: 'center 65%' }}
+                />
               </div>
               <div className="service-feature-info">
                 <span className="start-tag">Start Your</span>
@@ -877,7 +1211,11 @@ export const HomePage: React.FC = () => {
               <div className="media-cards-grid">
                 <Link className="media-thumb-card" to="/radio-ads">
                   <div className="media-thumb-img">
-                    <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio FM Studio" />
+                    <img
+                      src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80"
+                      alt="Radio FM Studio"
+                      style={{ objectPosition: 'center 65%' }}
+                    />
                     <span>Radio FM</span>
                   </div>
                   <div className="media-thumb-txt">

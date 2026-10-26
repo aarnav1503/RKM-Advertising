@@ -898,6 +898,43 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
           </div>
         </div>
 
+        <!-- AVAILABLE FORMATS -->
+        <div class="form-field" style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <label style="margin:0">Available Formats</label>
+            <span style="font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.04em">INS Approved Formats</span>
+          </div>
+          <div class="format-options-grid" id="formatGrid">
+            <button type="button" class="format-card active" data-fmt="text">
+              <div class="format-card-top">
+                <span class="format-card-badge">Popular</span>
+                <span style="font-size:14px;color:var(--accent)">●</span>
+              </div>
+              <div class="format-card-title">Classified Text (ROD)</div>
+              <div class="format-card-desc">Run-on-line notices</div>
+              <div class="format-card-rate">Per line/word tariff</div>
+            </button>
+            <button type="button" class="format-card" data-fmt="cd">
+              <div class="format-card-top">
+                <span class="format-card-badge">High Impact</span>
+                <span style="font-size:14px;color:#A39990">○</span>
+              </div>
+              <div class="format-card-title">Classified Display (CD)</div>
+              <div class="format-card-desc">Boxed ad with custom border</div>
+              <div class="format-card-rate">Boxed column tariff (+₹350)</div>
+            </button>
+            <button type="button" class="format-card" data-fmt="display">
+              <div class="format-card-top">
+                <span class="format-card-badge">Impact Ad</span>
+                <span style="font-size:14px;color:#A39990">○</span>
+              </div>
+              <div class="format-card-title">Commercial Display</div>
+              <div class="format-card-desc">Quarter, half or full page</div>
+              <div class="format-card-rate">From ₹12,000 / insertion</div>
+            </button>
+          </div>
+        </div>
+
         <div class="row">
           <div class="form-field">
             <label for="cat">Category</label>
@@ -905,7 +942,36 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
           </div>
           <div class="form-field">
             <label for="date">Insertion Date</label>
-            <input type="date" id="date">
+            <div class="custom-datepicker" id="datePickerWrap">
+              <input type="hidden" id="date" value="">
+              <button type="button" class="datepicker-trigger" id="dateTrigger">
+                <div class="trigger-icon">
+                  <span style="color:var(--accent);font-size:15px">📅</span>
+                  <span id="dateDisplay" class="placeholder">Select Insertion Date</span>
+                </div>
+                <span id="dateArrow" style="font-size:11px;color:#70665E">▼</span>
+              </button>
+              <div class="datepicker-popover" id="datePopover" style="display:none">
+                <div class="datepicker-chips">
+                  <button type="button" class="datepicker-chip" id="chipTomorrow">Tomorrow</button>
+                  <button type="button" class="datepicker-chip" id="chipPlus2">+2 Days</button>
+                  <button type="button" class="datepicker-chip" id="chipSunday">Sunday Print</button>
+                </div>
+                <div class="datepicker-header">
+                  <button type="button" class="datepicker-nav-btn" id="prevMonthBtn">‹</button>
+                  <span class="datepicker-month-title" id="monthTitle"></span>
+                  <button type="button" class="datepicker-nav-btn" id="nextMonthBtn">›</button>
+                </div>
+                <div class="datepicker-weekdays">
+                  <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                </div>
+                <div class="datepicker-grid" id="calendarDays"></div>
+                <div class="datepicker-footer">
+                  <span id="minDateNote">3 PM Cutoff</span>
+                  <button type="button" class="datepicker-clear-btn" id="clearDateBtn">Clear</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1088,7 +1154,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
 
       <div class="service-feature-card">
         <div class="service-feature-visual">
-          <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio Advertising">
+          <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio Advertising" style="object-position: center 65%;">
         </div>
         <div class="service-feature-info">
           <span class="start-tag">Start Your</span>
@@ -1227,7 +1293,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
         <div class="media-cards-grid">
           <a class="media-thumb-card" href="radio-ads.html">
             <div class="media-thumb-img">
-              <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio FM Studio">
+              <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio FM Studio" style="object-position: center 65%;">
               <span>Radio FM</span>
             </div>
             <div class="media-thumb-txt">
@@ -1431,7 +1497,7 @@ $('cat').innerHTML = '<option value="" selected disabled>Select Category</option
 $('ed').innerHTML = '<option value="" selected disabled>Select Edition / Combo</option>' + Object.keys(E).map(k=>`<option value="${k}">${k}</option>`).join('');
 
 $('catgrid').innerHTML=C.map(c=>`
-  <a class="cat" href="#book" data-c="${c[0]}">
+  <a class="cat" href="book-ad.html?cat=${encodeURIComponent(c[0])}" data-c="${c[0]}">
     <div class="cat-thumb">
       <img src="${c[5]}" alt="${c[0]}" loading="lazy">
       <span class="cat-tag">${c[0]}</span>
@@ -1496,11 +1562,19 @@ function calc(){
   }
 
   const used=p.u=='line'?ln:words,
-  extra=Math.max(0,used-p.bu),
-  base=p.base*m,
+  extra=Math.max(0,used-p.bu);
+  let base=p.base*m,
   ext=extra*p.ex*m,
-  en=($('b').checked?50:0)+($('c').checked?150:0)+($('t').checked?30:0),
-  sub=base+ext+en,
+  en=($('b').checked?50:0)+($('c').checked?150:0)+($('t').checked?30:0);
+
+  if (currentFmt === 'cd') {
+    base += 350;
+  } else if (currentFmt === 'display') {
+    base = 12000;
+    ext = 0;
+    en = 0;
+  }
+  const sub=base+ext+en,
   gst=sub*.05;
 
   $('cnt').textContent=`${words} words, ${ln} lines (~35 chars/line)`;
@@ -1515,8 +1589,28 @@ function calc(){
   $('v5').textContent=inr(sub+gst);
 
   const pv=$('pv');
-  pv.textContent=($('t').checked?'\u2713 ':'')+(t||'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.');
-  pv.className='target-ad-slot'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
+  if (currentFmt === 'display') {
+    pv.innerHTML = '<div style="font-size:9px;font-weight:800;letter-spacing:0.12em;color:var(--accent);text-transform:uppercase;margin-bottom:3px">Commercial Display</div><div style="font:700 13px Georgia,serif;color:#1A1715;margin-bottom:4px">' + ($('cat').value||'DISPLAY CAMPAIGN').toUpperCase() + '</div><div style="font-size:11px;color:#453E38;line-height:1.3">' + (t||'Full commercial creative placement with image & custom layout.') + '</div><div style="margin-top:6px;font-size:9.5px;color:#8C827A;border-top:1px dashed #D5CEBF;padding-top:3px">Quarter Page (16 × 25 cm)</div>';
+    pv.className='target-ad-slot';
+    pv.style.border = '2px solid #1A1715';
+    pv.style.padding = '10px 8px';
+    pv.style.background = '#FAF7EE';
+    pv.style.textAlign = 'center';
+  } else if (currentFmt === 'cd') {
+    pv.innerHTML = '<div style="font-size:9px;font-weight:800;letter-spacing:0.1em;background:#1A1715;color:#FAF7EE;padding:2px 4px;margin-bottom:5px;text-align:center;text-transform:uppercase">Classified Display Box</div>' + ($('t').checked?'\u2713 ':'') + (t||'Your ad text will appear here formatted with a prominent display box and custom typography.');
+    pv.className='target-ad-slot' + ($('b').checked?' b':'') + ($('c').checked?' c':'');
+    pv.style.border = '2px double #1A1715';
+    pv.style.padding = '8px';
+    pv.style.background = $('c').checked ? 'var(--highlight-bg)' : '#FFF';
+    pv.style.textAlign = 'left';
+  } else {
+    pv.textContent=($('t').checked?'\u2713 ':'')+(t||'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.');
+    pv.className='target-ad-slot'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
+    pv.style.border = '';
+    pv.style.padding = '';
+    pv.style.background = '';
+    pv.style.textAlign = '';
+  }
 
   $('pm').textContent=p.n.toUpperCase();
   $('pcat').textContent=($('cat').value||'SELECT CATEGORY').toUpperCase();
@@ -1538,11 +1632,165 @@ function cutoff(){
     : 'Today\u2019s 3 PM cut-off has passed. Earliest print: '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
 }
 
+let currentFmt = 'text';
+const fmtCards = document.querySelectorAll('#formatGrid .format-card');
+fmtCards.forEach(btn => {
+  btn.addEventListener('click', () => {
+    fmtCards.forEach(c => {
+      c.classList.remove('active');
+      const dot = c.querySelector('.format-card-top span:last-child');
+      if (dot) { dot.textContent = '○'; dot.style.color = '#A39990'; }
+    });
+    btn.classList.add('active');
+    const dot = btn.querySelector('.format-card-top span:last-child');
+    if (dot) { dot.textContent = '●'; dot.style.color = 'var(--accent)'; }
+    currentFmt = btn.dataset.fmt;
+    if (currentFmt === 'cd') $('t').checked = true;
+    calc();
+  });
+});
+
+// Custom Datepicker Logic
+let pickerDate = new Date();
+let currentViewYear = pickerDate.getFullYear();
+let currentViewMonth = pickerDate.getMonth();
+
+function getMinDateStr() {
+  const n = new Date();
+  const a = new Date(n);
+  a.setDate(a.getDate() + (n.getHours() >= 15 ? 2 : 1));
+  return a.toISOString().slice(0, 10);
+}
+
+function formatDateDisplay(dStr) {
+  if (!dStr) return 'Select Insertion Date';
+  return new Date(dStr + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function renderCalendar() {
+  const minDate = getMinDateStr();
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  $('monthTitle').textContent = monthNames[currentViewMonth] + ' ' + currentViewYear;
+
+  const totalDays = new Date(currentViewYear, currentViewMonth + 1, 0).getDate();
+  const firstDay = new Date(currentViewYear, currentViewMonth, 1).getDay();
+
+  let h = '';
+  for (let i = 0; i < firstDay; i++) {
+    h += '<div></div>';
+  }
+
+  const selectedDate = $('date').value;
+  const todayStr = new Date().toISOString().slice(0, 10);
+
+  for (let day = 1; day <= totalDays; day++) {
+    const curStr = currentViewYear + '-' + String(currentViewMonth + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+    const isPast = curStr < minDate;
+    const isSelected = curStr === selectedDate;
+    const isToday = curStr === todayStr;
+    h += '<button type="button" class="datepicker-day ' + (isSelected ? 'selected' : '') + ' ' + (isToday ? 'today' : '') + '" ' + (isPast ? 'disabled' : '') + ' data-date="' + curStr + '">' + day + '</button>';
+  }
+  $('calendarDays').innerHTML = h;
+  $('minDateNote').textContent = 'Earliest Print: ' + new Date(minDate + 'T00:00').toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+$('dateTrigger').onclick = (e) => {
+  e.stopPropagation();
+  const pop = $('datePopover');
+  const isOpen = pop.style.display !== 'none';
+  pop.style.display = isOpen ? 'none' : 'block';
+  $('dateTrigger').classList.toggle('active', !isOpen);
+  if (!isOpen) renderCalendar();
+};
+
+document.addEventListener('click', (e) => {
+  if (!$('datePickerWrap').contains(e.target)) {
+    $('datePopover').style.display = 'none';
+    $('dateTrigger').classList.remove('active');
+  }
+});
+
+$('calendarDays').onclick = (e) => {
+  const btn = e.target.closest('.datepicker-day');
+  if (btn && !btn.disabled) {
+    const d = btn.dataset.date;
+    $('date').value = d;
+    $('dateDisplay').textContent = formatDateDisplay(d);
+    $('dateDisplay').classList.remove('placeholder');
+    $('datePopover').style.display = 'none';
+    $('dateTrigger').classList.remove('active');
+    calc();
+  }
+};
+
+$('prevMonthBtn').onclick = (e) => {
+  e.stopPropagation();
+  currentViewMonth--;
+  if (currentViewMonth < 0) { currentViewMonth = 11; currentViewYear--; }
+  renderCalendar();
+};
+
+$('nextMonthBtn').onclick = (e) => {
+  e.stopPropagation();
+  currentViewMonth++;
+  if (currentViewMonth > 11) { currentViewMonth = 0; currentViewYear++; }
+  renderCalendar();
+};
+
+$('chipTomorrow').onclick = (e) => {
+  e.stopPropagation();
+  const d = getMinDateStr();
+  $('date').value = d;
+  $('dateDisplay').textContent = formatDateDisplay(d);
+  $('dateDisplay').classList.remove('placeholder');
+  $('datePopover').style.display = 'none';
+  $('dateTrigger').classList.remove('active');
+  calc();
+};
+
+$('chipPlus2').onclick = (e) => {
+  e.stopPropagation();
+  const n = new Date();
+  n.setDate(n.getDate() + (n.getHours() >= 15 ? 3 : 2));
+  const d = n.toISOString().slice(0, 10);
+  $('date').value = d;
+  $('dateDisplay').textContent = formatDateDisplay(d);
+  $('dateDisplay').classList.remove('placeholder');
+  $('datePopover').style.display = 'none';
+  $('dateTrigger').classList.remove('active');
+  calc();
+};
+
+$('chipSunday').onclick = (e) => {
+  e.stopPropagation();
+  const n = new Date();
+  n.setDate(n.getDate() + (n.getHours() >= 15 ? 2 : 1));
+  const diff = (7 - n.getDay()) % 7 || 7;
+  n.setDate(n.getDate() + diff);
+  const d = n.toISOString().slice(0, 10);
+  $('date').value = d;
+  $('dateDisplay').textContent = formatDateDisplay(d);
+  $('dateDisplay').classList.remove('placeholder');
+  $('datePopover').style.display = 'none';
+  $('dateTrigger').classList.remove('active');
+  calc();
+};
+
+$('clearDateBtn').onclick = (e) => {
+  e.stopPropagation();
+  $('date').value = '';
+  $('dateDisplay').textContent = 'Select Insertion Date';
+  $('dateDisplay').classList.add('placeholder');
+  $('datePopover').style.display = 'none';
+  $('dateTrigger').classList.remove('active');
+  calc();
+};
+
 ['pub','ed','txt','date','b','c','t'].forEach(i=>$(i).addEventListener('input',calc));
 $('cat').addEventListener('change',useTemplate);
 $('catgrid').addEventListener('click',e=>{
   const a=e.target.closest('.cat');
-  if(a){$('cat').value=a.dataset.c;useTemplate();$('book').scrollIntoView({behavior:'smooth'})}
+  /* Navigates directly to book-ad.html */
 });
 
 $('go').onclick=()=>{
