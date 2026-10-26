@@ -22,6 +22,15 @@ export const HomePage: React.FC = () => {
   const [isColor, setIsColor] = useState(booking.enhancements.colorBg || false);
   const [isBorder, setIsBorder] = useState(booking.enhancements.borderTick || false);
   const [checkoutMsg, setCheckoutMsg] = useState('');
+  const [simulatedSummary, setSimulatedSummary] = useState<null | {
+    pubName: string;
+    edition: string;
+    category: string;
+    date: string;
+    words: number;
+    lines: number;
+    total: number;
+  }>(null);
 
   // Media plan inquiry form state
   const [inqName, setInqName] = useState('');
@@ -127,33 +136,35 @@ export const HomePage: React.FC = () => {
   const handleContinueCheckout = () => {
     if (!builderPub) {
       setCheckoutMsg('⚠️ Please choose a newspaper.');
+      setSimulatedSummary(null);
       return;
     }
     if (!builderEd) {
       setCheckoutMsg('⚠️ Please choose an edition.');
+      setSimulatedSummary(null);
       return;
     }
     if (!builderCat) {
-      setCheckoutMsg('⚠️ Please choose a notice category.');
+      setCheckoutMsg('⚠️ Please choose a category.');
+      setSimulatedSummary(null);
       return;
     }
     if (!builderText.trim()) {
       setCheckoutMsg('⚠️ Please enter your advertisement content.');
+      setSimulatedSummary(null);
       return;
     }
 
-    updateBooking({
-      publicationId: builderPub,
+    setCheckoutMsg('');
+    setSimulatedSummary({
+      pubName: currentPub ? currentPub.n : builderPub,
       edition: builderEd,
       category: builderCat,
-      publishDate: builderDate,
-      adText: builderText,
-      enhancements: { bold: isBold, colorBg: isColor, borderTick: isBorder },
+      date: builderDate || new Date().toISOString().slice(0, 10),
+      words: wordCount,
+      lines: lineCount,
+      total: totalPayable,
     });
-    setCheckoutMsg('✔ Draft saved! Redirecting to secure checkout...');
-    setTimeout(() => {
-      navigate('/checkout');
-    }, 400);
   };
 
   const handleInquirySubmit = (e: React.FormEvent) => {
@@ -551,9 +562,62 @@ export const HomePage: React.FC = () => {
                 Continue to Secure Checkout ➔
               </button>
               {checkoutMsg && (
-                <p className="meta-txt" role="status" style={{ marginTop: '10px', textAlign: 'center', color: 'var(--green)' }}>
+                <p className="meta-txt" role="status" style={{ marginTop: '10px', textAlign: 'center', color: '#DC2626', fontWeight: 600 }}>
                   {checkoutMsg}
                 </p>
+              )}
+              {simulatedSummary && (
+                <div
+                  className="simulated-summary-card"
+                  style={{
+                    marginTop: '16px',
+                    background: '#F0FDF4',
+                    border: '1.5px solid #86EFAC',
+                    borderRadius: '14px',
+                    padding: '16px 18px',
+                    textAlign: 'left',
+                    color: '#14532D',
+                    boxShadow: '0 4px 16px rgba(22, 101, 52, 0.08)',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexWrap: 'wrap', gap: '6px' }}>
+                    <span style={{ font: '700 11.5px var(--head)', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#166534', background: '#DCFCE7', padding: '3.5px 8.5px', borderRadius: '6px' }}>
+                      ✔ Sample Booking Simulation
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#15803D', fontWeight: 600 }}>Ref: RKM-SAMPLE-2026</span>
+                  </div>
+                  <div style={{ fontSize: '13.5px', lineHeight: 1.65 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Publication:</strong>
+                      <span style={{ fontWeight: 600 }}>{simulatedSummary.pubName}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Edition / Combo:</strong>
+                      <span style={{ fontWeight: 600 }}>{simulatedSummary.edition}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Category:</strong>
+                      <span style={{ fontWeight: 600 }}>{simulatedSummary.category}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Scheduled Print:</strong>
+                      <span style={{ fontWeight: 600 }}>
+                        {new Date(simulatedSummary.date + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                      <strong style={{ color: '#166534' }}>Volume:</strong>
+                      <span>{simulatedSummary.words} words, {simulatedSummary.lines} lines</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #BBF7D0', paddingTop: '8px', marginTop: '6px', fontSize: '15px', fontWeight: 700 }}>
+                      <span style={{ color: '#14532D' }}>Estimated Total:</span>
+                      <span style={{ color: 'var(--accent)' }}>{formatINR(simulatedSummary.total)}</span>
+                    </div>
+                  </div>
+                  <p style={{ margin: '10px 0 0', fontSize: '12px', color: '#166534', opacity: 0.9, lineHeight: 1.4 }}>
+                    ℹ️ This is a live simulation for tariff calculation and preview on the landing page (no charge incurred).
+                  </p>
+                </div>
               )}
             </div>
           </div>

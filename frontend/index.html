@@ -1564,26 +1564,50 @@ $('hm').onchange=()=>{
 };
 
 $('pay').onclick=()=>{
-  if(!$('pub').value || !$('ed').value || !$('cat').value){
-    alert('Please select a Newspaper, Edition, and Category before proceeding.');
+  if(!$('pub').value){
+    $('msg').innerHTML = '<span style="color:#DC2626;font-weight:600">⚠️ Please choose a newspaper.</span>';
+    return;
+  }
+  if(!$('ed').value){
+    $('msg').innerHTML = '<span style="color:#DC2626;font-weight:600">⚠️ Please choose an edition.</span>';
+    return;
+  }
+  if(!$('cat').value){
+    $('msg').innerHTML = '<span style="color:#DC2626;font-weight:600">⚠️ Please choose a category.</span>';
     return;
   }
   if(!$('txt').value.trim()){
-    alert('Please enter your advertisement content before proceeding.');
+    $('msg').innerHTML = '<span style="color:#DC2626;font-weight:600">⚠️ Please enter your advertisement content.</span>';
     return;
   }
-  const orderDetails = {
-    pub: $('pub').value,
-    pubName: P[$('pub').value].n,
-    ed: $('ed').value,
-    cat: $('cat').value,
-    date: $('date').value,
-    text: $('txt').value,
-    total: $('v5').textContent
-  };
-  localStorage.setItem('currentBooking', JSON.stringify(orderDetails));
-  $('msg').textContent='✔ Draft saved! Redirecting to secure checkout...';
-  setTimeout(()=>{ window.location.href = 'checkout.html'; }, 400);
+
+  const p = P[$('pub').value];
+  const dateFormatted = $('date').value ? new Date($('date').value + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Earliest print';
+
+  $('msg').innerHTML = `
+    <div style="margin-top:14px;background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:16px 18px;text-align:left;color:#14532D;box-shadow:0 4px 16px rgba(22,101,52,0.08)">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+        <span style="font:700 11.5px var(--head);text-transform:uppercase;letter-spacing:0.08em;color:#166534;background:#DCFCE7;padding:3.5px 8.5px;border-radius:6px">
+          ✔ Sample Booking Simulation
+        </span>
+        <span style="font-size:12px;color:#15803D;font-weight:600">Ref: RKM-SAMPLE-2026</span>
+      </div>
+      <div style="font-size:13.5px;line-height:1.65">
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px"><strong style="color:#166534">Publication:</strong> <span style="font-weight:600">\${p.n}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px"><strong style="color:#166534">Edition / Combo:</strong> <span style="font-weight:600">\${$('ed').value}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px"><strong style="color:#166534">Category:</strong> <span style="font-weight:600">\${$('cat').value}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px"><strong style="color:#166534">Scheduled Print:</strong> <span style="font-weight:600">\${dateFormatted}</span></div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px"><strong style="color:#166534">Volume:</strong> <span>\${$('cnt').textContent}</span></div>
+        <div style="display:flex;justify-content:space-between;border-top:1px solid #BBF7D0;padding-top:8px;margin-top:6px;font-size:15px;font-weight:700">
+          <span style="color:#14532D">Estimated Total:</span>
+          <span style="color:var(--accent)">\${$('v5').textContent}</span>
+        </div>
+      </div>
+      <p style="margin:10px 0 0;font-size:12px;color:#166534;opacity:0.9;line-height:1.4">
+        ℹ️ This is a live simulation for tariff calculation and preview on the landing page (no charge incurred).
+      </p>
+    </div>
+  `;
 };
 
 $('inq').onsubmit=e=>{
