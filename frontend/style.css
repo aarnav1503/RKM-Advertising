@@ -96,19 +96,28 @@ nav {
   flex-shrink: 1;
 }
 
-nav a {
+nav > a {
   font: 600 14.5px/1 var(--head); letter-spacing: 0.07em; text-transform: uppercase;
   position: relative; padding: 7px 0; color: var(--ink); white-space: nowrap;
   transition: color 0.2s ease;
 }
-nav a:hover, nav a.active { color: var(--accent); }
-nav a::after {
+nav > a:hover, nav > a.active { color: var(--accent); }
+nav > a::after {
   content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2.5px;
   background: var(--accent);
   transition: width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-nav a.active::after { width: 100%; }
-nav a:hover::after { width: 100%; }
+nav > a.active::after { width: 100%; }
+nav > a:hover::after { width: 100%; }
+
+/* Disable underline pseudo-element on dropdown items */
+nav div a::after,
+nav .dropdown a::after,
+.mobile-drawer a::after {
+  display: none !important;
+  content: none !important;
+  width: 0 !important;
+}
 
 /* Navigation Dropdown Menu for Services */
 .nav-dropdown {
