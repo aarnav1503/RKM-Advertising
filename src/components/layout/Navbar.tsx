@@ -402,53 +402,140 @@ export const Navbar: React.FC = () => {
           </div>
 
           <div className="mobile-drawer-links">
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={() => setIsDrawerOpen(false)}>Home</Link>
 
-            {/* Services Dropdown Accordion in Drawer */}
-            <div>
+            {/* Prominent & Organized Services Section in Drawer */}
+            <div className="my-2 overflow-hidden rounded-2xl border border-paper-line bg-paper-tint/70 shadow-xs">
               <button
                 type="button"
                 onClick={() => setIsDrawerServicesOpen(!isDrawerServicesOpen)}
-                className="w-full flex items-center justify-between font-head text-[14px] font-bold uppercase tracking-wider py-3 text-ink border-b border-paper-line-light text-left"
+                className="w-full flex items-center justify-between font-head text-[13.5px] font-bold uppercase tracking-wider p-3.5 bg-paper-tint text-brand text-left transition-colors hover:bg-paper-tint/90 cursor-pointer"
+                aria-expanded={isDrawerServicesOpen}
               >
-                <span className="text-brand">All Media Services</span>
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform ${
-                    isDrawerServicesOpen ? 'rotate-180 text-brand' : ''
-                  }`}
-                />
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 relative">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+                  </span>
+                  <span>Media Services (12 Channels)</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] font-sans font-bold uppercase px-2 py-0.5 rounded-full bg-brand/10 text-brand">
+                    {isDrawerServicesOpen ? 'Collapse' : 'Explore'}
+                  </span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-250 ${
+                      isDrawerServicesOpen ? 'rotate-180 text-brand' : 'text-ink-muted'
+                    }`}
+                  />
+                </div>
               </button>
 
               {isDrawerServicesOpen && (
-                <div className="pl-3 py-2 space-y-1 bg-paper-tint/60 rounded-xl my-2">
-                  <div className="text-[10px] font-head font-bold uppercase text-ink-muted px-2 pt-1">
-                    Core Channels
+                <div className="p-2.5 pt-1 space-y-3 divide-y divide-paper-line/50 animate-in fade-in duration-200">
+                  {/* Category 1: Core Channels */}
+                  <div className="pt-2">
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted">
+                        Core Media Channels
+                      </span>
+                      <span className="text-[9px] font-sans text-ink-muted/70 bg-paper-line/40 px-1.5 py-0.5 rounded">
+                        7 outlets
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {coreServices.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = location.pathname === item.path;
+                        return (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setIsDrawerOpen(false)}
+                            className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
+                              isActive
+                                ? 'bg-white shadow-xs border-brand text-brand'
+                                : 'bg-white/70 hover:bg-white border-paper-line/50 text-ink'
+                            }`}
+                          >
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
+                              <Icon className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
+                                  {item.label}
+                                </span>
+                                {item.badge && (
+                                  <span className="text-[8.5px] font-sans font-medium text-ink-muted/80 px-1 py-0.2 rounded bg-paper-tint border border-paper-line/40 shrink-0">
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[10px] text-ink-muted truncate font-sans m-0">
+                                {item.desc}
+                              </p>
+                            </div>
+                            <ArrowRight className="w-3 h-3 text-ink-muted/50 shrink-0" />
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
-                  {coreServices.map((item) => (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="block px-2 py-1.5 text-xs font-head font-semibold text-ink hover:text-brand"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
 
-                  <div className="text-[10px] font-head font-bold uppercase text-ink-muted px-2 pt-2 border-t border-paper-line-light">
-                    Specialized Networks
+                  {/* Category 2: Specialized & Digital Networks */}
+                  <div className="pt-3">
+                    <div className="flex items-center justify-between px-2 mb-2">
+                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted">
+                        Specialized &amp; Digital Networks
+                      </span>
+                      <span className="text-[9px] font-sans text-ink-muted/70 bg-paper-line/40 px-1.5 py-0.5 rounded">
+                        5 networks
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {specializedServices.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = location.pathname === item.path;
+                        return (
+                          <Link
+                            key={item.path}
+                            to={item.path}
+                            onClick={() => setIsDrawerOpen(false)}
+                            className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
+                              isActive
+                                ? 'bg-white shadow-xs border-brand text-brand'
+                                : 'bg-white/70 hover:bg-white border-paper-line/50 text-ink'
+                            }`}
+                          >
+                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
+                              <Icon className="w-3.5 h-3.5" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between">
+                                <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
+                                  {item.label}
+                                </span>
+                                {item.badge && (
+                                  <span className="text-[8.5px] font-sans font-medium text-ink-muted/80 px-1 py-0.2 rounded bg-paper-tint border border-paper-line/40 shrink-0">
+                                    {item.badge}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[10px] text-ink-muted truncate font-sans m-0">
+                                {item.desc}
+                              </p>
+                            </div>
+                            <ArrowRight className="w-3 h-3 text-ink-muted/50 shrink-0" />
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
-                  {specializedServices.map((item) => (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="block px-2 py-1.5 text-xs font-head font-semibold text-ink hover:text-brand"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
                 </div>
               )}
             </div>
+
 
             <Link to="/rate-cards">Tariff Rate Cards</Link>
             <Link to="/track-ad">Track Live Ad</Link>
