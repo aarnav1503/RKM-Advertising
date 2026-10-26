@@ -401,48 +401,63 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          <div className="mobile-drawer-links">
-            <Link to="/" onClick={() => setIsDrawerOpen(false)}>Home</Link>
+          <div className="mobile-drawer-links space-y-4">
+            {/* Top Root Links */}
+            <div className="space-y-1">
+              <Link
+                to="/"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl font-head font-bold text-[14px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>Home</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+            </div>
 
-            {/* Prominent & Organized Services Section in Drawer */}
-            <div className="my-2 overflow-hidden rounded-2xl border border-paper-line bg-paper-tint/70 shadow-xs">
+            {/* SERVICES SUBPART: Distinctive Elevated Folder / Card Container */}
+            <div className="overflow-hidden rounded-2xl border-2 border-brand/25 bg-white shadow-md">
+              {/* Header Banner */}
               <button
                 type="button"
                 onClick={() => setIsDrawerServicesOpen(!isDrawerServicesOpen)}
-                className="w-full flex items-center justify-between font-head text-[13.5px] font-bold uppercase tracking-wider p-3.5 bg-paper-tint text-brand text-left transition-colors hover:bg-paper-tint/90 cursor-pointer"
+                className="w-full flex items-center justify-between font-head text-[13px] font-bold uppercase tracking-wider p-3.5 bg-gradient-to-r from-brand/10 via-amber-500/10 to-brand/5 text-brand text-left transition-colors cursor-pointer border-b border-brand/15"
                 aria-expanded={isDrawerServicesOpen}
               >
-                <div className="flex items-center gap-2">
-                  <span className="flex h-2 w-2 relative">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
+                <div className="flex items-center gap-2.5">
+                  <span className="w-6 h-6 rounded-lg bg-brand text-white flex items-center justify-center font-head text-xs font-bold shadow-xs">
+                    ✦
                   </span>
-                  <span>Media Services (12 Channels)</span>
+                  <div>
+                    <div className="text-[12.5px] font-bold text-ink tracking-wide">
+                      Advertising Services
+                    </div>
+                    <div className="text-[9.5px] font-sans font-medium text-brand lowercase tracking-normal">
+                      12 media verticals
+                    </div>
+                  </div>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-sans font-bold uppercase px-2 py-0.5 rounded-full bg-brand/10 text-brand">
-                    {isDrawerServicesOpen ? 'Collapse' : 'Explore'}
+                  <span className="text-[9px] font-sans font-bold uppercase px-2 py-0.5 rounded-full bg-brand text-white shadow-2xs">
+                    {isDrawerServicesOpen ? 'Collapse ▲' : 'View All ▼'}
                   </span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-250 ${
-                      isDrawerServicesOpen ? 'rotate-180 text-brand' : 'text-ink-muted'
-                    }`}
-                  />
                 </div>
               </button>
 
               {isDrawerServicesOpen && (
-                <div className="p-2.5 pt-1 space-y-3 divide-y divide-paper-line/50 animate-in fade-in duration-200">
-                  {/* Category 1: Core Channels */}
-                  <div className="pt-2">
-                    <div className="flex items-center justify-between px-2 mb-2">
-                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted">
-                        Core Media Channels
+                <div className="p-3 bg-[#FAF8F5] space-y-3.5 animate-in fade-in duration-200">
+                  {/* Category 1: Core Media Channels */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between px-1">
+                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-brand">
+                        ● Core Media Outlets
                       </span>
-                      <span className="text-[9px] font-sans text-ink-muted/70 bg-paper-line/40 px-1.5 py-0.5 rounded">
-                        7 outlets
+                      <span className="text-[8.5px] font-sans font-semibold text-ink-muted/70 bg-paper-line/50 px-1.5 py-0.5 rounded">
+                        7 channels
                       </span>
                     </div>
+
                     <div className="grid grid-cols-1 gap-1.5">
                       {coreServices.map((item) => {
                         const Icon = item.icon;
@@ -455,19 +470,19 @@ export const Navbar: React.FC = () => {
                             className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
                               isActive
                                 ? 'bg-white shadow-xs border-brand text-brand'
-                                : 'bg-white/70 hover:bg-white border-paper-line/50 text-ink'
+                                : 'bg-white hover:bg-white/90 border-[#E8E2D8] text-ink'
                             }`}
                           >
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-center justify-between gap-1">
                                 <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
                                   {item.label}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[8.5px] font-sans font-medium text-ink-muted/80 px-1 py-0.2 rounded bg-paper-tint border border-paper-line/40 shrink-0">
+                                  <span className="text-[8.5px] font-sans font-semibold text-brand px-1.5 py-0.2 rounded bg-brand/10 shrink-0">
                                     {item.badge}
                                   </span>
                                 )}
@@ -476,7 +491,7 @@ export const Navbar: React.FC = () => {
                                 {item.desc}
                               </p>
                             </div>
-                            <ArrowRight className="w-3 h-3 text-ink-muted/50 shrink-0" />
+                            <ArrowRight className="w-3 h-3 text-ink-muted/40 shrink-0" />
                           </Link>
                         );
                       })}
@@ -484,15 +499,16 @@ export const Navbar: React.FC = () => {
                   </div>
 
                   {/* Category 2: Specialized & Digital Networks */}
-                  <div className="pt-3">
-                    <div className="flex items-center justify-between px-2 mb-2">
-                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted">
-                        Specialized &amp; Digital Networks
+                  <div className="pt-2 border-t border-[#E8E2D8] space-y-1.5">
+                    <div className="flex items-center justify-between px-1">
+                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-violet-700">
+                        ● Digital &amp; Modern Media
                       </span>
-                      <span className="text-[9px] font-sans text-ink-muted/70 bg-paper-line/40 px-1.5 py-0.5 rounded">
+                      <span className="text-[8.5px] font-sans font-semibold text-ink-muted/70 bg-paper-line/50 px-1.5 py-0.5 rounded">
                         5 networks
                       </span>
                     </div>
+
                     <div className="grid grid-cols-1 gap-1.5">
                       {specializedServices.map((item) => {
                         const Icon = item.icon;
@@ -505,19 +521,19 @@ export const Navbar: React.FC = () => {
                             className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
                               isActive
                                 ? 'bg-white shadow-xs border-brand text-brand'
-                                : 'bg-white/70 hover:bg-white border-paper-line/50 text-ink'
+                                : 'bg-white hover:bg-white/90 border-[#E8E2D8] text-ink'
                             }`}
                           >
                             <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
                               <Icon className="w-3.5 h-3.5" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between">
+                              <div className="flex items-center justify-between gap-1">
                                 <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
                                   {item.label}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[8.5px] font-sans font-medium text-ink-muted/80 px-1 py-0.2 rounded bg-paper-tint border border-paper-line/40 shrink-0">
+                                  <span className="text-[8.5px] font-sans font-semibold text-violet-700 px-1.5 py-0.2 rounded bg-violet-50 shrink-0">
                                     {item.badge}
                                   </span>
                                 )}
@@ -526,7 +542,7 @@ export const Navbar: React.FC = () => {
                                 {item.desc}
                               </p>
                             </div>
-                            <ArrowRight className="w-3 h-3 text-ink-muted/50 shrink-0" />
+                            <ArrowRight className="w-3 h-3 text-ink-muted/40 shrink-0" />
                           </Link>
                         );
                       })}
@@ -536,13 +552,64 @@ export const Navbar: React.FC = () => {
               )}
             </div>
 
-
-            <Link to="/rate-cards">Tariff Rate Cards</Link>
-            <Link to="/track-ad">Track Live Ad</Link>
-            <Link to="/about">About RKM Ads</Link>
-            <Link to="/contact">Contact Support</Link>
-            <Link to="/terms">Terms &amp; Policies</Link>
+            {/* Bottom Root Links */}
+            <div className="space-y-0.5 pt-1 border-t border-paper-line-light">
+              <div className="text-[9.5px] font-head font-bold uppercase tracking-[0.12em] text-ink-muted/70 px-3 py-1">
+                Client Tools &amp; Information
+              </div>
+              <Link
+                to="/rate-cards"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/rate-cards' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>Tariff Rate Cards</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+              <Link
+                to="/track-ad"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/track-ad' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>Track Live Ad</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/about' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>About RKM Ads</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+              <Link
+                to="/contact"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/contact' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>Contact Support</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+              <Link
+                to="/terms"
+                onClick={() => setIsDrawerOpen(false)}
+                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
+                  location.pathname === '/terms' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
+                }`}
+              >
+                <span>Terms &amp; Policies</span>
+                <span className="text-xs text-ink-muted/50">➔</span>
+              </Link>
+            </div>
           </div>
+
 
           <div style={{ marginTop: '24px' }}>
             <Link className="btn accent" to="/book-ad" style={{ width: '100%' }}>
