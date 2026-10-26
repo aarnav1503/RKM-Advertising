@@ -307,6 +307,7 @@ select,textarea,input{
   padding:12px 14px;transition:border-color .2s,box-shadow .2s;
 }
 select:focus,textarea:focus,input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(40,35,31,.08)}
+.omni select{font-size:14px;padding:12px 10px 12px 12px;cursor:pointer}
 
 /* ==========================================================================
    SECTIONS & CATEGORIES
@@ -1425,7 +1426,7 @@ const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
 
 $('hp').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
 $('pub').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
-$('hc').innerHTML = '<option value="" selected disabled>Select Notice Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
+$('hc').innerHTML = '<option value="" selected disabled>Select Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
 $('cat').innerHTML = '<option value="" selected disabled>Select Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
 $('ed').innerHTML = '<option value="" selected disabled>Select Edition / Combo</option>' + Object.keys(E).map(k=>`<option value="${k}">${k}</option>`).join('');
 

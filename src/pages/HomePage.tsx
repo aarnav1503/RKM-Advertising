@@ -296,7 +296,7 @@ export const HomePage: React.FC = () => {
               <div className="form-field">
                 <label htmlFor="hc">Notice Category</label>
                 <select id="hc" value={heroCat} onChange={(e) => setHeroCat(e.target.value)}>
-                  <option value="">Select Notice Category</option>
+                  <option value="">Select Category</option>
                   {CATEGORY_TEMPLATES.map((c) => (
                     <option key={c.name} value={c.name}>{c.name}</option>
                   ))}
@@ -413,7 +413,7 @@ export const HomePage: React.FC = () => {
                 <div className="form-field">
                   <label htmlFor="cat">Category</label>
                   <select id="cat" value={builderCat} onChange={(e) => applyCategory(e.target.value)}>
-                    <option value="">Select Notice Category</option>
+                    <option value="">Select Category</option>
                     {CATEGORY_TEMPLATES.map((c) => (
                       <option key={c.name} value={c.name}>{c.name}</option>
                     ))}

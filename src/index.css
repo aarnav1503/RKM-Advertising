@@ -292,6 +292,7 @@ select,textarea,input{
   box-sizing:border-box;max-width:100%;
 }
 select:focus,textarea:focus,input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(40,35,31,.08)}
+.omni select{font-size:14px;padding:12px 10px 12px 12px;cursor:pointer}
 
 /* SECTIONS & CATEGORIES */
 section{padding:clamp(50px,7vw,100px) clamp(16px,4vw,64px);width:100%;box-sizing:border-box}
