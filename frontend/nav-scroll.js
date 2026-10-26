@@ -27,92 +27,187 @@ document.addEventListener('DOMContentLoaded', () => {
       drawer.innerHTML = `
         <div class="mobile-drawer-content">
           <div class="mobile-drawer-header">
-            <a href="index.html" class="logo" style="font-size:26px">RKM Ads<span>.</span></a>
-            <button class="mobile-close" aria-label="Close Navigation Menu">✕</button>
-          </div>
-          <div class="mobile-drawer-links">
-            <a href="index.html">Home</a>
-
-            <!-- Distinct Prominent Services Section in Drawer -->
-            <div style="margin:10px 0 14px;border:1px solid var(--line);border-radius:18px;background:var(--paper-tint);padding:14px;box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line-light);">
-                <div style="display:flex;align-items:center;gap:6px;font:700 12px var(--head);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);">
-                  <span style="width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;"></span>
-                  <span>Media Services</span>
-                </div>
-                <span style="font:700 9.5px var(--sans);color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:12px;border:1px solid rgba(217,90,43,0.2);">12 CHANNELS</span>
-              </div>
-
-              <!-- Core Media Channels -->
-              <div style="font:700 10px var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin:8px 0 6px;">Core Channels (7)</div>
-              <div style="display:grid;grid-template-columns:1fr;gap:6px;">
-                <a href="newspaper-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>📰 Newspaper Advertising</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">150+ Dailies</span>
-                </a>
-                <a href="radio-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>📻 Radio FM Ads</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">100+ Cities</span>
-                </a>
-                <a href="cinema-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>🎬 Cinema Advertising</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">PVR &amp; INOX</span>
-                </a>
-                <a href="tv-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>📺 Television Ads</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">275+ Ch.</span>
-                </a>
-                <a href="outdoor-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>📍 Outdoor &amp; DOOH</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">Prime Hoardings</span>
-                </a>
-                <a href="digital-marketing.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>🌐 Digital PR &amp; News Wire</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">50+ Portals</span>
-                </a>
-                <a href="rate-cards.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--accent);text-decoration:none;">
-                  <span>📑 Official Rate Cards</span>
-                  <span style="font-size:10px;color:var(--accent);font-weight:700;">2026 Tariffs ➔</span>
-                </a>
-              </div>
-
-              <!-- Specialized Networks -->
-              <div style="font:700 10px var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);margin:14px 0 6px;">Specialized Networks (5)</div>
-              <div style="display:grid;grid-template-columns:1fr;gap:6px;">
-                <a href="influencer-marketing.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>✨ Influencer Marketing</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">10K Creators</span>
-                </a>
-                <a href="transit-media.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>🚌 Transit Media</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">Metro &amp; Bus</span>
-                </a>
-                <a href="lift-branding.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>🏢 Lift &amp; Elevator Branding</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">High-Rise</span>
-                </a>
-                <a href="ott-advertising.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>📺 OTT &amp; Connected TV</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">Hotstar &amp; Jio</span>
-                </a>
-                <a href="programmatic-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:#FFF;border:1px solid var(--line-light);border-radius:10px;font:600 12px var(--head);text-transform:uppercase;color:var(--ink);text-decoration:none;">
-                  <span>⚙️ Programmatic DSP</span>
-                  <span style="font-size:10px;color:var(--ink-muted);">DV360 AI</span>
-                </a>
+            <div>
+              <a href="index.html" class="logo" style="font-size:25px;line-height:1">RKM Ads<span>.</span></a>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:6px">
+                <span style="font:700 9px var(--head);letter-spacing:.14em;text-transform:uppercase;color:#166534;background:#F0FDF4;padding:2px 8px;border-radius:4px;border:1px solid rgba(22,101,52,0.2);display:inline-flex;align-items:center;gap:4px">
+                  <span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block"></span>
+                  INS Accredited Agency
+                </span>
+                <span style="font-size:10px;color:var(--ink-muted);font-family:var(--sans)">Est. 2004</span>
               </div>
             </div>
+            <button class="mobile-close" aria-label="Close Navigation Menu">✕</button>
+          </div>
 
-            <a href="rate-cards.html">Tariff Rate Cards</a>
-            <a href="track-ad.html">Track Existing Ad</a>
-            <a href="about.html">About RKM Ads</a>
-            <a href="contact.html">Contact &amp; Helplines</a>
-            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line)">
-              <a href="tel:+919878339302" style="color:var(--accent);font-weight:700;display:flex;align-items:center;gap:6px">
+          <!-- Quick Action Bar -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+            <a href="book-ad.html" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--accent);color:#fff;border-radius:12px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.05em;text-decoration:none">
+              <span>Book Ad Online</span>
+              <span>➔</span>
+            </a>
+            <a href="rate-cards.html" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#fff;border:1px solid #E0D8CB;color:var(--ink);border-radius:12px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.05em;text-decoration:none">
+              <span>Rate Cards</span>
+              <span style="font-size:9px;background:#FEF3C7;color:#92400E;padding:2px 6px;border-radius:4px;font-weight:700">2026</span>
+            </a>
+          </div>
+
+          <!-- Media Disciplines Directory -->
+          <div style="margin-bottom:12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <span style="font:700 10px var(--head);letter-spacing:.15em;text-transform:uppercase;color:var(--ink-muted);display:flex;align-items:center;gap:6px">
+                <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block"></span>
+                Media Disciplines (12)
+              </span>
+              <span style="font:700 9px var(--head);letter-spacing:.08em;text-transform:uppercase;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:12px;border:1px solid rgba(217,90,43,0.2)">INS Tariff</span>
+            </div>
+
+            <!-- Print Media -->
+            <div style="font:700 9.5px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin:10px 0 4px;padding-left:2px">Print &amp; Tariffs</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:6px">
+              <a href="newspaper-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Newspaper Advertising</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">150+ Dailies, Classified &amp; Display Ads</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">150+ Dailies</span>
+              </a>
+              <a href="rate-cards.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Official Rate Cards</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">2026 INS accredited tariff directory</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">2026 Tariffs</span>
+              </a>
+            </div>
+
+            <!-- Broadcast & Screens -->
+            <div style="font:700 9.5px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin:12px 0 4px;padding-left:2px">Broadcast &amp; Cinema</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:6px">
+              <a href="tv-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Television Ads</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">275+ national news &amp; entertainment channels</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">275+ Ch.</span>
+              </a>
+              <a href="radio-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Radio FM Ads</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Top FM spots in 100+ cities &amp; RJ mentions</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">100+ Cities</span>
+              </a>
+              <a href="cinema-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Cinema Advertising</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">PVR INOX &amp; Cinepolis 70mm video ads</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">70mm</span>
+              </a>
+            </div>
+
+            <!-- Outdoor & Transit -->
+            <div style="font:700 9.5px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin:12px 0 4px;padding-left:2px">Outdoor &amp; Transit</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:6px">
+              <a href="outdoor-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Outdoor &amp; DOOH</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Highway unipoles, hoardings &amp; LED screens</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">Prime Hoardings</span>
+              </a>
+              <a href="transit-media.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Transit Media</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">City bus wraps, metro rail &amp; auto hoods</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">Metro &amp; Bus</span>
+              </a>
+              <a href="lift-branding.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Lift &amp; Elevator Branding</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Captive screens in premium high-rises</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">Captive HD</span>
+              </a>
+            </div>
+
+            <!-- Digital & Modern -->
+            <div style="font:700 9.5px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin:12px 0 4px;padding-left:2px">Digital &amp; Connected</div>
+            <div style="display:grid;grid-template-columns:1fr;gap:6px">
+              <a href="digital-marketing.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Digital PR &amp; Wire</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Guaranteed features on 50+ news portals</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">50+ Portals</span>
+              </a>
+              <a href="influencer-marketing.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Influencer Marketing</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">10,000+ creators on Reels &amp; YouTube</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">10K Creators</span>
+              </a>
+              <a href="ott-advertising.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">OTT &amp; Connected TV</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Hotstar, JioCinema &amp; Smart TV 4K</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">Hotstar &amp; Jio</span>
+              </a>
+              <a href="programmatic-ads.html" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:#fff;border:1px solid #E8E2D8;border-radius:12px;text-decoration:none;color:var(--ink)">
+                <div>
+                  <div style="font:700 12px var(--head);text-transform:uppercase;letter-spacing:.03em">Programmatic DSP</div>
+                  <div style="font-size:10px;color:var(--ink-muted)">Google DV360 geofenced buying</div>
+                </div>
+                <span style="font-size:8.5px;color:#57534E;background:#F5F5F4;padding:2px 6px;border-radius:4px;border:1px solid #E7E5E4;font-weight:600">DV360 AI</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Client Links -->
+          <div style="padding-top:12px;border-top:1px solid var(--line);margin-bottom:14px;display:grid;grid-template-columns:1fr;gap:4px">
+            <div style="font:700 9.5px var(--head);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:4px;padding-left:2px">Client Desk &amp; Verification</div>
+            <a href="track-ad.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 6px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--ink)">
+              <span style="display:flex;align-items:center;gap:6px">
+                <span style="width:6px;height:6px;border-radius:50%;background:#16a34a;display:inline-block"></span>
+                Track Live Ad Status
+              </span>
+              <span>➔</span>
+            </a>
+            <a href="about.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 6px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--ink)">
+              <span>About RKM Advertising</span>
+              <span>➔</span>
+            </a>
+            <a href="contact.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 6px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--ink)">
+              <span>Contact Media Desk</span>
+              <span>➔</span>
+            </a>
+            <a href="terms.html" style="display:flex;align-items:center;justify-content:space-between;padding:8px 6px;font:700 12px var(--head);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--ink)">
+              <span>Tariff Policies &amp; Terms</span>
+              <span>➔</span>
+            </a>
+          </div>
+
+          <!-- Helpline Card -->
+          <div style="margin-top:auto;padding:12px;background:#fff;border:1px solid #E4DDCF;border-radius:14px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+              <span style="font:700 9px var(--head);letter-spacing:.14em;text-transform:uppercase;color:#78716C">Direct Media Helpline</span>
+              <span style="font-size:8.5px;color:#166534;background:#F0FDF4;padding:2px 6px;border-radius:4px;border:1px solid rgba(22,101,52,0.2);font-weight:600">Active 24/7 Desk</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <a href="tel:+919878339302" style="font:700 13px var(--head);color:var(--ink);text-decoration:none">
                 📞 +91-9878339302
               </a>
-              <a href="book-ad.html" class="btn accent sm" style="width:100%;text-align:center;margin-top:12px">
-                Book Ad Online ➔
+              <a href="https://wa.me/919878339302" target="_blank" rel="noopener noreferrer" style="font:700 10px var(--head);text-transform:uppercase;letter-spacing:.06em;color:#166534;background:#DCFCE7;padding:4px 8px;border-radius:99px;text-decoration:none">
+                WhatsApp Desk
               </a>
+            </div>
+            <div style="margin-top:8px;padding-top:6px;border-top:1px solid #EFECE3;font-size:9.5px;color:var(--ink-muted);display:flex;justify-content:space-between">
+              <span>Zero Broker Markup</span>
+              <span style="color:var(--accent);font-weight:600">Direct Publisher Tariffs</span>
             </div>
           </div>
         </div>

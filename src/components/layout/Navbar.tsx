@@ -15,13 +15,15 @@ import {
   Cpu,
   FileSpreadsheet,
   ArrowRight,
+  Phone,
+  MessageCircle,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isDrawerServicesOpen, setIsDrawerServicesOpen] = useState(true);
+  const [selectedDrawerCategory, setSelectedDrawerCategory] = useState<'all' | 'print' | 'broadcast' | 'ooh' | 'digital'>('all');
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -51,122 +53,152 @@ export const Navbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const coreServices = [
+  const allServices = [
     {
       label: 'Newspaper Advertising',
+      category: 'print' as const,
+      categoryName: 'Print & Tariffs',
       path: '/newspaper-ads',
       desc: '150+ Dailies, Classified & Display Ads',
       icon: Newspaper,
       badge: '150+ Dailies',
-      iconBg: 'bg-amber-100/80 text-amber-900 group-hover:bg-amber-600 group-hover:text-white',
-    },
-    {
-      label: 'Radio FM Ads',
-      path: '/radio-ads',
-      desc: 'Top FM spots in 100+ cities & RJ mentions',
-      icon: Radio,
-      badge: '100+ Cities',
-      iconBg: 'bg-rose-100/80 text-rose-900 group-hover:bg-rose-600 group-hover:text-white',
-    },
-    {
-      label: 'Cinema Advertising',
-      path: '/cinema-ads',
-      desc: 'PVR INOX & Cinepolis 70mm video ads',
-      icon: Film,
-      badge: '70mm Screens',
-      iconBg: 'bg-purple-100/80 text-purple-900 group-hover:bg-purple-600 group-hover:text-white',
-    },
-    {
-      label: 'Television Ads',
-      path: '/tv-ads',
-      desc: '275+ national news & entertainment channels',
-      icon: Tv,
-      badge: '275+ Channels',
-      iconBg: 'bg-sky-100/80 text-sky-900 group-hover:bg-sky-600 group-hover:text-white',
-    },
-    {
-      label: 'Outdoor & DOOH',
-      path: '/outdoor-ads',
-      desc: 'Highway unipoles, hoardings & LED screens',
-      icon: MapPin,
-      badge: 'Prime Spots',
-      iconBg: 'bg-emerald-100/80 text-emerald-900 group-hover:bg-emerald-600 group-hover:text-white',
-    },
-    {
-      label: 'Digital PR & News Wire',
-      path: '/digital-marketing',
-      desc: 'Guaranteed features on 50+ news portals',
-      icon: Globe,
-      badge: 'Guaranteed PR',
-      iconBg: 'bg-teal-100/80 text-teal-900 group-hover:bg-teal-600 group-hover:text-white',
     },
     {
       label: 'Official Rate Cards',
+      category: 'print' as const,
+      categoryName: 'Print & Tariffs',
       path: '/rate-cards',
       desc: '2026 INS accredited tariff directory',
       icon: FileSpreadsheet,
       badge: '2026 Tariffs',
-      iconBg: 'bg-orange-100/80 text-brand group-hover:bg-brand group-hover:text-white',
     },
-  ];
-
-  const specializedServices = [
+    {
+      label: 'Radio FM Ads',
+      category: 'broadcast' as const,
+      categoryName: 'Broadcast & Cinema',
+      path: '/radio-ads',
+      desc: 'Top FM spots in 100+ cities & RJ mentions',
+      icon: Radio,
+      badge: '100+ Cities',
+    },
+    {
+      label: 'Cinema Advertising',
+      category: 'broadcast' as const,
+      categoryName: 'Broadcast & Cinema',
+      path: '/cinema-ads',
+      desc: 'PVR INOX & Cinepolis 70mm video ads',
+      icon: Film,
+      badge: '70mm Screens',
+    },
+    {
+      label: 'Television Ads',
+      category: 'broadcast' as const,
+      categoryName: 'Broadcast & Cinema',
+      path: '/tv-ads',
+      desc: '275+ national news & entertainment channels',
+      icon: Tv,
+      badge: '275+ Channels',
+    },
+    {
+      label: 'Outdoor & DOOH',
+      category: 'ooh' as const,
+      categoryName: 'Outdoor & Transit',
+      path: '/outdoor-ads',
+      desc: 'Highway unipoles, hoardings & LED screens',
+      icon: MapPin,
+      badge: 'Prime Spots',
+    },
+    {
+      label: 'Digital PR & News Wire',
+      category: 'digital' as const,
+      categoryName: 'Digital & PR',
+      path: '/digital-marketing',
+      desc: 'Guaranteed features on 50+ news portals',
+      icon: Globe,
+      badge: 'Guaranteed PR',
+    },
     {
       label: 'Influencer Marketing',
+      category: 'digital' as const,
+      categoryName: 'Digital & PR',
       path: '/influencer-marketing',
       desc: '10,000+ creators on Reels & YouTube',
       icon: Sparkles,
       badge: '10K Creators',
-      iconBg: 'bg-fuchsia-100/80 text-fuchsia-900 group-hover:bg-fuchsia-600 group-hover:text-white',
     },
     {
       label: 'Transit Media',
+      category: 'ooh' as const,
+      categoryName: 'Outdoor & Transit',
       path: '/transit-media',
       desc: 'City bus wraps, metro rail & auto hoods',
       icon: Bus,
       badge: 'Metro & Bus',
-      iconBg: 'bg-indigo-100/80 text-indigo-900 group-hover:bg-indigo-600 group-hover:text-white',
     },
     {
       label: 'Lift & Elevator Branding',
+      category: 'ooh' as const,
+      categoryName: 'Outdoor & Transit',
       path: '/lift-branding',
       desc: 'Captive screens in premium high-rises',
       icon: Layers,
       badge: 'Captive HD',
-      iconBg: 'bg-cyan-100/80 text-cyan-900 group-hover:bg-cyan-600 group-hover:text-white',
     },
     {
       label: 'OTT & Connected TV',
+      category: 'digital' as const,
+      categoryName: 'Digital & PR',
       path: '/ott-advertising',
       desc: 'Hotstar, JioCinema & SonyLIV CTV 4K',
       icon: MonitorPlay,
       badge: 'Hotstar & Jio',
-      iconBg: 'bg-violet-100/80 text-violet-900 group-hover:bg-violet-600 group-hover:text-white',
     },
     {
       label: 'Programmatic DSP',
+      category: 'digital' as const,
+      categoryName: 'Digital & PR',
       path: '/programmatic-ads',
       desc: 'Google DV360 with GPS polygon geofencing',
       icon: Cpu,
       badge: 'DV360 AI',
-      iconBg: 'bg-slate-200/80 text-slate-800 group-hover:bg-slate-800 group-hover:text-white',
     },
   ];
 
-  const isServicesActive = [
-    '/newspaper-ads',
-    '/radio-ads',
-    '/cinema-ads',
-    '/tv-ads',
-    '/outdoor-ads',
-    '/digital-marketing',
-    '/rate-cards',
-    '/influencer-marketing',
-    '/transit-media',
-    '/lift-branding',
-    '/ott-advertising',
-    '/programmatic-ads',
-  ].includes(location.pathname);
+  const coreServices = allServices.slice(0, 7);
+  const specializedServices = allServices.slice(7);
+
+  const drawerCategories = [
+    { id: 'all' as const, label: 'All Channels', count: 12 },
+    { id: 'print' as const, label: 'Print Media', count: 2 },
+    { id: 'broadcast' as const, label: 'Broadcast', count: 3 },
+    { id: 'ooh' as const, label: 'OOH & Transit', count: 3 },
+    { id: 'digital' as const, label: 'Digital & PR', count: 4 },
+  ];
+
+  const domainGroups = [
+    {
+      id: 'print' as const,
+      title: 'Print & Tariffs',
+      items: allServices.filter((s) => s.category === 'print'),
+    },
+    {
+      id: 'broadcast' as const,
+      title: 'Broadcast & Cinema',
+      items: allServices.filter((s) => s.category === 'broadcast'),
+    },
+    {
+      id: 'ooh' as const,
+      title: 'Outdoor & Transit Media',
+      items: allServices.filter((s) => s.category === 'ooh'),
+    },
+    {
+      id: 'digital' as const,
+      title: 'Digital & Connected Media',
+      items: allServices.filter((s) => s.category === 'digital'),
+    },
+  ];
+
+  const isServicesActive = allServices.some((s) => s.path === location.pathname);
 
   return (
     <>
@@ -204,9 +236,9 @@ export const Navbar: React.FC = () => {
             {isServicesOpen && (
               <div
                 className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 animate-in fade-in zoom-in-95 duration-200"
-                style={{ width: '710px', maxWidth: 'calc(100vw - 32px)' }}
+                style={{ width: '720px', maxWidth: 'calc(100vw - 32px)' }}
               >
-                <div className="bg-[#FAF8F5]/95 backdrop-blur-2xl backdrop-saturate-[190%] rounded-3xl p-6 border border-[#E6DFD3] shadow-[0_28px_60px_-15px_rgba(40,35,31,0.2),0_10px_25px_-5px_rgba(40,35,31,0.08),inset_0_1px_1px_0_rgba(255,255,255,0.9)] overflow-hidden">
+                <div className="bg-[#FAF8F5]/98 backdrop-blur-2xl rounded-3xl p-6 border border-[#E4DDD0] shadow-[0_28px_60px_-15px_rgba(40,35,31,0.22),0_10px_25px_-5px_rgba(40,35,31,0.08)] overflow-hidden">
                   {/* Top Bar Header */}
                   <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-paper-line/70">
                     <div className="flex items-center gap-2.5">
@@ -214,7 +246,7 @@ export const Navbar: React.FC = () => {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
                       </span>
-                      <span className="font-head text-[11px] font-bold uppercase tracking-[0.12em] text-ink-muted">
+                      <span className="font-head text-[11px] font-bold uppercase tracking-[0.14em] text-ink-muted">
                         360° Omnichannel Media Portfolio
                       </span>
                       <span className="text-[9.5px] font-head font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 hidden sm:inline-block">
@@ -232,7 +264,7 @@ export const Navbar: React.FC = () => {
 
                   {/* Two Columns Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
-                    {/* Left Column: Core Channels */}
+                    {/* Left Column */}
                     <div className="space-y-1">
                       <div className="flex items-center justify-between text-[10px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
                         <span>Core Media Channels</span>
@@ -251,10 +283,8 @@ export const Navbar: React.FC = () => {
                                 : 'border-transparent hover:border-paper-line/80 hover:bg-white/80 hover:shadow-xs text-ink'
                             }`}
                           >
-                            <div
-                              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 shrink-0 shadow-xs ${item.iconBg}`}
-                            >
-                              <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+                            <div className="w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-200 shrink-0 bg-[#F0EBE1] text-[#28231F] border border-[#E2DBD0] group-hover:bg-brand group-hover:border-brand group-hover:text-white shadow-2xs">
+                              <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-1">
@@ -277,7 +307,7 @@ export const Navbar: React.FC = () => {
                       })}
                     </div>
 
-                    {/* Right Column: Specialized Networks */}
+                    {/* Right Column */}
                     <div className="space-y-1">
                       <div className="flex items-center justify-between text-[10px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
                         <span>Digital &amp; Specialized</span>
@@ -296,10 +326,8 @@ export const Navbar: React.FC = () => {
                                 : 'border-transparent hover:border-paper-line/80 hover:bg-white/80 hover:shadow-xs text-ink'
                             }`}
                           >
-                            <div
-                              className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 shrink-0 shadow-xs ${item.iconBg}`}
-                            >
-                              <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+                            <div className="w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-200 shrink-0 bg-[#F0EBE1] text-[#28231F] border border-[#E2DBD0] group-hover:bg-brand group-hover:border-brand group-hover:text-white shadow-2xs">
+                              <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-1">
@@ -382,16 +410,33 @@ export const Navbar: React.FC = () => {
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Professional Mobile Sidebar (Drawer) */}
       <div
         className={`mobile-drawer ${isDrawerOpen ? 'open' : ''}`}
         onClick={() => setIsDrawerOpen(false)}
       >
         <div className="mobile-drawer-content" onClick={(e) => e.stopPropagation()}>
+          {/* Drawer Header */}
           <div className="mobile-drawer-header">
-            <Link className="logo" to="/" style={{ fontSize: '26px' }}>
-              RKM Ads<span>.</span>
-            </Link>
+            <div>
+              <Link
+                className="logo"
+                to="/"
+                onClick={() => setIsDrawerOpen(false)}
+                style={{ fontSize: '25px', lineHeight: 1 }}
+              >
+                RKM Ads<span>.</span>
+              </Link>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="inline-flex items-center gap-1 text-[9px] font-head font-bold uppercase tracking-[0.14em] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/70">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600"></span>
+                  INS Accredited Agency
+                </span>
+                <span className="text-[9.5px] text-ink-muted/70 font-sans">
+                  Est. 2004
+                </span>
+              </div>
+            </div>
             <button
               className="mobile-close"
               aria-label="Close Navigation Menu"
@@ -401,220 +446,231 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          <div className="mobile-drawer-links space-y-4">
-            {/* Top Root Links */}
-            <div className="space-y-1">
-              <Link
-                to="/"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-xl font-head font-bold text-[14px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>Home</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
+          {/* Quick Action Bar */}
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <Link
+              to="/book-ad"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between p-2.5 rounded-xl bg-brand text-white shadow-xs font-head font-bold text-[12px] uppercase tracking-wider hover:bg-brand-hover transition-colors"
+            >
+              <span>Book Ad Online</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              to="/rate-cards"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-[#E0D8CB] text-ink shadow-2xs font-head font-bold text-[12px] uppercase tracking-wider hover:border-brand hover:text-brand transition-colors"
+            >
+              <span>Rate Cards</span>
+              <span className="text-[9px] font-sans px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/60 font-semibold">2026 Tariffs</span>
+            </Link>
+          </div>
+
+          {/* Advertising Media Directory Header & Category Filter */}
+          <div className="mb-3">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-head font-bold uppercase tracking-[0.15em] text-ink-muted/90 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand"></span>
+                Media Disciplines
+              </span>
+              <span className="text-[9px] font-head font-bold uppercase tracking-wider text-brand px-2 py-0.5 rounded-full bg-brand/10 border border-brand/20">
+                12 Channels
+              </span>
             </div>
 
-            {/* SERVICES SUBPART: Distinctive Elevated Folder / Card Container */}
-            <div className="overflow-hidden rounded-2xl border-2 border-brand/25 bg-white shadow-md">
-              {/* Header Banner */}
-              <button
-                type="button"
-                onClick={() => setIsDrawerServicesOpen(!isDrawerServicesOpen)}
-                className="w-full flex items-center justify-between font-head text-[13px] font-bold uppercase tracking-wider p-3.5 bg-gradient-to-r from-brand/10 via-amber-500/10 to-brand/5 text-brand text-left transition-colors cursor-pointer border-b border-brand/15"
-                aria-expanded={isDrawerServicesOpen}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-lg bg-brand text-white flex items-center justify-center font-head text-xs font-bold shadow-xs">
-                    ✦
+            {/* Horizontal Filter Tabs */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 no-scrollbar -mx-1 px-1">
+              {drawerCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setSelectedDrawerCategory(cat.id)}
+                  className={`text-[10.5px] font-head font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg shrink-0 transition-all cursor-pointer ${
+                    selectedDrawerCategory === cat.id
+                      ? 'bg-ink text-white shadow-2xs'
+                      : 'bg-white/80 text-ink-muted hover:text-ink hover:bg-white border border-paper-line/70'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                  <span className={`ml-1 text-[9px] ${selectedDrawerCategory === cat.id ? 'text-white/80' : 'text-ink-muted/70'}`}>
+                    ({cat.count})
                   </span>
-                  <div>
-                    <div className="text-[12.5px] font-bold text-ink tracking-wide">
-                      Advertising Services
-                    </div>
-                    <div className="text-[9.5px] font-sans font-medium text-brand lowercase tracking-normal">
-                      12 media verticals
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[9px] font-sans font-bold uppercase px-2 py-0.5 rounded-full bg-brand text-white shadow-2xs">
-                    {isDrawerServicesOpen ? 'Collapse ▲' : 'View All ▼'}
-                  </span>
-                </div>
-              </button>
-
-              {isDrawerServicesOpen && (
-                <div className="p-3 bg-[#FAF8F5] space-y-3.5 animate-in fade-in duration-200">
-                  {/* Category 1: Core Media Channels */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-brand">
-                        ● Core Media Outlets
-                      </span>
-                      <span className="text-[8.5px] font-sans font-semibold text-ink-muted/70 bg-paper-line/50 px-1.5 py-0.5 rounded">
-                        7 channels
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-1.5">
-                      {coreServices.map((item) => {
-                        const Icon = item.icon;
-                        const isActive = location.pathname === item.path;
-                        return (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            onClick={() => setIsDrawerOpen(false)}
-                            className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
-                              isActive
-                                ? 'bg-white shadow-xs border-brand text-brand'
-                                : 'bg-white hover:bg-white/90 border-[#E8E2D8] text-ink'
-                            }`}
-                          >
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
-                              <Icon className="w-3.5 h-3.5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
-                                  {item.label}
-                                </span>
-                                {item.badge && (
-                                  <span className="text-[8.5px] font-sans font-semibold text-brand px-1.5 py-0.2 rounded bg-brand/10 shrink-0">
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[10px] text-ink-muted truncate font-sans m-0">
-                                {item.desc}
-                              </p>
-                            </div>
-                            <ArrowRight className="w-3 h-3 text-ink-muted/40 shrink-0" />
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Category 2: Specialized & Digital Networks */}
-                  <div className="pt-2 border-t border-[#E8E2D8] space-y-1.5">
-                    <div className="flex items-center justify-between px-1">
-                      <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-violet-700">
-                        ● Digital &amp; Modern Media
-                      </span>
-                      <span className="text-[8.5px] font-sans font-semibold text-ink-muted/70 bg-paper-line/50 px-1.5 py-0.5 rounded">
-                        5 networks
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-1.5">
-                      {specializedServices.map((item) => {
-                        const Icon = item.icon;
-                        const isActive = location.pathname === item.path;
-                        return (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            onClick={() => setIsDrawerOpen(false)}
-                            className={`flex items-center gap-2.5 p-2 rounded-xl transition-all border ${
-                              isActive
-                                ? 'bg-white shadow-xs border-brand text-brand'
-                                : 'bg-white hover:bg-white/90 border-[#E8E2D8] text-ink'
-                            }`}
-                          >
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 shadow-2xs ${item.iconBg}`}>
-                              <Icon className="w-3.5 h-3.5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="font-head font-bold text-[12px] uppercase tracking-wide truncate">
-                                  {item.label}
-                                </span>
-                                {item.badge && (
-                                  <span className="text-[8.5px] font-sans font-semibold text-violet-700 px-1.5 py-0.2 rounded bg-violet-50 shrink-0">
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[10px] text-ink-muted truncate font-sans m-0">
-                                {item.desc}
-                              </p>
-                            </div>
-                            <ArrowRight className="w-3 h-3 text-ink-muted/40 shrink-0" />
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Root Links */}
-            <div className="space-y-0.5 pt-1 border-t border-paper-line-light">
-              <div className="text-[9.5px] font-head font-bold uppercase tracking-[0.12em] text-ink-muted/70 px-3 py-1">
-                Client Tools &amp; Information
-              </div>
-              <Link
-                to="/rate-cards"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/rate-cards' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>Tariff Rate Cards</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
-              <Link
-                to="/track-ad"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/track-ad' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>Track Live Ad</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
-              <Link
-                to="/about"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/about' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>About RKM Ads</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
-              <Link
-                to="/contact"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/contact' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>Contact Support</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
-              <Link
-                to="/terms"
-                onClick={() => setIsDrawerOpen(false)}
-                className={`flex items-center justify-between px-3 py-2 rounded-xl font-head font-bold text-[13.5px] uppercase tracking-wider transition-colors ${
-                  location.pathname === '/terms' ? 'bg-white shadow-xs text-brand' : 'text-ink hover:text-brand'
-                }`}
-              >
-                <span>Terms &amp; Policies</span>
-                <span className="text-xs text-ink-muted/50">➔</span>
-              </Link>
+                </button>
+              ))}
             </div>
           </div>
 
+          {/* Media Directory Cards */}
+          <div className="space-y-3.5 mb-5">
+            {selectedDrawerCategory === 'all' ? (
+              // Grouped Domain Categories
+              domainGroups.map((group) => (
+                <div key={group.id} className="space-y-1.5">
+                  <div className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/70 px-1">
+                    {group.title}
+                  </div>
+                  <div className="space-y-1.5">
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = location.pathname === item.path;
+                      return (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setIsDrawerOpen(false)}
+                          className={`group flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 border ${
+                            isActive
+                              ? 'bg-white shadow-xs border-brand text-brand'
+                              : 'bg-white/70 hover:bg-white border-[#E8E2D8] hover:border-brand/40 text-ink'
+                          }`}
+                        >
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-[#F0EBE1] text-[#28231F] border border-[#E2DBD0] group-hover:bg-brand group-hover:border-brand group-hover:text-white transition-all shadow-2xs">
+                            <Icon className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1.5">
+                              <span className="font-head font-bold text-[12px] uppercase tracking-wide group-hover:text-brand transition-colors text-ink">
+                                {item.label}
+                              </span>
+                              {item.badge && (
+                                <span className="text-[8.5px] font-sans font-medium text-stone-600 bg-stone-100/90 border border-stone-200/80 px-1.5 py-0.2 rounded shrink-0">
+                                  {item.badge}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] text-ink-muted/85 font-sans mt-0.5 m-0 line-clamp-1">
+                              {item.desc}
+                            </p>
+                          </div>
+                          <ArrowRight className="w-3 h-3 text-stone-400 group-hover:text-brand group-hover:translate-x-0.5 transition-all shrink-0" />
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))
+            ) : (
+              // Filtered Category View
+              <div className="space-y-1.5">
+                {allServices
+                  .filter((s) => s.category === selectedDrawerCategory)
+                  .map((item) => {
+                    const Icon = item.icon;
+                    const isActive = location.pathname === item.path;
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={() => setIsDrawerOpen(false)}
+                        className={`group flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 border ${
+                          isActive
+                            ? 'bg-white shadow-xs border-brand text-brand'
+                            : 'bg-white/70 hover:bg-white border-[#E8E2D8] hover:border-brand/40 text-ink'
+                        }`}
+                      >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 bg-[#F0EBE1] text-[#28231F] border border-[#E2DBD0] group-hover:bg-brand group-hover:border-brand group-hover:text-white transition-all shadow-2xs">
+                          <Icon className="w-3.5 h-3.5" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-1.5">
+                            <span className="font-head font-bold text-[12px] uppercase tracking-wide group-hover:text-brand transition-colors text-ink">
+                              {item.label}
+                            </span>
+                            {item.badge && (
+                              <span className="text-[8.5px] font-sans font-medium text-stone-600 bg-stone-100/90 border border-stone-200/80 px-1.5 py-0.2 rounded shrink-0">
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[10px] text-ink-muted/85 font-sans mt-0.5 m-0 line-clamp-1">
+                            {item.desc}
+                          </p>
+                        </div>
+                        <ArrowRight className="w-3 h-3 text-stone-400 group-hover:text-brand group-hover:translate-x-0.5 transition-all shrink-0" />
+                      </Link>
+                    );
+                  })}
+              </div>
+            )}
+          </div>
 
-          <div style={{ marginTop: '24px' }}>
-            <Link className="btn accent" to="/book-ad" style={{ width: '100%' }}>
-              Book Ad Online
+          {/* Client Tools & Agency Desk Navigation */}
+          <div className="pt-3 border-t border-paper-line/70 space-y-1 mb-4">
+            <div className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/70 px-1 mb-1">
+              Client Desk &amp; Verification
+            </div>
+            <Link
+              to="/track-ad"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between px-2.5 py-2 rounded-lg text-ink hover:text-brand hover:bg-white/60 transition-colors font-head font-bold text-[12px] uppercase tracking-wider"
+            >
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                </span>
+                <span>Track Live Ad Status</span>
+              </div>
+              <ArrowRight className="w-3 h-3 text-ink-muted/50" />
             </Link>
+            <Link
+              to="/about"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between px-2.5 py-2 rounded-lg text-ink hover:text-brand hover:bg-white/60 transition-colors font-head font-bold text-[12px] uppercase tracking-wider"
+            >
+              <span>About RKM Advertising</span>
+              <ArrowRight className="w-3 h-3 text-ink-muted/50" />
+            </Link>
+            <Link
+              to="/contact"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between px-2.5 py-2 rounded-lg text-ink hover:text-brand hover:bg-white/60 transition-colors font-head font-bold text-[12px] uppercase tracking-wider"
+            >
+              <span>Contact Media Desk</span>
+              <ArrowRight className="w-3 h-3 text-ink-muted/50" />
+            </Link>
+            <Link
+              to="/terms"
+              onClick={() => setIsDrawerOpen(false)}
+              className="flex items-center justify-between px-2.5 py-2 rounded-lg text-ink hover:text-brand hover:bg-white/60 transition-colors font-head font-bold text-[12px] uppercase tracking-wider"
+            >
+              <span>Tariff Policies &amp; Terms</span>
+              <ArrowRight className="w-3 h-3 text-ink-muted/50" />
+            </Link>
+          </div>
+
+          {/* Agency Helpline & Direct Desk */}
+          <div className="mt-auto p-3.5 rounded-2xl bg-white border border-[#E4DDCF] shadow-xs mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[9.5px] font-head font-bold uppercase tracking-[0.14em] text-stone-500">
+                Direct Media Helpline
+              </span>
+              <span className="text-[8.5px] font-sans font-semibold text-emerald-800 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200/60">
+                Active 24/7 Desk
+              </span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <a
+                href="tel:+919878339302"
+                className="flex items-center gap-1.5 text-ink font-head font-bold text-[13px] hover:text-brand transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-brand" />
+                <span>+91-9878339302</span>
+              </a>
+              <a
+                href="https://wa.me/919878339302?text=Hello%20RKM%20Ads,%20I%20would%20like%20to%20inquire%20about%20advertising%20rates."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-[11px] font-head font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-full border border-emerald-200 transition-colors"
+              >
+                <MessageCircle className="w-3 h-3 text-emerald-600" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+            <div className="mt-2.5 pt-2 border-t border-paper-line/50 text-[9.5px] text-ink-muted flex items-center justify-between">
+              <span>Zero Broker Markup</span>
+              <span className="font-semibold text-brand">Direct Publisher Rates</span>
+            </div>
           </div>
         </div>
       </div>
