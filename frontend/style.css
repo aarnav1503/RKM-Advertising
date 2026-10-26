@@ -55,56 +55,86 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; line-height: 1.15;
 .btn.accent:hover { background: var(--accent-hover); box-shadow: 0 10px 22px rgba(217,90,43,.34); }
 .btn.outline { background: transparent; border: 1.5px solid var(--ink); color: var(--ink); box-shadow: none; }
 .btn.outline:hover { background: var(--ink); color: var(--bg); }
-.btn.sm { padding: 9px 16px; font-size: 12px; }
+.btn.sm { padding: 12px 24px; font-size: 13.5px; letter-spacing: .07em; }
 
 /* Header & Global Navbar */
 header {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
-  gap: clamp(10px, 2vw, 24px);
-  padding: 12px clamp(16px, 3vw, 36px);
-  background: rgba(248, 246, 240, 0.95);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  gap: clamp(16px, 2.8vw, 40px);
+  padding: 22px clamp(20px, 4vw, 56px);
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
-  transition: background .3s, box-shadow .3s;
+  transition: padding 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
 }
+
+header.scrolled, header.s {
+  background: rgba(248, 246, 240, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  padding: 15px clamp(20px, 4vw, 56px);
+  box-shadow: 0 8px 32px rgba(34, 29, 26, 0.07);
+  border-bottom: 1px solid rgba(221, 214, 200, 0.75);
+}
+
 .logo {
-  font: 700 28px/1 var(--news-serif);
-  text-decoration: none; letter-spacing: -.03em;
+  font: 700 33px/1 var(--news-serif);
+  text-decoration: none; letter-spacing: -0.03em;
   display: inline-flex; align-items: baseline; white-space: nowrap; flex-shrink: 0;
   color: var(--ink);
 }
-.logo span { color: var(--accent); font-size: 32px; display: inline; margin-left: 1px; }
+.logo span { color: var(--accent); font-size: 38px; display: inline; margin-left: 1px; }
+
 nav {
-  display: flex; align-items: center; gap: clamp(10px, 1.6vw, 22px);
+  display: flex; align-items: center; gap: clamp(14px, 2vw, 30px);
   flex-shrink: 1;
 }
+
 nav a {
-  font: 600 12.5px var(--head); letter-spacing: .05em; text-transform: uppercase;
-  position: relative; padding: 5px 0; color: var(--ink); white-space: nowrap;
-  transition: color .2s;
+  font: 600 14.5px/1 var(--head); letter-spacing: 0.07em; text-transform: uppercase;
+  position: relative; padding: 7px 0; color: var(--ink); white-space: nowrap;
+  transition: color 0.2s ease;
 }
 nav a:hover, nav a.active { color: var(--accent); }
-nav a.active::after {
-  content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+nav a::after {
+  content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2.5px;
   background: var(--accent);
+  transition: width 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+nav a.active::after { width: 100%; }
+nav a:hover::after { width: 100%; }
+
 .header-actions {
-  display: flex; align-items: center; gap: clamp(8px, 1.2vw, 16px);
+  display: flex; align-items: center; gap: clamp(12px, 1.6vw, 22px);
   flex-shrink: 0; white-space: nowrap;
 }
 .phone-link {
-  font: 600 12.5px var(--head); color: var(--ink); display: inline-flex; align-items: center; gap: 4px;
+  font: 600 14.5px var(--head); letter-spacing: 0.02em; color: var(--ink);
+  display: inline-flex; align-items: center; gap: 6px;
   white-space: nowrap; text-decoration: none;
+  transition: color 0.2s ease;
 }
 .phone-link:hover { color: var(--accent); }
 
-@media (max-width: 1150px) {
-  nav { gap: 10px; }
-  nav a { font-size: 12px; letter-spacing: .03em; }
+@media (max-width: 1240px) {
+  header { padding: 18px clamp(16px, 3vw, 36px); }
+  nav { gap: 16px; }
+  nav a { font-size: 13.5px; letter-spacing: 0.05em; }
+  .phone-link { font-size: 13.5px; }
 }
-@media (max-width: 980px) {
-  header { padding: 12px 20px; }
+
+@media (max-width: 1024px) {
+  nav { gap: 12px; }
+  nav a { font-size: 12.5px; letter-spacing: 0.04em; }
+  .phone-link { font-size: 13px; }
+}
+
+@media (max-width: 960px) {
+  header { padding: 16px 20px; }
+  header.scrolled, header.s { padding: 13px 20px; }
   nav { display: none; }
   .phone-link { display: none; }
 }
