@@ -9,18 +9,31 @@ Inspired by **[BookMyAd.com](https://www.bookmyad.com/)**, this platform is a mo
 ### 1.1 Core Business Purpose
 To allow individual advertisers, SMEs, agencies, and legal professionals to book advertisements across 150+ regional and national media publications without physical agency visits, manual rate negotiations, or complex offline paperwork.
 
-### 1.2 Key Media Verticals
+### 1.2 Key Media Verticals & Services Portfolio (RKM Advertising 360°)
 1. **Newspaper Advertising (Core Transactional Funnel):**
-   * **Classified Text (ROD - Run On Day):** Text advertisements charged per word or line, with enhancement options (bold, background highlight, ticks).
-   * **Classified Display (CD):** Single/multi-column boxed advertisements with custom artwork, fonts, and logos (charged per sq. cm).
-   * **Commercial Display Ads:** Premium placements (Quarter page, Half page, Full page, Front page, Jacket ads).
-2. **Radio Advertising (Inquiry & Media Planning):**
-   * Top FM networks (Radio Mirchi, Red FM, Big FM, Radio City).
-   * 10/20-second spot rates, prime time vs. non-prime time selection, jingle production assistance.
-3. **Cinema Advertising:**
-   * On-screen slide ads and commercial video ads across national multiplexes (PVR INOX, Cinepolis) and single-screen theatres.
-4. **Outdoor & DOOH:**
-   * Billboards, unipoles, bus shelters, metro station branding, and digital screens.
+   * Classified Text, Classified Display, and Commercial Display (Quarter, Half, Full & Front Page) across 150+ regional and national dailies.
+2. **Digital Marketing:**
+   * Google Search & Display Ads, Meta Performance marketing, SEO, and lead generation campaigns.
+3. **Radio Advertising (100+ Cities):**
+   * Top FM networks (Radio Mirchi, Red FM, Big FM, Radio City, Fever 104) with prime-time commercial slots and RJ mentions.
+4. **Cinema Advertising (70mm Multiplexes):**
+   * On-screen slide ads and 10–30s commercial video ads across national multiplex chains (PVR INOX, Cinepolis).
+5. **Digital PR:**
+   * Guaranteed brand features on 50+ tier-1 news portals (Zee News, Lokmat, LatestLY, Dailyhunt, Hindustan Metro).
+6. **Influencer Marketing:**
+   * 10,000+ verified creators across Instagram Reels, YouTube integrations, and regional vernacular micro-influencer bundles.
+7. **Television Advertising (275+ Channels):**
+   * 10–30s TV commercial spots on national news (Aaj Tak, India TV, NDTV) and regional entertainment GECs.
+8. **Programmatic Ads (100+ Networks):**
+   * Automated DSP media buying on Google DV360, The Trade Desk, real-time bidding, rich media, and GPS geofencing.
+9. **OTT & Connected TV (100+ Streaming Platforms):**
+   * Living room CTV 4K spots and mobile video pre-rolls across Disney+ Hotstar, JioCinema, SonyLIV, Zee5, and MX Player.
+10. **Transit Media (100+ Metropolitan Routes):**
+    * Full city bus wraps (DTC, BEST, BMTC), metro train wraps, auto rickshaw hoods, and airport cab branding.
+11. **Lift & Elevator Branding (100+ Premium Societies):**
+    * Captive residential and corporate lift digital video screens, acrylic eye-level posters, and full door wraps with RWA permission.
+12. **Outdoor / DOOH (250+ Hoardings & Digital Totems):**
+    * Highway unipoles, bridge gantries, mall totems, and digital LED billboards with geotagged audit proofing.
 
 ---
 
@@ -161,7 +174,7 @@ rkm-ad-booking/
 ## 4. Key Page Content & Functional Breakdown
 
 ### Page 1: Home Page (`/`)
-* **Header / Navigation:** Primary media tabs, Rate card finder, Order tracker, Helpline (`+91-8800334456`), and Account login.
+* **Header / Navigation:** Primary media tabs, Rate card finder, Order tracker, Helpline (`+91-9878339302`), and Account login.
 * **Hero Section (Omni-Search):** 3-in-1 dropdown widget (*Media* $\rightarrow$ *Category* $\rightarrow$ *Publication/Edition*) with instant "Check Rates & Book" CTA.
 * **Category Quick-Pill Links:** Direct shortcuts for *Matrimonial*, *Change of Name*, *Property for Sale*, *Public Notice*, and *Obituary*.
 * **Top Publications Carousel:** Times of India, Hindustan Times, Dainik Jagran, Dainik Bhaskar, Amar Ujala, The Hindu.

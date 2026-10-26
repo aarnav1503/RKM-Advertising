@@ -1,0 +1,221 @@
+import { PublicationTariff, AdCategoryTemplate } from '../types';
+
+export const PUBLICATIONS_DATA: Record<string, PublicationTariff> = {
+  toi: {
+    id: 'toi',
+    name: 'The Times of India',
+    unit: 'line',
+    baseRate: 1450,
+    extraRate: 290,
+    baseUnits: 5,
+    charsPerLine: 35,
+    cutoffHour: 15,
+    badge: 'India’s #1 English Daily',
+    language: 'English',
+    circulation: '2.8M Daily Readers',
+    editions: {
+      'Delhi NCR': 1.0,
+      'Mumbai': 1.25,
+      'Bengaluru': 1.15,
+      'Hyderabad': 0.95,
+      'Kolkata': 0.90,
+      'Pune': 0.85,
+      'Ahmedabad': 0.80,
+      'Chandigarh': 0.70,
+      'Delhi NCR + UP Combo': 1.45,
+      'All India All Editions': 3.40,
+    },
+    categories: ['Matrimonial', 'Change of name', 'Property', 'Public notice', 'Recruitment', 'Obituary', 'Court Notice', 'Lost & Found'],
+  },
+  ht: {
+    id: 'ht',
+    name: 'Hindustan Times',
+    unit: 'word',
+    baseRate: 1900,
+    extraRate: 95,
+    baseUnits: 20,
+    cutoffHour: 14,
+    badge: 'Leading Metro Influence',
+    language: 'English',
+    circulation: '1.9M Daily Readers',
+    editions: {
+      'Delhi NCR': 1.0,
+      'Mumbai': 1.15,
+      'Chandigarh / Punjab': 0.85,
+      'Lucknow': 0.75,
+      'Patna': 0.70,
+      'Delhi + Mumbai Twin Combo': 1.65,
+      'North India Combo': 1.85,
+    },
+    categories: ['Matrimonial', 'Change of name', 'Property', 'Public notice', 'Recruitment', 'Obituary', 'Court Notice'],
+  },
+  dj: {
+    id: 'dj',
+    name: 'Dainik Jagran',
+    unit: 'word',
+    baseRate: 1100,
+    extraRate: 55,
+    baseUnits: 20,
+    cutoffHour: 15,
+    badge: 'World’s Most Read Hindi Daily',
+    language: 'Hindi',
+    circulation: '3.6M Daily Readers',
+    editions: {
+      'Delhi NCR': 1.0,
+      'Lucknow': 0.95,
+      'Kanpur': 0.90,
+      'Varanasi': 0.80,
+      'Prayagraj': 0.75,
+      'Patna': 0.85,
+      'Meerut': 0.70,
+      'Complete UP State Mega Combo': 2.10,
+      'All India Hindi Belt Combo': 3.10,
+    },
+    categories: ['Matrimonial', 'Change of name', 'Property', 'Public notice', 'Recruitment', 'Obituary', 'Astrology', 'Court Notice'],
+  },
+  au: {
+    id: 'au',
+    name: 'Amar Ujala',
+    unit: 'word',
+    baseRate: 1000,
+    extraRate: 50,
+    baseUnits: 20,
+    cutoffHour: 15,
+    badge: 'Trusted Northern Daily',
+    language: 'Hindi',
+    circulation: '2.4M Daily Readers',
+    editions: {
+      'Delhi NCR': 0.90,
+      'Noida / Western UP': 1.0,
+      'Dehradun / Uttarakhand': 0.85,
+      'Lucknow': 0.80,
+      'Agra': 0.75,
+      'Chandigarh': 0.70,
+      'UP + Uttarakhand Combo': 1.60,
+    },
+    categories: ['Matrimonial', 'Change of name', 'Property', 'Public notice', 'Recruitment', 'Obituary', 'Business & Tenders'],
+  },
+  hindu: {
+    id: 'hindu',
+    name: 'The Hindu',
+    unit: 'line',
+    baseRate: 1300,
+    extraRate: 260,
+    baseUnits: 5,
+    charsPerLine: 35,
+    cutoffHour: 14,
+    badge: 'Premier South & National Daily',
+    language: 'English',
+    circulation: '1.4M Daily Readers',
+    editions: {
+      'Chennai': 1.20,
+      'Bengaluru': 1.10,
+      'Hyderabad': 1.00,
+      'Delhi NCR': 0.90,
+      'Kochi / Kerala': 0.85,
+      'South India Super Combo': 2.20,
+    },
+    categories: ['Public notice', 'Property', 'Matrimonial', 'Change of name', 'Recruitment', 'Obituary'],
+  },
+  et: {
+    id: 'et',
+    name: 'The Economic Times',
+    unit: 'line',
+    baseRate: 2200,
+    extraRate: 440,
+    baseUnits: 5,
+    charsPerLine: 35,
+    cutoffHour: 16,
+    badge: 'India’s #1 Business Newspaper',
+    language: 'English',
+    circulation: '1.1M Business Leaders',
+    editions: {
+      'All India Business Combo': 2.80,
+      'Delhi NCR': 1.10,
+      'Mumbai': 1.30,
+      'Bengaluru': 1.05,
+    },
+    categories: ['Public notice', 'Statutory / Financial Notices', 'Recruitment', 'Commercial Property'],
+  }
+};
+
+export const CATEGORY_TEMPLATES: AdCategoryTemplate[] = [
+  {
+    name: 'Matrimonial',
+    description: 'Find matches across verified communities, professions, and regions.',
+    baseMinRate: 500,
+    sampleText: 'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC as Product Manager. Well-settled family. Early marriage. Caste no bar. Write with horoscope & photo to: marriage.delhi26@gmail.com or Call/WhatsApp: 9811XXXXXX.',
+  },
+  {
+    name: 'Change of name',
+    description: 'Statutory announcements for passport, bank, or gazette updates.',
+    baseMinRate: 450,
+    requiredDoc: 'Notarised Name Change Affidavit (Max 6 months old) and Aadhaar/PAN Card',
+    sampleText: 'I, Anita Verma, daughter of Mohan Verma, resident of House No. 42, Model Town, Ludhiana, Punjab, have changed my name to Anita Sharma for all legal, educational, and official purposes. All concerned authorities please note.',
+  },
+  {
+    name: 'Property',
+    description: 'Sell, purchase, lease residential or commercial real estate.',
+    baseMinRate: 650,
+    sampleText: 'FOR SALE: 3 BHK luxurious high-rise apartment in Sector 62, Noida. 1,650 sq ft, 4th floor, park facing, 100% power backup, 2 covered car parkings. Ready to move. Direct deal, no brokers. Contact owner: 9878XXXXXX.',
+  },
+  {
+    name: 'Public notice',
+    description: 'Statutory, title investigation, corporate, and court announcements.',
+    baseMinRate: 700,
+    requiredDoc: 'Advocate Letterhead Notice or Court Order / Certified Authority Letter',
+    sampleText: 'PUBLIC NOTICE: Notice is hereby given that my clients M/s RKM Global Enterprises, having office at Connaught Place, New Delhi, have applied for investigating title deeds of Plot No. 84, Okhla Industrial Area Phase-III. Any person having objection/claim must submit within 14 days with documentary proof.',
+  },
+  {
+    name: 'Recruitment',
+    description: 'Hire professionals, executives, sales team, and staff across regions.',
+    baseMinRate: 800,
+    sampleText: 'WANTED: Senior Corporate Sales Manager (2+ yrs experience in Media/Advertising sales). Fluent English, high incentives + attractive fixed CTC. Location: Noida Sector 62. Walk-in or email CV to: careers@rkmads.com / WhatsApp: 9878339302.',
+  },
+  {
+    name: 'Obituary',
+    description: 'Honor loved ones with remembrance prayers, chautha, and anniversaries.',
+    baseMinRate: 400,
+    requiredDoc: 'Doctor Death Certificate or Cremation Receipt copy',
+    sampleText: 'WITH PROFOUND GRIEF we announce the sad demise of our beloved mother Smt. Kamla Devi (aged 78) on 24 October 2026. Chautha / Prayer meeting will be held on Sunday, 29 October, 4 PM to 5 PM at Arya Samaj Mandir, GK-1, New Delhi. In grief: Verma Family.',
+  },
+  {
+    name: 'Lost & Found',
+    description: 'Mandatory police NCR publication for lost property/documents.',
+    baseMinRate: 400,
+    requiredDoc: 'Police Non-Cognizable Report (NCR) or Daily Diary (DD) Copy',
+    sampleText: 'LOST: Original Title Deed document of Flat No. 204, Royal Apartments, Rohini, Delhi, registered in the name of Rajesh Gupta, lost during transit near Rohini West Metro on 20 Oct 2026. Finder please contact: 9811XXXXXX. Reward guaranteed.',
+  },
+  {
+    name: 'Court Notice',
+    description: 'Summons and legal substituted service as ordered by judicial courts.',
+    baseMinRate: 850,
+    requiredDoc: 'Certified Court Order / Judicial Summons Copy with Stamp',
+    sampleText: 'IN THE COURT OF DISTRICT JUDGE, SAKET COURTS, NEW DELHI. Civil Suit No. 412/2026. M/s Capital Finance Vs. Sh. Vikram Anand. To Sh. Vikram Anand, resident of C-12, Green Park. Take notice you are required to appear in court on 15 Nov 2026 at 10 AM, failing which ex-parte proceedings shall be initiated.',
+  }
+];
+
+export function calculateLines(text: string, charsPerLine: number = 35): number {
+  if (!text || !text.trim()) return 0;
+  let lineCount = 0;
+  const paragraphs = text.split('\n');
+
+  for (const para of paragraphs) {
+    lineCount++;
+    let currentLength = 0;
+    const words = para.split(/\s+/).filter(Boolean);
+    
+    for (const w of words) {
+      if (currentLength && currentLength + w.length + 1 > charsPerLine) {
+        lineCount++;
+        currentLength = 0;
+      }
+      currentLength += (currentLength ? 1 : 0) + w.length;
+    }
+  }
+  return Math.max(1, lineCount);
+}
+
+export function formatINR(val: number): string {
+  return '₹ ' + Math.round(val).toLocaleString('en-IN');
+}

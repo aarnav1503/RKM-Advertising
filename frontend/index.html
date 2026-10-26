@@ -32,8 +32,8 @@
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:calc(85px + env(safe-area-inset-top,0px))}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:calc(85px + env(safe-area-inset-top,0px));overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;margin:0}
@@ -55,26 +55,28 @@ h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;margin:0}
 .btn.outline:hover{background:var(--ink);color:var(--bg)}
 .btn.sm{padding:12px 24px;font-size:13.5px;letter-spacing:.07em}
 
-/* Header */
+/* Header - Sticky & Translucent on Scroll */
 header{
-  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  position:sticky !important;top:0 !important;z-index:50 !important;
   display:flex;align-items:center;justify-content:space-between;
   gap:clamp(16px, 2.8vw, 40px);
-  padding:22px clamp(20px, 4vw, 56px);
+  padding:20px clamp(20px, 4vw, 56px);
   background:var(--bg);
   border-bottom:1px solid var(--line);
   transition:padding 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
               background 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
               box-shadow 0.3s ease,
-              border-color 0.3s ease;
+              border-color 0.3s ease,
+              backdrop-filter 0.3s ease;
+  width:100%;box-sizing:border-box;
 }
 header.s, header.scrolled{
-  background:rgba(248, 246, 240, 0.58);
-  backdrop-filter:blur(24px) saturate(190%);
-  -webkit-backdrop-filter:blur(24px) saturate(190%);
-  padding:15px clamp(20px, 4vw, 56px);
-  box-shadow:0 8px 32px rgba(34, 29, 26, 0.05);
-  border-bottom:1px solid rgba(221, 214, 200, 0.45);
+  background:rgba(248, 246, 240, 0.78) !important;
+  backdrop-filter:blur(22px) saturate(190%) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(190%) !important;
+  padding:14px clamp(20px, 4vw, 56px);
+  box-shadow:0 8px 32px rgba(34, 29, 26, 0.08);
+  border-bottom:1px solid rgba(220, 213, 199, 0.7);
 }
 .logo{
   font:700 33px/1 var(--news-serif);text-decoration:none;letter-spacing:-.03em;
@@ -97,6 +99,23 @@ nav a::after{
 }
 nav a.active::after{width:100%}
 nav a:hover::after{width:100%}
+.nav-dropdown{position:relative;display:inline-flex;align-items:center}
+.nav-dropdown-trigger{background:none;border:0;padding:7px 0;font:600 14.5px/1 var(--head);letter-spacing:.07em;text-transform:uppercase;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:5px;position:relative;transition:color .2s ease}
+.nav-dropdown-trigger:hover,.nav-dropdown:hover .nav-dropdown-trigger,.nav-dropdown.active .nav-dropdown-trigger,.nav-dropdown.open .nav-dropdown-trigger{color:var(--accent)}
+.nav-dropdown-trigger .arrow{font-size:11px;transition:transform .2s cubic-bezier(0.2,0.8,0.2,1);display:inline-block;margin-left:2px}
+.nav-dropdown:hover .nav-dropdown-trigger .arrow,.nav-dropdown.open .nav-dropdown-trigger .arrow{transform:rotate(180deg)}
+.nav-dropdown-menu{position:absolute;top:100%;left:0;width:520px;max-width:90vw;background:#FFFFFF;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 20px 48px rgba(34,29,26,.15),0 2px 8px rgba(34,29,26,.04);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .2s cubic-bezier(0.2,0.8,0.2,1),transform .2s cubic-bezier(0.2,0.8,0.2,1),visibility .2s;z-index:100;pointer-events:none}
+.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown:focus-within .nav-dropdown-menu,.nav-dropdown.open .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateY(6px);pointer-events:auto}
+.nav-dropdown-header{font:700 11px/1 var(--head);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted,#5E554E);padding:4px 8px 10px;border-bottom:1px solid var(--line-light,#EBE5DA);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.nav-dropdown-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 8px}
+.nav-dropdown-item{display:flex !important;flex-direction:column;padding:10px 12px !important;border-radius:12px;text-decoration:none;background:transparent;transition:background .15s ease,transform .15s ease !important}
+.nav-dropdown-item::after{display:none !important}
+.nav-dropdown-item:hover{background:var(--paper-tint,#FAF7EE) !important;color:var(--accent) !important;transform:translateY(-1px)}
+.nav-dropdown-item .item-title{font:700 13px/1.2 var(--head);letter-spacing:.04em;text-transform:uppercase;color:var(--ink);transition:color .15s ease}
+.nav-dropdown-item:hover .item-title{color:var(--accent)}
+.nav-dropdown-item .item-desc{font:400 11px/1.3 var(--sans);color:#6B635B;margin-top:3px;white-space:normal;text-transform:none;letter-spacing:normal}
+.nav-dropdown-item.rate-card-item{grid-column:span 2;background:var(--paper-tint,#FAF7EE);border:1px dashed var(--line);margin-top:4px}
+.nav-dropdown-item.rate-card-item:hover{background:#F4EFE2 !important;border-color:var(--accent)}
 .right{
   display:flex;align-items:center;gap:clamp(12px, 1.6vw, 22px);
   flex-shrink:0;white-space:nowrap;
@@ -493,8 +512,42 @@ footer{background:var(--ink);color:var(--bg);padding:56px clamp(20px,5vw,64px)}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}
 footer a{display:block;margin:6px 0;text-decoration:none;opacity:.85}
 footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:70ch}
-.wa{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:50;background:#16A34A;color:#fff;border-radius:999px;padding:13px 22px;font:600 13.5px var(--head);letter-spacing:.06em;text-decoration:none;box-shadow:0 8px 24px rgba(22,163,74,.36);transition:transform .2s}
-.wa:hover{transform:scale(1.04)}
+/* Floating Quick Action Group (Call & WhatsApp) */
+.floating-actions{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:999;display:flex;align-items:center;gap:10px}
+.floating-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 13.5px var(--head);letter-spacing:.04em;text-decoration:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.18);transition:transform .2s cubic-bezier(0.16,1,0.3,1),box-shadow .2s;user-select:none}
+.floating-btn:hover{transform:translateY(-2px) scale(1.03)}
+.floating-btn:active{transform:scale(0.97)}
+.floating-btn.call-btn{background:#1E3A8A;color:#FFFFFF;box-shadow:0 8px 24px rgba(30,58,138,.38)}
+.floating-btn.call-btn:hover{background:#1E40AF;box-shadow:0 10px 28px rgba(30,58,138,.5)}
+.floating-btn.wa-btn,.wa{background:#16A34A;color:#fff;border-radius:999px;padding:12px 20px;font:600 13.5px var(--head);letter-spacing:.04em;text-decoration:none;box-shadow:0 8px 24px rgba(22,163,74,.38);display:inline-flex;align-items:center;gap:8px;transition:transform .2s cubic-bezier(0.16,1,0.3,1),box-shadow .2s}
+.floating-btn.wa-btn:hover,.wa:hover{background:#15803D;transform:translateY(-2px) scale(1.03);box-shadow:0 10px 28px rgba(22,163,74,.5)}
+.floating-btn svg,.wa svg{flex-shrink:0}
+.floating-btn .btn-mobile-text{display:none}
+
+/* RKM Advertising All-Services Portfolio */
+.services-section{padding:64px clamp(20px, 5vw, 64px);background:#F8FAFC;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.services-head{text-align:center;max-width:760px;margin:0 auto 36px}
+.services-head .kicker{font:700 12px var(--head);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.services-head h2{font-size:clamp(28px, 4vw, 38px);font-family:var(--serif);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:12px}
+.services-head p{font-size:16px;color:var(--ink-muted);line-height:1.5;margin:0}
+.featured-services-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:20px;margin-bottom:24px}
+.service-feature-card{background:#FFFFFF;border:1px solid #E2E8F0;border-radius:14px;overflow:hidden;display:flex;align-items:stretch;box-shadow:0 4px 16px rgba(15, 23, 42, 0.04);transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;text-decoration:none}
+.service-feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(15, 23, 42, 0.09);border-color:#CBD5E1}
+.service-feature-visual{width:44%;min-width:130px;background:#F1F5F9;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.service-feature-visual img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.service-feature-card:hover .service-feature-visual img{transform:scale(1.06)}
+.service-feature-info{width:56%;padding:22px 18px;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:4px}
+.service-feature-info .start-tag{font-size:13px;font-weight:500;color:#64748B;letter-spacing:0.02em}
+.service-feature-info h3{font-size:18px;font-family:var(--head);font-weight:700;color:#0F172A;line-height:1.25;margin:0 0 10px}
+.service-feature-info .book-btn{display:inline-flex;align-items:center;justify-content:center;background:#000000;color:#FFFFFF;font-size:13px;font-weight:600;padding:8px 18px;border-radius:6px;text-decoration:none;transition:background .2s ease, transform .2s ease}
+.service-feature-card:hover .service-feature-info .book-btn{background:var(--accent)}
+.metric-services-grid{display:grid;grid-template-columns:repeat(6, 1fr);gap:16px}
+.service-metric-card{background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;padding:26px 14px 20px;text-align:center;text-decoration:none;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 10px rgba(15, 23, 42, 0.03);transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+.service-metric-card:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(15, 23, 42, 0.08);border-color:var(--accent)}
+.service-metric-icon{width:44px;height:44px;margin-bottom:14px;display:flex;align-items:center;justify-content:center;color:#334155;transition:color .2s ease, transform .2s ease}
+.service-metric-card:hover .service-metric-icon{color:var(--accent);transform:scale(1.1)}
+.service-metric-card h4{font-size:14px;font-family:var(--head);font-weight:700;color:#0F172A;margin:0 0 6px;line-height:1.3}
+.service-metric-card .metric-count{font-size:13px;font-weight:600;color:#64748B;margin:0}
 
 /* Mobile Drawer & Toggle */
 .mobile-toggle {
@@ -562,10 +615,12 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   nav a{font-size:12.5px;letter-spacing:.04em}
   .phone-link{font-size:13px}
   .hero{display:flex;flex-direction:column-reverse;min-height:auto}
-  .photo-stage{min-height:auto;padding:36px 20px 48px}
+  .photo-stage{min-height:auto;padding:36px 20px 48px;display:flex}
   .builder-grid,.med{grid-template-columns:1fr}
   .cats,.trust{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
+  .featured-services-grid{grid-template-columns:repeat(2, 1fr)}
+  .metric-services-grid{grid-template-columns:repeat(3, 1fr)}
 }
 @media (max-width:960px){
   header{padding:14px 18px}
@@ -577,12 +632,11 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   .side .h h1{font-size:clamp(32px, 8vw, 44px);margin-bottom:12px}
   .side .h .sub{font-size:16px;margin:0 auto}
   .sage-box{padding:24px 20px 32px}
-  .photo-stage{padding:28px 16px 36px;display:flex;flex-direction:column;align-items:center}
-  .np-broadsheet{max-width:440px;transform:none !important;box-shadow:0 10px 30px rgba(40,35,31,.12);margin:0 auto}
-  .stage-pill{position:static;margin-bottom:12px;display:inline-flex}
-  .stage-pill-right{position:static;margin-top:14px;display:inline-flex}
+  .photo-stage{display:none !important}
 }
 @media (max-width:768px){
+  .hero{display:block;min-height:auto}
+  .photo-stage{display:none !important}
   header{padding:10px 14px;gap:8px}
   header.scrolled, header.s{padding:9px 14px}
   .logo{font-size:23px !important}
@@ -593,9 +647,17 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   .mobile-toggle{width:36px;height:36px;padding:9px 7px}
   .omni{grid-template-columns:1fr}
   .cats,.trust,.steps,.row{grid-template-columns:1fr}
+  .featured-services-grid{grid-template-columns:1fr}
+  .metric-services-grid{grid-template-columns:repeat(2, 1fr);gap:10px}
+  .service-metric-card{padding:18px 10px 14px}
   .paper-columns{grid-template-columns:1fr}
   .paper-col-side{display:none}
   .trk{flex-direction:column}
+  .floating-actions{right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));gap:8px}
+  .floating-btn{padding:10px 14px;font-size:12px;gap:6px}
+  .floating-btn svg{width:15px;height:15px}
+  .floating-btn .btn-desktop-text{display:none}
+  .floating-btn .btn-mobile-text{display:inline}
 }
 @media (max-width:600px){
   .photo-stage{padding:20px 12px 28px}
@@ -618,16 +680,52 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
 <header id="hd">
   <a class="logo" href="index.html">RKM Ads<span>.</span></a>
   <nav aria-label="Main">
-    <a href="newspaper-ads.html">Newspaper</a>
-    <a href="radio-ads.html">Radio</a>
-    <a href="cinema-ads.html">Cinema</a>
-    <a href="tv-ads.html">Television</a>
-    <a href="outdoor-ads.html">Outdoor</a>
-    <a href="digital-marketing.html">Digital PR</a>
-    <a href="rate-cards.html">Rate Cards</a>
+    <div class="nav-dropdown">
+      <button class="nav-dropdown-trigger" type="button" aria-expanded="false">
+        Services <span class="arrow">▾</span>
+      </button>
+      <div class="nav-dropdown-menu">
+        <div class="nav-dropdown-header">
+          <span>Advertising Services &amp; Media</span>
+          <a href="rate-cards.html" style="font-size:10.5px;color:var(--accent);text-decoration:none">2026 Tariffs ➔</a>
+        </div>
+        <div class="nav-dropdown-grid">
+          <a href="newspaper-ads.html" class="nav-dropdown-item">
+            <span class="item-title">Newspaper</span>
+            <span class="item-desc">Classified &amp; Display ads in 150+ dailies</span>
+          </a>
+          <a href="radio-ads.html" class="nav-dropdown-item">
+            <span class="item-title">Radio</span>
+            <span class="item-desc">Top FM spots in 100+ cities &amp; RJ mentions</span>
+          </a>
+          <a href="cinema-ads.html" class="nav-dropdown-item">
+            <span class="item-title">Cinema</span>
+            <span class="item-desc">PVR INOX &amp; Cinepolis 70mm video ads</span>
+          </a>
+          <a href="tv-ads.html" class="nav-dropdown-item">
+            <span class="item-title">Television</span>
+            <span class="item-desc">275+ national &amp; regional channels</span>
+          </a>
+          <a href="outdoor-ads.html" class="nav-dropdown-item">
+            <span class="item-title">Outdoor</span>
+            <span class="item-desc">Billboards, hoardings &amp; digital screens</span>
+          </a>
+          <a href="digital-marketing.html" class="nav-dropdown-item">
+            <span class="item-title">Digital PR</span>
+            <span class="item-desc">Online news wire &amp; media features</span>
+          </a>
+          <a href="rate-cards.html" class="nav-dropdown-item rate-card-item">
+            <span class="item-title">Rate Cards</span>
+            <span class="item-desc">Searchable directory of INS tariffs &amp; official card rates</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
   </nav>
   <div class="right">
-    <a class="phone-link" href="tel:+918800334456">📞 +91-8800334456</a>
+    <a class="phone-link" href="tel:+919878339302">📞 +91-9878339302</a>
     <a class="btn sm outline" href="track-ad.html">Track Ad</a>
     <a class="btn sm accent" href="book-ad.html">Book Now</a>
   </div>
@@ -936,6 +1034,169 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   </div>
 </section>
 
+<!-- ALL ADVERTISING SERVICES (RKM ADVERTISING 360° PORTFOLIO) -->
+<section id="services" class="services-section">
+  <div class="wrap">
+    <div class="services-head">
+      <div class="kicker">RKM Advertising 360° Portfolio</div>
+      <h2>All Advertising Services &amp; Media Solutions</h2>
+      <p>From nationwide newspaper front-pages to algorithmic programmatic video and high-dwell lift screens — book any medium with verified INS accreditation and real-time execution.</p>
+    </div>
+
+    <!-- Top 6 Featured Visual Cards -->
+    <div class="featured-services-grid">
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=80" alt="Newspaper Advertising">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Newspaper Advertising</h3>
+          <a class="book-btn" href="newspaper-ads.html">Book Now</a>
+        </div>
+      </div>
+
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80" alt="Digital Marketing">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Digital Marketing</h3>
+          <a class="book-btn" href="digital-marketing.html">Book Now</a>
+        </div>
+      </div>
+
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio Advertising">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Radio Advertising</h3>
+          <a class="book-btn" href="radio-ads.html">Book Now</a>
+        </div>
+      </div>
+
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80" alt="Cinema Advertising">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Cinema Advertising</h3>
+          <a class="book-btn" href="cinema-ads.html">Book Now</a>
+        </div>
+      </div>
+
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400&q=80" alt="Digital PR">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Digital PR</h3>
+          <a class="book-btn" href="digital-marketing.html#pr">Book Now</a>
+        </div>
+      </div>
+
+      <div class="service-feature-card">
+        <div class="service-feature-visual">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Influencer Marketing">
+        </div>
+        <div class="service-feature-info">
+          <span class="start-tag">Start Your</span>
+          <h3>Influencer Marketing</h3>
+          <a class="book-btn" href="influencer-marketing.html">Book Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom 6 Metric Solution Cards -->
+    <div class="metric-services-grid">
+      <a class="service-metric-card" href="tv-ads.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="13" rx="2" ry="2"></rect>
+            <path d="M17 2l-5 5-5-5"></path>
+            <text x="12" y="15.5" font-size="5" font-weight="bold" fill="currentColor" stroke="none" text-anchor="middle" font-family="sans-serif">ADS</text>
+          </svg>
+        </div>
+        <h4>TV Advertising</h4>
+        <span class="metric-count">275+</span>
+      </a>
+
+      <a class="service-metric-card" href="programmatic-ads.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+            <path d="M7 10l3-2v4l-3-2z"></path>
+            <path d="M15 8a3 3 0 0 1 0 4"></path>
+          </svg>
+        </div>
+        <h4>Programmatic Ads</h4>
+        <span class="metric-count">100+</span>
+      </a>
+
+      <a class="service-metric-card" href="ott-advertising.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.5 19H9a5 5 0 0 1-1-9.9 6 6 0 0 1 11.5 2 4 4 0 0 1-2 7.9z"></path>
+            <rect x="4" y="15" width="6" height="5" rx="1"></rect>
+            <rect x="14" y="15" width="6" height="5" rx="1"></rect>
+            <line x1="7" y1="12" x2="7" y2="15"></line>
+            <line x1="17" y1="12" x2="17" y2="15"></line>
+          </svg>
+        </div>
+        <h4>OTT / Media Buying</h4>
+        <span class="metric-count">100+</span>
+      </a>
+
+      <a class="service-metric-card" href="transit-media.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="5" width="22" height="13" rx="2"></rect>
+            <circle cx="6" cy="18" r="2"></circle>
+            <circle cx="18" cy="18" r="2"></circle>
+            <path d="M1 10h22"></path>
+            <text x="12" y="14.5" font-size="4.5" font-weight="bold" fill="currentColor" stroke="none" text-anchor="middle" font-family="sans-serif">AD</text>
+          </svg>
+        </div>
+        <h4>Transit Media</h4>
+        <span class="metric-count">100+</span>
+      </a>
+
+      <a class="service-metric-card" href="lift-branding.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="2" width="16" height="20" rx="2"></rect>
+            <line x1="12" y1="2" x2="12" y2="22"></line>
+            <path d="M8 7l2-2 2 2"></path>
+            <path d="M16 7l-2 2-2-2"></path>
+          </svg>
+        </div>
+        <h4>Lift Branding</h4>
+        <span class="metric-count">100+</span>
+      </a>
+
+      <a class="service-metric-card" href="outdoor-ads.html">
+        <div class="service-metric-icon">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="11" rx="2"></rect>
+            <line x1="12" y1="14" x2="12" y2="21"></line>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <text x="12" y="10.5" font-size="5" font-weight="bold" fill="currentColor" stroke="none" text-anchor="middle" font-family="sans-serif">AD</text>
+          </svg>
+        </div>
+        <h4>Outdoor / DOOH</h4>
+        <span class="metric-count">250+</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- MULTI-MEDIA PLANNING (RADIO, CINEMA, OUTDOOR) -->
 <section id="media">
   <div class="wrap">
@@ -1060,7 +1321,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
       <div>
         <div class="logo" style="margin-bottom:12px;color:#FFF">RKM Ads<span>.</span></div>
         <p style="font-size:14px;opacity:.75;line-height:1.6">INS Accredited online advertisement agency for newspapers, radio, television, cinema and out-of-home media across India.</p>
-        <div style="margin-top:16px;font-size:15px;font-weight:600">Helpline: <a href="tel:+918800334456" style="color:var(--accent)">+91-8800334456</a></div>
+        <div style="margin-top:16px;font-size:15px;font-weight:600">Helpline: <a href="tel:+919878339302" style="color:var(--accent)">+91-9878339302</a></div>
       </div>
       <div>
         <h4 style="font:600 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#FFF;margin-bottom:14px">Newspapers</h4>
@@ -1098,7 +1359,22 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   </div>
 </footer>
 
-<a class="wa" href="https://wa.me/918800334456" target="_blank" rel="noopener">Chat on WhatsApp</a>
+<div class="floating-actions" role="region" aria-label="Quick Support Actions">
+  <a class="floating-btn call-btn" href="tel:+919878339302" title="Call RKM Ads Support: +91-9878339302" aria-label="Call +91-9878339302">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+    <span class="btn-desktop-text">Call: +91-9878339302</span>
+    <span class="btn-mobile-text">Call Us</span>
+  </a>
+  <a class="floating-btn wa-btn" href="https://wa.me/919878339302" target="_blank" rel="noopener" title="Chat on WhatsApp" aria-label="Chat on WhatsApp">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.63C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.81 13.47 3.81 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.11 7.44C8.95 7.44 8.7 7.5 8.48 7.74C8.26 7.97 7.65 8.55 7.65 9.71C7.65 10.87 8.5 11.99 8.62 12.15C8.74 12.31 10.27 14.66 12.63 15.68C14.6 16.53 15 16.36 15.43 16.32C15.86 16.28 16.82 15.75 17.02 15.19C17.22 14.63 17.22 14.15 17.16 14.05C17.1 13.95 16.94 13.89 16.7 13.77C16.46 13.65 15.28 13.07 15.06 12.99C14.84 12.91 14.68 12.87 14.52 13.11C14.36 13.35 13.9 13.89 13.76 14.05C13.62 14.21 13.48 14.23 13.24 14.11C13 13.99 12.03 13.67 10.89 12.65C10 11.86 9.4 10.88 9.24 10.64C9.08 10.4 9.22 10.27 9.34 10.15C9.45 10.04 9.59 9.86 9.71 9.72C9.83 9.58 9.87 9.48 9.95 9.32C10.03 9.16 9.99 9.02 9.93 8.9C9.87 8.78 9.41 7.64 9.21 7.18C9.02 6.72 8.82 6.78 8.68 6.78C8.54 6.78 8.38 6.78 8.22 6.78L9.11 7.44Z"/>
+    </svg>
+    <span class="btn-desktop-text">Chat on WhatsApp</span>
+    <span class="btn-mobile-text">WhatsApp</span>
+  </a>
+</div>
 
 <script>
 const P={
