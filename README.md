@@ -1,6 +1,6 @@
 # RKM Ads — Multi-Channel Media & Advertisement Booking Platform
 
-> A modern, SaaS-grade alternative to traditional ad booking platforms like **BookMyAd** and **ReleaseMyAd**. Built with an editorial design aesthetic, real-time newsprint column simulator, dynamic multi-algorithm tariff engine, and verified e-Tearsheet proofing.
+> A modern, SaaS-grade alternative to traditional ad booking platforms with high-speed online booking and live newsprint simulation. Built with an editorial design aesthetic, real-time newsprint column simulator, dynamic multi-algorithm tariff engine, and verified e-Tearsheet proofing.
 
 ---
 

@@ -486,9 +486,16 @@ textarea{min-height:120px;resize:vertical;font-family:var(--serif);line-height:1
 .trust h3{font-size:20px;margin-bottom:6px;font-weight:600}
 .trust p{margin:0;font-size:14px;color:#5A514B}
 
-details{border-bottom:1px solid var(--line);padding:18px 0;width:100%}
-summary{font:600 21px var(--serif);cursor:pointer}
-details p{margin:10px 0 0;max-width:62ch;color:#5A514B}
+details{border-bottom:1px solid var(--line);padding:20px 0;width:100%;transition:padding .2s ease}
+details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font:600 20px var(--serif);color:var(--ink);cursor:pointer;user-select:none;transition:color .15s ease}
+details summary::-webkit-details-marker,
+details summary::marker{display:none;content:""}
+details summary:hover{color:var(--accent)}
+details summary::after{content:"+";font-family:var(--sans);font-size:22px;font-weight:400;color:var(--accent);width:32px;height:32px;border-radius:50%;background:rgba(224,90,43,.09);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s cubic-bezier(0.16,1,0.3,1);line-height:1}
+details[open] summary::after{content:"−";background:var(--ink);color:#FFF;transform:rotate(180deg)}
+details summary:hover::after{background:var(--accent);color:#FFF}
+details p{margin:12px 0 6px;max-width:68ch;color:#5A514B;font-size:15px;line-height:1.65;animation:faqFadeIn .25s ease-out}
+@keyframes faqFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 
 footer{background:var(--ink);color:var(--bg);padding:56px clamp(20px,5vw,64px);width:100%;box-sizing:border-box}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}

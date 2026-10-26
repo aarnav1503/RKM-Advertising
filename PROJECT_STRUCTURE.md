@@ -1,6 +1,6 @@
 # AdBooking Platform — Project Description & Structure Specification
 
-Inspired by **[BookMyAd.com](https://www.bookmyad.com/)**, this platform is a modern, high-conversion online advertisement booking portal for **Newspapers, Radio FM, Cinema, Outdoor (OOH/DOOH), and Television**. It modernizes the traditional classifieds workflow into a frictionless, SaaS-grade experience.
+Inspired by **[rkmads.com](https://www.rkmads.com/)**, this platform is a modern, high-conversion online advertisement booking portal for **Newspapers, Radio FM, Cinema, Outdoor (OOH/DOOH), and Television**. It modernizes the traditional classifieds workflow into a frictionless, SaaS-grade experience.
 
 ---
 
