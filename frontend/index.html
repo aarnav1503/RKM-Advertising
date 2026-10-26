@@ -505,16 +505,25 @@ textarea{min-height:120px;resize:vertical;font-family:var(--serif);line-height:1
 .trust h3{font-size:20px;margin-bottom:6px;font-weight:600}
 .trust p{margin:0;font-size:14px;color:#5A514B}
 
-details{border-bottom:1px solid var(--line);padding:20px 0;transition:padding .2s ease}
-details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;font:600 20px var(--serif);color:var(--ink);cursor:pointer;user-select:none;transition:color .15s ease}
+details{border-bottom:1px solid var(--line);padding:18px 0;width:100%;transition:padding .2s ease}
+details summary{list-style:none !important;list-style-type:none !important;display:flex !important;align-items:center;justify-content:space-between;gap:14px;font:600 clamp(16px,2.2vw,20px) var(--serif);line-height:1.35;color:var(--ink);cursor:pointer;user-select:none;transition:color .15s ease}
 details summary::-webkit-details-marker,
-details summary::marker{display:none;content:""}
+details summary::marker{display:none !important;content:"" !important}
 details summary:hover{color:var(--accent)}
-details summary::after{content:"+";font-family:var(--sans);font-size:22px;font-weight:400;color:var(--accent);width:32px;height:32px;border-radius:50%;background:rgba(224,90,43,.09);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s cubic-bezier(0.16,1,0.3,1);line-height:1}
+details summary::after{content:"+";font-family:var(--sans);font-size:20px;font-weight:400;color:var(--accent);width:28px;height:28px;min-width:28px;border-radius:50%;background:rgba(224,90,43,.09);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .25s cubic-bezier(0.16,1,0.3,1);line-height:1}
 details[open] summary::after{content:"−";background:var(--ink);color:#FFF;transform:rotate(180deg)}
 details summary:hover::after{background:var(--accent);color:#FFF}
-details p{margin:12px 0 6px;max-width:68ch;color:#5A514B;font-size:15px;line-height:1.65;animation:faqFadeIn .25s ease-out}
+details p{margin:10px 0 4px;max-width:68ch;color:#5A514B;font-size:clamp(13.5px,1.8vw,15px);line-height:1.6;animation:faqFadeIn .25s ease-out}
 @keyframes faqFadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
+@media (max-width:640px){
+  #faq{padding-top:32px;padding-bottom:40px}
+  #faq h2{font-size:22px;margin-bottom:16px}
+  details{padding:12px 0}
+  details summary{font-size:15px;line-height:1.35;gap:10px}
+  details summary::after{width:24px;height:24px;min-width:24px;font-size:16px}
+  details p{font-size:13px;line-height:1.55;margin-top:8px;color:#635B54}
+}
 
 footer{background:var(--ink);color:var(--bg);padding:56px clamp(20px,5vw,64px)}
 footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}
