@@ -514,20 +514,36 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   nav{gap:12px}
   nav a{font-size:12.5px;letter-spacing:.04em}
   .phone-link{font-size:13px}
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .photo-stage{min-height:540px;padding:40px 20px}
+  .hero{display:flex;flex-direction:column-reverse;min-height:auto}
+  .photo-stage{min-height:auto;padding:36px 20px 48px}
   .builder-grid,.med{grid-template-columns:1fr}
   .cats,.trust{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
 }
 @media (max-width:960px){
-  header{padding:16px 20px}
-  header.scrolled, header.s{padding:13px 20px}
+  header{padding:14px 18px}
+  header.scrolled, header.s{padding:12px 18px}
   nav{display:none}
   .phone-link{display:none}
   .mobile-toggle{display:flex}
+  .side .h{padding:36px 20px 16px;text-align:center}
+  .side .h h1{font-size:clamp(32px, 8vw, 44px);margin-bottom:12px}
+  .side .h .sub{font-size:16px;margin:0 auto}
+  .sage-box{padding:24px 20px 32px}
+  .photo-stage{padding:28px 16px 36px;display:flex;flex-direction:column;align-items:center}
+  .np-broadsheet{max-width:440px;transform:none !important;box-shadow:0 10px 30px rgba(40,35,31,.12);margin:0 auto}
+  .stage-pill{position:static;margin-bottom:12px;display:inline-flex}
+  .stage-pill-right{position:static;margin-top:14px;display:inline-flex}
 }
 @media (max-width:768px){
+  header{padding:10px 14px;gap:8px}
+  header.scrolled, header.s{padding:9px 14px}
+  .logo{font-size:23px !important}
+  .logo span{font-size:27px !important}
+  .right{gap:8px !important}
+  .right .btn.outline{display:none !important}
+  .right .btn.accent{padding:8px 14px !important;font-size:12px !important;letter-spacing:0.04em !important}
+  .mobile-toggle{width:36px;height:36px;padding:9px 7px}
   .omni{grid-template-columns:1fr}
   .cats,.trust,.steps,.row{grid-template-columns:1fr}
   .paper-columns{grid-template-columns:1fr}
@@ -535,21 +551,18 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   .trk{flex-direction:column}
 }
 @media (max-width:600px){
-  .photo-stage{min-height:auto;padding:24px 14px}
-  .np-broadsheet{transform:none;padding:18px 14px;border-radius:2px}
-  .np-broadsheet:hover{transform:none}
-  .np-masthead{font-size:28px}
-  .np-tagline{font-size:9.5px}
-  .np-lead{grid-template-columns:1fr;gap:10px}
-  .np-photo-box{height:80px}
-  .np-columns{column-count:2;column-gap:8px;font-size:9px}
+  .photo-stage{padding:20px 12px 28px}
+  .np-broadsheet{width:100%;max-width:375px;padding:16px 12px;border-radius:2px}
+  .np-masthead{font-size:26px}
+  .np-tagline{font-size:9px}
+  .np-lead{grid-template-columns:1fr;gap:8px}
+  .np-photo-box{height:70px}
+  .np-columns{column-count:2;column-gap:8px;font-size:9px;line-height:1.2}
   .np-ads-grid{column-count:2;column-gap:6px;font-size:8.5px}
-  .side .h{padding:28px 18px 16px}
-  .side .h h1{font-size:clamp(30px, 7.5vw, 40px)}
-  .sage-box{padding:24px 18px}
-  .stage-pill{top:12px;left:14px;font-size:10px;padding:4px 10px}
-  .stage-pill-right{bottom:12px;right:14px;font-size:10px;padding:6px 12px}
-  .config-panel,.proof-stage{padding:18px 14px;border-radius:18px}
+  .side .h{padding:24px 14px 12px}
+  .side .h h1{font-size:clamp(28px, 7.5vw, 36px)}
+  .sage-box{padding:20px 14px 28px}
+  .config-panel,.proof-stage{padding:16px 12px;border-radius:16px}
 }
 </style>
 </head>
@@ -569,7 +582,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   <div class="right">
     <a class="phone-link" href="tel:+918800334456">📞 +91-8800334456</a>
     <a class="btn sm outline" href="track-ad.html">Track Ad</a>
-    <a class="btn sm accent" href="book-ad.html">Book Ad Now</a>
+    <a class="btn sm accent" href="book-ad.html">Book Now</a>
   </div>
 </header>
 
