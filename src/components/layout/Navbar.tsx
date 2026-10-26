@@ -238,8 +238,10 @@ export const Navbar: React.FC = () => {
                 className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 animate-in fade-in zoom-in-95 duration-200"
                 style={{ width: '720px', maxWidth: 'calc(100vw - 32px)' }}
               >
-                <div className="bg-[#FAF8F5]/98 backdrop-blur-2xl rounded-3xl p-6 border border-[#E4DDD0] shadow-[0_28px_60px_-15px_rgba(40,35,31,0.22),0_10px_25px_-5px_rgba(40,35,31,0.08)] overflow-hidden">
-                  {/* Top Bar Header */}
+                <div
+                  className="rounded-3xl p-6 border border-[#E4DDD0] shadow-[0_28px_60px_-15px_rgba(40,35,31,0.3),0_10px_25px_-5px_rgba(40,35,31,0.12)] overflow-hidden"
+                  style={{ backgroundColor: '#FAF8F5' }}
+                >
                   <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-paper-line/70">
                     <div className="flex items-center gap-2.5">
                       <span className="relative flex h-2 w-2">
@@ -352,7 +354,10 @@ export const Navbar: React.FC = () => {
                   </div>
 
                   {/* Dropdown Bottom Banner */}
-                  <div className="mt-4 pt-3.5 border-t border-paper-line/60 flex items-center justify-between text-xs font-sans text-ink-muted bg-paper-tint/60 -mx-6 -mb-6 p-4">
+                  <div
+                    className="mt-4 pt-3.5 border-t border-[#E4DDD0] flex items-center justify-between text-xs font-sans text-ink-muted -mx-6 -mb-6 p-4"
+                    style={{ backgroundColor: '#F3EFE9' }}
+                  >
                     <div className="flex items-center gap-2">
                       <span className="text-amber-600 font-bold">★</span>
                       <span className="text-[11.5px] text-ink-muted">
