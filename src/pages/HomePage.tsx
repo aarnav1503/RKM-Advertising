@@ -8,14 +8,14 @@ export const HomePage: React.FC = () => {
   const { booking, updateBooking, setCategoryTemplate } = useBooking();
 
   // Hero Omni State
-  const [heroMedia, setHeroMedia] = useState('Newspaper');
-  const [heroCat, setHeroCat] = useState('Matrimonial');
-  const [heroPub, setHeroPub] = useState('toi');
+  const [heroMedia, setHeroMedia] = useState('');
+  const [heroCat, setHeroCat] = useState('');
+  const [heroPub, setHeroPub] = useState('');
 
   // Interactive Booking Builder State on Home Page
-  const [builderPub, setBuilderPub] = useState(booking.publicationId || 'toi');
-  const [builderEd, setBuilderEd] = useState(booking.edition || 'Delhi NCR');
-  const [builderCat, setBuilderCat] = useState(booking.category || 'Matrimonial');
+  const [builderPub, setBuilderPub] = useState(booking.publicationId || '');
+  const [builderEd, setBuilderEd] = useState(booking.edition || '');
+  const [builderCat, setBuilderCat] = useState(booking.category || '');
   const [builderDate, setBuilderDate] = useState(booking.publishDate || '');
   const [builderText, setBuilderText] = useState(booking.adText || '');
   const [isBold, setIsBold] = useState(booking.enhancements.bold || false);
@@ -26,7 +26,7 @@ export const HomePage: React.FC = () => {
   // Media plan inquiry form state
   const [inqName, setInqName] = useState('');
   const [inqPhone, setInqPhone] = useState('');
-  const [inqMedium, setInqMedium] = useState('Radio FM');
+  const [inqMedium, setInqMedium] = useState('');
   const [inqCityBudget, setInqCityBudget] = useState('');
   const [inqMsg, setInqMsg] = useState('');
 
@@ -55,19 +55,19 @@ export const HomePage: React.FC = () => {
     'Delhi NCR + UP combo': 1.45
   };
 
-  const currentPub = P[builderPub] || P.toi;
-  const currentEdMult = E[builderEd] || 1;
+  const currentPub = builderPub && P[builderPub] ? P[builderPub] : null;
+  const currentEdMult = (builderEd && E[builderEd]) ? E[builderEd] : 1;
 
   // Calculation logic
   const trimmed = builderText.trim();
   const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
   const lineCount = trimmed ? calculateLines(trimmed, 35) : 0;
-  const usedUnits = currentPub.u === 'line' ? lineCount : wordCount;
-  const extraUnits = Math.max(0, usedUnits - currentPub.bu);
-  const baseRate = currentPub.base * currentEdMult;
-  const extraRate = extraUnits * currentPub.ex * currentEdMult;
+  const usedUnits = currentPub ? (currentPub.u === 'line' ? lineCount : wordCount) : 0;
+  const extraUnits = currentPub ? Math.max(0, usedUnits - currentPub.bu) : 0;
+  const baseRate = currentPub ? currentPub.base * currentEdMult : 0;
+  const extraRate = currentPub ? extraUnits * currentPub.ex * currentEdMult : 0;
   const enhRate = (isBold ? 50 : 0) + (isColor ? 150 : 0) + (isBorder ? 30 : 0);
-  const subTotal = baseRate + extraRate + enhRate;
+  const subTotal = (baseRate || extraRate || (trimmed && enhRate)) ? (baseRate + extraRate + enhRate) : 0;
   const gst = subTotal * 0.05;
   const totalPayable = subTotal + gst;
 
@@ -112,20 +112,36 @@ export const HomePage: React.FC = () => {
   };
 
   const handleHeroGo = () => {
-    if (heroMedia === 'Newspaper') {
-      setBuilderCat(heroCat);
-      setBuilderPub(heroPub);
-      applyCategory(heroCat);
+    if (heroMedia === 'Newspaper' || !heroMedia) {
+      if (heroCat) applyCategory(heroCat);
+      if (heroPub) setBuilderPub(heroPub);
       const bookEl = document.getElementById('book');
       if (bookEl) bookEl.scrollIntoView({ behavior: 'smooth' });
     } else {
       setInqMedium(heroMedia === 'Outdoor' ? 'Outdoor / DOOH' : heroMedia);
-      const mediaEl = document.getElementById('media');
+      const mediaEl = document.getElementById('inquiry') || document.getElementById('media');
       if (mediaEl) mediaEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const handleContinueCheckout = () => {
+    if (!builderPub) {
+      setCheckoutMsg('⚠️ Please choose a newspaper.');
+      return;
+    }
+    if (!builderEd) {
+      setCheckoutMsg('⚠️ Please choose an edition.');
+      return;
+    }
+    if (!builderCat) {
+      setCheckoutMsg('⚠️ Please choose a notice category.');
+      return;
+    }
+    if (!builderText.trim()) {
+      setCheckoutMsg('⚠️ Please enter your advertisement content.');
+      return;
+    }
+
     updateBooking({
       publicationId: builderPub,
       edition: builderEd,
@@ -142,6 +158,10 @@ export const HomePage: React.FC = () => {
 
   const handleInquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!inqMedium) {
+      setInqMsg('⚠️ Please select a media channel of interest.');
+      return;
+    }
     setInqMsg('✔ Thank you! Our senior media planner will contact you within 2 working hours.');
     setInqName('');
     setInqPhone('');
@@ -151,7 +171,7 @@ export const HomePage: React.FC = () => {
   const handleTrack = () => {
     const v = trackId.trim();
     if (!v) {
-      setTrackMsg('Please enter a valid booking ID (e.g. BMA-2026-9812).');
+      setTrackMsg('Please enter a valid booking ID (e.g. RKM-2026-9812).');
       return;
     }
     setTrackStep(3);
@@ -266,6 +286,7 @@ export const HomePage: React.FC = () => {
               <div className="form-field">
                 <label htmlFor="hm">Media Channel</label>
                 <select id="hm" value={heroMedia} onChange={(e) => setHeroMedia(e.target.value)}>
+                  <option value="">Select Channel</option>
                   <option value="Newspaper">Newspaper</option>
                   <option value="Radio FM">Radio FM</option>
                   <option value="Cinema">Cinema</option>
@@ -275,6 +296,7 @@ export const HomePage: React.FC = () => {
               <div className="form-field">
                 <label htmlFor="hc">Notice Category</label>
                 <select id="hc" value={heroCat} onChange={(e) => setHeroCat(e.target.value)}>
+                  <option value="">Select Notice Category</option>
                   {CATEGORY_TEMPLATES.map((c) => (
                     <option key={c.name} value={c.name}>{c.name}</option>
                   ))}
@@ -283,6 +305,7 @@ export const HomePage: React.FC = () => {
               <div className="form-field">
                 <label htmlFor="hp">Newspaper</label>
                 <select id="hp" value={heroPub} onChange={(e) => setHeroPub(e.target.value)}>
+                  <option value="">Select Newspaper</option>
                   {Object.keys(P).map((k) => (
                     <option key={k} value={k}>{P[k].n}</option>
                   ))}
@@ -290,7 +313,7 @@ export const HomePage: React.FC = () => {
               </div>
             </form>
             <button className="btn accent" type="button" onClick={handleHeroGo}>
-              {heroMedia === 'Newspaper' ? 'Check Rates & Book Now' : 'Request a Media Plan'}
+              {heroMedia && heroMedia !== 'Newspaper' ? 'Request a Media Plan' : 'Check Rates & Book Now'}
             </button>
           </div>
         </div>
@@ -369,6 +392,7 @@ export const HomePage: React.FC = () => {
                 <div className="form-field">
                   <label htmlFor="pub">Newspaper</label>
                   <select id="pub" value={builderPub} onChange={(e) => setBuilderPub(e.target.value)}>
+                    <option value="">Select Newspaper</option>
                     {Object.keys(P).map((k) => (
                       <option key={k} value={k}>{P[k].n}</option>
                     ))}
@@ -377,6 +401,7 @@ export const HomePage: React.FC = () => {
                 <div className="form-field">
                   <label htmlFor="ed">Edition / Combo</label>
                   <select id="ed" value={builderEd} onChange={(e) => setBuilderEd(e.target.value)}>
+                    <option value="">Select Edition / Combo</option>
                     {Object.keys(E).map((k) => (
                       <option key={k} value={k}>{k}</option>
                     ))}
@@ -388,6 +413,7 @@ export const HomePage: React.FC = () => {
                 <div className="form-field">
                   <label htmlFor="cat">Category</label>
                   <select id="cat" value={builderCat} onChange={(e) => applyCategory(e.target.value)}>
+                    <option value="">Select Notice Category</option>
                     {CATEGORY_TEMPLATES.map((c) => (
                       <option key={c.name} value={c.name}>{c.name}</option>
                     ))}
@@ -412,14 +438,14 @@ export const HomePage: React.FC = () => {
                   id="txt"
                   value={builderText}
                   onChange={(e) => setBuilderText(e.target.value)}
-                  placeholder="Draft your advertisement text here..."
+                  placeholder="Type your advertisement text here..."
                 />
                 <div className="meter-box">
                   <span className="meta-txt">
                     {wordCount} words, {lineCount} lines (~35 chars/line)
                   </span>
                   <span className="meta-pill">
-                    {currentPub.n} charges by {currentPub.u}
+                    {currentPub ? `${currentPub.n} charges by ${currentPub.u}` : 'Select a newspaper to view tariff'}
                   </span>
                 </div>
               </div>
@@ -458,14 +484,14 @@ export const HomePage: React.FC = () => {
               {/* The Live Simulated Newsprint Clipping */}
               <div className="live-paper" aria-live="polite">
                 <div className="paper-header">
-                  <span>{currentPub.n.toUpperCase()}</span>
+                  <span>{currentPub ? currentPub.n.toUpperCase() : 'SELECT NEWSPAPER'}</span>
                   <span>
                     {builderDate
                       ? new Date(builderDate + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
                       : ''}
                   </span>
                 </div>
-                <div className="paper-cat-banner">{builderCat.toUpperCase()}</div>
+                <div className="paper-cat-banner">{builderCat ? builderCat.toUpperCase() : 'CHOOSE A CATEGORY'}</div>
                 <div className="paper-columns">
                   <div className="paper-col-side">
                     <b>TO LET</b><br />2 BHK furnished flat, Sector 15. Family only. Contact 98XXXXXX01.<br /><br />
@@ -475,6 +501,7 @@ export const HomePage: React.FC = () => {
                   {/* Target User Ad */}
                   <div
                     className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''} ${isBorder ? 't' : ''}`}
+                    style={!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}}
                   >
                     {isBorder ? '✓ ' : ''}
                     {builderText.trim() ? builderText : 'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.'}
@@ -492,11 +519,11 @@ export const HomePage: React.FC = () => {
                 <table className="bill" aria-label="Price breakdown">
                   <tbody>
                     <tr>
-                      <td>Base Rate ({currentPub.bu} {currentPub.u}s)</td>
+                      <td>Base Rate {currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}</td>
                       <td>{formatINR(baseRate)}</td>
                     </tr>
                     <tr>
-                      <td>Extra {currentPub.u}s ({extraUnits})</td>
+                      <td>Extra Units ({extraUnits})</td>
                       <td>{formatINR(extraRate)}</td>
                     </tr>
                     <tr>
@@ -856,6 +883,7 @@ export const HomePage: React.FC = () => {
               <div className="f">
                 <label htmlFor="iq3">Medium</label>
                 <select id="iq3" value={inqMedium} onChange={(e) => setInqMedium(e.target.value)}>
+                  <option value="">Select Medium</option>
                   <option value="Radio FM">Radio FM</option>
                   <option value="Cinema">Cinema</option>
                   <option value="Television">Television</option>
@@ -895,7 +923,7 @@ export const HomePage: React.FC = () => {
           <div className="trk">
             <input
               id="oid"
-              placeholder="e.g. BMA-2026-9812"
+              placeholder="e.g. RKM-2026-9812"
               aria-label="Order ID"
               value={trackId}
               onChange={(e) => setTrackId(e.target.value)}

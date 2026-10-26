@@ -16,9 +16,9 @@ export const TrackAdPage: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { getOrder } = useBooking();
 
-  const initialOrderId = searchParams.get('order') || 'BMA-2026-9812';
+  const initialOrderId = searchParams.get('order') || '';
   const [inputOrderId, setInputOrderId] = useState(initialOrderId);
-  const [currentOrder, setCurrentOrder] = useState(() => getOrder(initialOrderId));
+  const [currentOrder, setCurrentOrder] = useState(() => (initialOrderId ? getOrder(initialOrderId) : null));
   const [downloadNotice, setDownloadNotice] = useState<string | null>(null);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export const TrackAdPage: React.FC = () => {
             type="text"
             value={inputOrderId}
             onChange={(e) => setInputOrderId(e.target.value)}
-            placeholder="Enter Order ID (e.g. BMA-2026-9812)"
+            placeholder="Enter Order ID (e.g. RKM-2026-9812)"
             className="flex-1 bg-transparent border-0 text-sm font-head font-bold uppercase tracking-wider text-ink focus:outline-none placeholder:font-normal placeholder:normal-case placeholder:text-ink-muted"
           />
           <button
@@ -248,6 +248,25 @@ export const TrackAdPage: React.FC = () => {
               </div>
             </div>
           </div>
+        ) : !inputOrderId ? (
+          <div className="bg-white rounded-3xl p-12 text-center border border-paper-line max-w-lg mx-auto space-y-4">
+            <Search className="w-12 h-12 text-brand mx-auto opacity-70" />
+            <h3 className="font-news-serif text-2xl font-bold text-ink">
+              Track Your Notice Status
+            </h3>
+            <p className="text-sm text-ink-muted font-sans">
+              Enter your booking reference ID above (e.g. <strong className="text-ink">RKM-2026-9812</strong>) to follow your advertisement to the printing press.
+            </p>
+            <button
+              onClick={() => {
+                setInputOrderId('RKM-2026-9812');
+                setCurrentOrder(getOrder('RKM-2026-9812'));
+              }}
+              className="px-6 py-2.5 rounded-full bg-paper border border-paper-line text-ink hover:text-brand text-xs font-head font-bold uppercase tracking-wider transition-colors"
+            >
+              Try Sample Booking #RKM-2026-9812
+            </button>
+          </div>
         ) : (
           <div className="bg-white rounded-3xl p-12 text-center border border-paper-line max-w-lg mx-auto space-y-4">
             <Newspaper className="w-12 h-12 text-brand mx-auto" />
@@ -255,12 +274,12 @@ export const TrackAdPage: React.FC = () => {
               Order Not Found
             </h3>
             <p className="text-xs text-ink-muted font-sans">
-              Could not find active record for Order #{inputOrderId}. Check your Order ID or test with default ID: <strong className="text-ink">BMA-2026-9812</strong>.
+              Could not find active record for Order #{inputOrderId}. Check your Order ID or test with default ID: <strong className="text-ink">RKM-2026-9812</strong>.
             </p>
             <button
               onClick={() => {
-                setInputOrderId('BMA-2026-9812');
-                setCurrentOrder(getOrder('BMA-2026-9812'));
+                setInputOrderId('RKM-2026-9812');
+                setCurrentOrder(getOrder('RKM-2026-9812'));
               }}
               className="px-6 py-2.5 rounded-full bg-ink text-white text-xs font-head font-bold uppercase tracking-wider"
             >

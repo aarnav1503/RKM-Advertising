@@ -16,12 +16,12 @@ interface BookingContextType {
 }
 
 const defaultBooking: BookingState = {
-  publicationId: 'toi',
-  publicationName: 'The Times of India',
-  edition: 'Delhi NCR',
-  category: 'Matrimonial',
+  publicationId: '',
+  publicationName: '',
+  edition: '',
+  category: '',
   publishDate: '',
-  adText: 'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC as Product Manager. Well-settled family. Early marriage. Write to: marriage.delhi26@gmail.com.',
+  adText: '',
   enhancements: {
     bold: false,
     colorBg: false,
@@ -30,34 +30,34 @@ const defaultBooking: BookingState = {
   adFormat: 'text',
   supportingDocName: undefined,
   calculatedPrice: {
-    words: 24,
-    lines: 4,
-    usedUnits: 4,
-    baseUnits: 5,
+    words: 0,
+    lines: 0,
+    usedUnits: 0,
+    baseUnits: 0,
     extraUnits: 0,
     unitType: 'line',
-    baseAmount: 1450,
+    baseAmount: 0,
     extraAmount: 0,
     enhancementsAmount: 0,
-    subtotal: 1450,
-    gstAmount: 72.5,
-    totalPayable: 1522.5,
+    subtotal: 0,
+    gstAmount: 0,
+    totalPayable: 0,
   },
 };
 
 const defaultCustomer: CustomerBillingDetails = {
-  fullName: 'Rahul Verma',
-  phone: '+91 98783 39302',
-  email: 'rahul.verma@example.com',
+  fullName: '',
+  phone: '',
+  email: '',
   gstin: '',
-  address: 'Sector 58, Noida',
-  city: 'Noida',
+  address: '',
+  city: '',
   paymentMethod: 'upi',
 };
 
 // Seed sample orders for instant testing of tracker
 const SAMPLE_ORDER: OrderRecord = {
-  orderId: 'BMA-2026-9812',
+  orderId: 'RKM-2026-9812',
   createdAt: '2026-10-24T14:32:00Z',
   booking: {
     ...defaultBooking,
@@ -116,7 +116,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   });
 
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(() => {
-    return sessionStorage.getItem('rkm_last_order') || 'BMA-2026-9812';
+    return sessionStorage.getItem('rkm_last_order') || null;
   });
 
   // Calculate pricing whenever core attributes change
@@ -204,7 +204,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const placeOrder = (): string => {
-    const orderId = 'BMA-2026-' + Math.floor(1000 + Math.random() * 9000);
+    const orderId = 'RKM-2026-' + Math.floor(1000 + Math.random() * 9000);
     const pub = PUBLICATIONS_DATA[booking.publicationId] || PUBLICATIONS_DATA.toi;
 
     const newOrder: OrderRecord = {

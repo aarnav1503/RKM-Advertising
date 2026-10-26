@@ -847,7 +847,8 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
         <div class="form-field">
           <label for="hm">Media Channel</label>
           <select id="hm">
-            <option>Newspaper</option>
+            <option value="" selected disabled>Select Channel</option>
+            <option value="Newspaper">Newspaper</option>
             <option>Radio FM</option>
             <option>Cinema</option>
             <option>Outdoor</option>
@@ -1272,7 +1273,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
         <h3 style="font-size:22px;margin-bottom:16px;font-weight:600">Request a Free Media Plan</h3>
         <div class="f"><label for="iq1">Full Name</label><input id="iq1" required autocomplete="name" placeholder="Rahul Sharma"></div>
         <div class="f"><label for="iq2">Phone Number</label><input id="iq2" type="tel" required autocomplete="tel" placeholder="+91 98XXXXXXXX"></div>
-        <div class="f"><label for="iq3">Medium</label><select id="iq3"><option>Radio FM</option><option>Cinema</option><option>Television</option><option>Outdoor / DOOH</option></select></div>
+        <div class="f"><label for="iq3">Medium</label><select id="iq3"><option value="" selected disabled>Select Medium</option><option>Radio FM</option><option>Cinema</option><option>Television</option><option>Outdoor / DOOH</option></select></div>
         <div class="f"><label for="iq4">Target City &amp; Estimated Budget</label><input id="iq4" placeholder="Delhi NCR, approx ₹75,000"></div>
         <button class="btn accent" type="submit" style="width:100%">Submit Plan Request</button>
         <p class="meta-txt" id="iqm" role="status" style="margin-top:10px;text-align:center"></p>
@@ -1288,7 +1289,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
     <p class="lead">Follow real-time status from verification to morning delivery. Download your scanned e-tearsheet proof once published.</p>
     
     <div class="trk">
-      <input id="oid" placeholder="e.g. BMA-2026-9812" aria-label="Order ID">
+      <input id="oid" placeholder="e.g. RKM-2026-9812" aria-label="Order ID">
       <button class="btn" id="tk" type="button">Track Status</button>
     </div>
 
@@ -1422,11 +1423,11 @@ const C=[
 const $=i=>document.getElementById(i), inr=n=>'\u20B9 '+Math.round(n).toLocaleString('en-IN');
 const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
 
-fill($('hp'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
-fill($('pub'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
-fill($('hc'),C,c=>`<option>${c[0]}</option>`);
-fill($('cat'),C,c=>`<option>${c[0]}</option>`);
-fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
+$('hp').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
+$('pub').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
+$('hc').innerHTML = '<option value="" selected disabled>Select Notice Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
+$('cat').innerHTML = '<option value="" selected disabled>Select Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
+$('ed').innerHTML = '<option value="" selected disabled>Select Edition / Combo</option>' + Object.keys(E).map(k=>`<option value="${k}">${k}</option>`).join('');
 
 $('catgrid').innerHTML=C.map(c=>`
   <a class="cat" href="#book" data-c="${c[0]}">
@@ -1449,6 +1450,10 @@ function useTemplate(){
     $('docbox').style.display=c[4]?'block':'none';
     $('docnote').textContent=c[4]?'Mandatory requirement: '+c[4]+'.':'';
     calc();
+  } else {
+    $('docbox').style.display='none';
+    $('docnote').textContent='';
+    calc();
   }
 }
 
@@ -1465,10 +1470,31 @@ function lines(t,w){
 }
 
 function calc(){
-  const p=P[$('pub').value], m=E[$('ed').value], t=$('txt').value,
+  const p=P[$('pub').value], m=E[$('ed').value]||1, t=$('txt').value||'',
   words=t.trim()?t.trim().split(/\s+/).length:0,
-  ln=t.trim()?lines(t,35):0,
-  used=p.u=='line'?ln:words,
+  ln=t.trim()?lines(t,35):0;
+
+  if(!p){
+    $('cnt').textContent=`${words} words, ${ln} lines (~35 chars/line)`;
+    $('chargemode').textContent='Select a newspaper to view billing rules';
+    $('l1').textContent='Base Rate';
+    $('l2').textContent='Extra charges';
+    $('v1').textContent=inr(0);
+    $('v2').textContent=inr(0);
+    $('v3').textContent=inr(0);
+    $('v4').textContent=inr(0);
+    $('v5').textContent=inr(0);
+    const pv=$('pv');
+    pv.textContent=($('t').checked?'\u2713 ':'')+(t||'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.');
+    pv.className='target-ad-slot'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
+    $('pm').textContent='SELECT NEWSPAPER';
+    $('pcat').textContent=($('cat').value||'SELECT CATEGORY').toUpperCase();
+    const d=$('date').value;
+    $('pd').textContent=d?new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}).toUpperCase():'';
+    return;
+  }
+
+  const used=p.u=='line'?ln:words,
   extra=Math.max(0,used-p.bu),
   base=p.base*m,
   ext=extra*p.ex*m,
@@ -1492,7 +1518,7 @@ function calc(){
   pv.className='target-ad-slot'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
 
   $('pm').textContent=p.n.toUpperCase();
-  $('pcat').textContent=$('cat').value.toUpperCase();
+  $('pcat').textContent=($('cat').value||'SELECT CATEGORY').toUpperCase();
 
   const d=$('date').value;
   $('pd').textContent=d?new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}).toUpperCase():'';
@@ -1503,14 +1529,12 @@ function cutoff(){
   a.setDate(a.getDate()+(n.getHours()>=15?2:1));
   const s=a.toISOString().slice(0,10), d=$('date');
   d.min=s;
-  if(!d.value||d.value<s) d.value=s;
   const e=new Date(n);
   e.setHours(15,0,0,0);
   const ms=e-n;
   $('cut').textContent=ms>0 
     ? 'Booking closes in '+new Date(ms).toISOString().slice(11,19)+' for print on '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})
     : 'Today\u2019s 3 PM cut-off has passed. Earliest print: '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
-  calc();
 }
 
 ['pub','ed','txt','date','b','c','t'].forEach(i=>$(i).addEventListener('input',calc));
@@ -1522,13 +1546,15 @@ $('catgrid').addEventListener('click',e=>{
 
 $('go').onclick=()=>{
   if($('hm').value=='Newspaper'){
-    $('cat').value=$('hc').value;
-    $('pub').value=$('hp').value;
-    useTemplate();
+    if($('hc').value) $('cat').value=$('hc').value;
+    if($('hp').value) $('pub').value=$('hp').value;
+    if($('hc').value) useTemplate();
     $('book').scrollIntoView({behavior:'smooth'});
-  } else {
+  } else if($('hm').value) {
     $('iq3').value=$('hm').value=='Outdoor'?'Outdoor / DOOH':$('hm').value;
     $('media').scrollIntoView({behavior:'smooth'});
+  } else {
+    $('book').scrollIntoView({behavior:'smooth'});
   }
 };
 
@@ -1537,6 +1563,14 @@ $('hm').onchange=()=>{
 };
 
 $('pay').onclick=()=>{
+  if(!$('pub').value || !$('ed').value || !$('cat').value){
+    alert('Please select a Newspaper, Edition, and Category before proceeding.');
+    return;
+  }
+  if(!$('txt').value.trim()){
+    alert('Please enter your advertisement content before proceeding.');
+    return;
+  }
   const orderDetails = {
     pub: $('pub').value,
     pubName: P[$('pub').value].n,
@@ -1559,7 +1593,7 @@ $('inq').onsubmit=e=>{
 
 $('tk').onclick=()=>{
   const v=$('oid').value.trim();
-  if(!v){$('tkm').textContent='Please enter a valid booking ID (e.g. BMA-2026-9812).';return}
+  if(!v){$('tkm').textContent='Please enter a valid booking ID (e.g. RKM-2026-9812).';return}
   [...$('stp').children].forEach((li,i)=>li.classList.toggle('on',i<3));
   $('tkm').textContent='Order '+v+' is verified & scheduled at press. Your scanned e-tearsheet will be available by 8:00 AM on the release date.';
 };
@@ -1567,7 +1601,8 @@ $('tk').onclick=()=>{
 const hd=$('hd');
 addEventListener('scroll',()=>hd.classList.toggle('s',scrollY>40),{passive:true});
 
-useTemplate();
+$('txt').value = '';
+calc();
 cutoff();
 setInterval(cutoff,1000);
 </script>
