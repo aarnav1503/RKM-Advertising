@@ -10,8 +10,32 @@
 <style>
 .checkout-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:start}
 .order-summary-box{background:#FFF;border-radius:20px;border:1px solid var(--line);padding:24px;box-shadow:0 8px 24px rgba(34,29,26,.05);position:sticky;top:90px}
-.pay-opt{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .2s}
-.pay-opt:hover, .pay-opt.active{border-color:var(--accent);background:var(--accent-light)}
+.pay-opt{
+  border:1.5px solid var(--line);
+  border-radius:14px;
+  padding:16px 20px;
+  margin-bottom:12px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:#FFF;
+  transition:all .2s ease;
+  text-align:left;
+}
+.pay-opt:hover{border-color:var(--ink);background:var(--bg)}
+.pay-opt.active, .pay-opt:has(input:checked){border-color:var(--accent);background:var(--accent-light)}
+.pay-opt input[type="radio"]{
+  width:20px !important;
+  height:20px !important;
+  margin:0 !important;
+  flex-shrink:0;
+  accent-color:var(--accent);
+  cursor:pointer;
+}
+.pay-opt > div{flex:1;text-align:left}
+.pay-opt strong{display:block;font-size:15px;color:var(--ink);margin-bottom:3px;font-weight:700}
+.pay-desc{font-size:13px;color:var(--ink-muted)}
 .upi-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center}
 .upi-modal.open{display:flex}
 .modal-box{background:#FFF;border-radius:24px;padding:32px;max-width:420px;width:90%;text-align:center}
@@ -56,27 +80,27 @@
           </div>
 
           <h2 style="font-size:22px;margin:28px 0 16px">2. Select Payment Method</h2>
-          <div class="pay-opt active">
-            <input type="radio" name="paym" checked>
+          <label class="pay-opt active" for="pay-upi">
+            <input type="radio" name="paym" id="pay-upi" checked onchange="updatePayOption(this)">
             <div>
               <strong>Instant UPI QR (Google Pay, PhonePe, Paytm)</strong>
-              <div style="font-size:12.5px;color:var(--ink-muted)">Zero transaction fee • Instant approval</div>
+              <div class="pay-desc">Zero transaction fee • Instant approval</div>
             </div>
-          </div>
-          <div class="pay-opt">
-            <input type="radio" name="paym">
+          </label>
+          <label class="pay-opt" for="pay-card">
+            <input type="radio" name="paym" id="pay-card" onchange="updatePayOption(this)">
             <div>
               <strong>Credit / Debit Card</strong>
-              <div style="font-size:12.5px;color:var(--ink-muted)">Visa, MasterCard, RuPay, Amex</div>
+              <div class="pay-desc">Visa, MasterCard, RuPay, Amex</div>
             </div>
-          </div>
-          <div class="pay-opt">
-            <input type="radio" name="paym">
+          </label>
+          <label class="pay-opt" for="pay-net">
+            <input type="radio" name="paym" id="pay-net" onchange="updatePayOption(this)">
             <div>
               <strong>Net Banking / NEFT</strong>
-              <div style="font-size:12.5px;color:var(--ink-muted)">All Indian commercial banks</div>
+              <div class="pay-desc">All Indian commercial banks</div>
             </div>
-          </div>
+          </label>
 
           <button class="btn accent" style="width:100%;padding:16px;margin-top:20px" type="submit">
             Pay &amp; Release Advertisement ➔
@@ -137,6 +161,13 @@ if(booking.pubName){
   document.getElementById('s-text').textContent = booking.text || 'Ad text';
   document.getElementById('s-tot').textContent = booking.total;
   document.getElementById('modal-amt').textContent = booking.total;
+}
+
+function updatePayOption(radio){
+  document.querySelectorAll('.pay-opt').forEach(opt => opt.classList.remove('active'));
+  if (radio.checked) {
+    radio.closest('.pay-opt').classList.add('active');
+  }
 }
 
 function openPaymentModal(){
