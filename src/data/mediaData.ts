@@ -165,7 +165,7 @@ export const MEDIA_VERTICALS: MediaVerticalInfo[] = [
     badge: '275+ Channels • 200M Households',
     startingPrice: '₹ 150 / 10s spot',
     reach: '200M+ TV Households',
-    heroImage: 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/images/television-broadcast.png',
     benefits: [
       'Unrivaled household brand authority and legitimacy across India',
       'Target prime-time 8:00 PM - 11:00 PM debate shows and family serials',

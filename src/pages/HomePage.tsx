@@ -835,7 +835,7 @@ export const HomePage: React.FC = () => {
 
                 <Link className="media-thumb-card" to="/tv-ads">
                   <div className="media-thumb-img">
-                    <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?auto=format&fit=crop&w=400&q=80" alt="TV Studio Broadcast" />
+                    <img src="/images/television-broadcast.png" alt="Television Broadcast" />
                     <span>Television</span>
                   </div>
                   <div className="media-thumb-txt">
