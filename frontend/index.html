@@ -449,6 +449,60 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
 .wa{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:50;background:#16A34A;color:#fff;border-radius:999px;padding:13px 22px;font:600 13.5px var(--head);letter-spacing:.06em;text-decoration:none;box-shadow:0 8px 24px rgba(22,163,74,.36);transition:transform .2s}
 .wa:hover{transform:scale(1.04)}
 
+/* Mobile Drawer & Toggle */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 42px;
+  height: 42px;
+  padding: 11px 9px;
+  background: transparent;
+  border: 1.5px solid var(--line-dark);
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 60;
+  transition: all .2s ease;
+}
+.mobile-toggle span {
+  display: block;
+  height: 2.5px;
+  width: 100%;
+  background: var(--ink);
+  border-radius: 2px;
+}
+.mobile-drawer {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(34, 29, 26, 0.45); backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none; transition: opacity .25s ease;
+}
+.mobile-drawer.open { opacity: 1; pointer-events: auto; }
+.mobile-drawer-content {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 86%; max-width: 360px; background: var(--bg);
+  padding: 24px 28px; box-shadow: -10px 0 35px rgba(0, 0, 0, 0.16);
+  transform: translateX(100%);
+  transition: transform .3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.mobile-drawer.open .mobile-drawer-content { transform: translateX(0); }
+.mobile-drawer-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
+}
+.mobile-close {
+  background: transparent; border: 1px solid var(--line); border-radius: 50%;
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--ink); cursor: pointer;
+}
+.mobile-drawer-links a {
+  display: block; font: 600 15px/1.3 var(--head); letter-spacing: .06em;
+  text-transform: uppercase; padding: 12px 0; color: var(--ink);
+  border-bottom: 1px dashed var(--line-light); text-decoration: none;
+}
+.mobile-drawer-links a:hover { color: var(--accent); }
+
 /* Responsive adjustments */
 @media (max-width:1240px){
   header{padding:18px clamp(16px, 3vw, 36px)}
@@ -461,7 +515,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   nav a{font-size:12.5px;letter-spacing:.04em}
   .phone-link{font-size:13px}
   .hero{grid-template-columns:1fr;min-height:auto}
-  .photo-stage{min-height:560px;padding:40px 20px}
+  .photo-stage{min-height:540px;padding:40px 20px}
   .builder-grid,.med{grid-template-columns:1fr}
   .cats,.trust{grid-template-columns:1fr 1fr}
   .steps{grid-template-columns:1fr 1fr}
@@ -471,6 +525,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   header.scrolled, header.s{padding:13px 20px}
   nav{display:none}
   .phone-link{display:none}
+  .mobile-toggle{display:flex}
 }
 @media (max-width:768px){
   .omni{grid-template-columns:1fr}
@@ -478,6 +533,23 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   .paper-columns{grid-template-columns:1fr}
   .paper-col-side{display:none}
   .trk{flex-direction:column}
+}
+@media (max-width:600px){
+  .photo-stage{min-height:auto;padding:24px 14px}
+  .np-broadsheet{transform:none;padding:18px 14px;border-radius:2px}
+  .np-broadsheet:hover{transform:none}
+  .np-masthead{font-size:28px}
+  .np-tagline{font-size:9.5px}
+  .np-lead{grid-template-columns:1fr;gap:10px}
+  .np-photo-box{height:80px}
+  .np-columns{column-count:2;column-gap:8px;font-size:9px}
+  .np-ads-grid{column-count:2;column-gap:6px;font-size:8.5px}
+  .side .h{padding:28px 18px 16px}
+  .side .h h1{font-size:clamp(30px, 7.5vw, 40px)}
+  .sage-box{padding:24px 18px}
+  .stage-pill{top:12px;left:14px;font-size:10px;padding:4px 10px}
+  .stage-pill-right{bottom:12px;right:14px;font-size:10px;padding:6px 12px}
+  .config-panel,.proof-stage{padding:18px 14px;border-radius:18px}
 }
 </style>
 </head>
