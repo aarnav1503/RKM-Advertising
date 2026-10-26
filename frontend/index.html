@@ -296,19 +296,66 @@ section{padding:clamp(60px,8vw,100px) clamp(24px,5vw,64px)}
 h2{font-size:clamp(32px,4vw,50px);letter-spacing:-.02em;margin-bottom:10px}
 .lead{font-size:18px;max-width:54ch;color:#574E47;margin:0 0 40px}
 
-.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .cat{
-  border-radius:24px;padding:28px;background:var(--soft);
-  display:flex;flex-direction:column;gap:8px;min-height:180px;
-  text-decoration:none;border:1px solid transparent;
-  transition:all .25s ease;
+  border-radius:20px;background:#FFF;
+  border:1px solid var(--line);overflow:hidden;
+  display:flex;flex-direction:column;
+  text-decoration:none;box-shadow:0 6px 20px rgba(40,35,31,.04);
+  transition:all .3s cubic-bezier(.2,.8,.2,1);
 }
-.cat:hover{transform:translateY(-3px);background:#FFF;border-color:var(--line);box-shadow:0 12px 28px rgba(40,35,31,.06)}
-.cat:nth-child(even){background:var(--sage-light)}
-.cat:nth-child(even):hover{background:#FFF}
-.cat h3{font-size:24px;font-family:var(--serif);font-weight:600}
-.cat p{font-size:14.5px;color:#5A514B;margin:0}
-.cat span{margin-top:auto;font:600 14px var(--head);letter-spacing:.06em;color:var(--accent)}
+.cat:hover{transform:translateY(-4px);box-shadow:0 16px 36px rgba(40,35,31,.1);border-color:var(--accent)}
+.cat-thumb{position:relative;height:140px;overflow:hidden;background:var(--soft)}
+.cat-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.cat:hover .cat-thumb img{transform:scale(1.06)}
+.cat-tag{
+  position:absolute;top:10px;left:10px;
+  background:rgba(34,29,26,.85);backdrop-filter:blur(6px);
+  color:#FFF;font:700 10.5px var(--head);letter-spacing:.08em;
+  text-transform:uppercase;padding:3.5px 9px;border-radius:999px;
+}
+.cat-body{padding:18px 20px 20px;display:flex;flex-direction:column;flex:1}
+.cat-body h3{font-size:21px;font-family:var(--serif);font-weight:600;margin-bottom:6px;color:var(--ink)}
+.cat-body p{font-size:13.5px;color:var(--ink-muted);margin:0 0 14px;line-height:1.45;flex:1}
+.cat-body span{font:700 13px var(--head);letter-spacing:.05em;color:var(--accent);margin-top:auto}
+
+/* Media Cards Grid */
+.media-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+.media-thumb-card{
+  background:#FFF;border-radius:14px;border:1px solid var(--line);
+  overflow:hidden;text-decoration:none;display:flex;flex-direction:column;
+  box-shadow:0 4px 14px rgba(40,35,31,.04);transition:all .25s ease;
+}
+.media-thumb-card:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 12px 28px rgba(40,35,31,.08)}
+.media-thumb-img{position:relative;height:105px;overflow:hidden}
+.media-thumb-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.media-thumb-card:hover .media-thumb-img img{transform:scale(1.05)}
+.media-thumb-img span{
+  position:absolute;bottom:6px;left:6px;
+  background:rgba(34,29,26,.85);backdrop-filter:blur(4px);
+  color:#FFF;font:700 9.5px var(--head);letter-spacing:.06em;
+  text-transform:uppercase;padding:3px 7px;border-radius:5px;
+}
+.media-thumb-txt{padding:12px}
+.media-thumb-txt strong{display:block;font-size:14.5px;color:var(--ink);margin-bottom:2px}
+.media-thumb-txt p{font-size:12px;color:var(--ink-muted);margin:0;line-height:1.35}
+
+/* Publication Badges Grid */
+.pub-badge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 28px}
+.pub-badge-card{
+  background:#FFF;border-radius:12px;border:1px solid var(--line);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  text-decoration:none;box-shadow:0 4px 12px rgba(40,35,31,.03);transition:all .2s ease;
+}
+.pub-badge-card:hover{transform:translateY(-2px);border-color:var(--ink)}
+.pub-crest{
+  width:38px;height:38px;border-radius:50%;background:var(--soft);
+  display:flex;align-items:center;justify-content:center;
+  font:700 16px var(--news-serif);color:var(--accent);
+  border:1px solid var(--line);flex-shrink:0;
+}
+.pub-badge-card strong{display:block;font-size:14px;color:var(--ink)}
+.pub-badge-card span{font-size:11.5px;color:var(--ink-muted)}
 
 /* ==========================================================================
    INTERACTIVE BOOKING SIMULATOR & SURROUNDINGS
@@ -617,8 +664,9 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
           <h4>Metro Corridor Cleared After Three-Year Review</h4>
           <p class="np-dek">Work on the 14-km suburban line will commence this January, connecting eastern districts to the central airport.</p>
         </div>
-        <div class="np-photo-box">
-          <span class="np-photo-caption">City Rail Division • Archive</span>
+        <div class="np-photo-box" style="position:relative;overflow:hidden;border:1px solid #1A1715;">
+          <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=500&q=80" alt="Metro Rail Infrastructure" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%) contrast(125%) brightness(95%);display:block;">
+          <span class="np-photo-caption" style="position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.7);color:#FFF;font-size:8px;padding:2px 5px;border-radius:2px">City Rail Division • Archive</span>
         </div>
       </div>
 
@@ -838,15 +886,53 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   <div class="wrap">
     <h2>Over 150 accredited newspapers</h2>
     <p class="lead">Direct authorized tariff cards with zero hidden markup.</p>
-    <div class="pubs">
-      <span>The Times of India</span>
-      <span>Hindustan Times</span>
-      <span>Dainik Jagran</span>
-      <span>Amar Ujala</span>
-      <span>The Hindu</span>
-      <span>Dainik Bhaskar</span>
+    
+    <div class="pub-badge-grid">
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">TOI</div>
+        <div>
+          <strong>The Times of India</strong>
+          <span>English • 1.45M Daily Readers</span>
+        </div>
+      </a>
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">HT</div>
+        <div>
+          <strong>Hindustan Times</strong>
+          <span>English • 980K Daily Readers</span>
+        </div>
+      </a>
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">DJ</div>
+        <div>
+          <strong>Dainik Jagran</strong>
+          <span>Hindi • 3.2M Daily Readers</span>
+        </div>
+      </a>
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">AU</div>
+        <div>
+          <strong>Amar Ujala</strong>
+          <span>Hindi • 2.6M Daily Readers</span>
+        </div>
+      </a>
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">TH</div>
+        <div>
+          <strong>The Hindu</strong>
+          <span>English • 850K Daily Readers</span>
+        </div>
+      </a>
+      <a class="pub-badge-card" href="rate-cards.html">
+        <div class="pub-crest">DB</div>
+        <div>
+          <strong>Dainik Bhaskar</strong>
+          <span>Hindi • 3.8M Daily Readers</span>
+        </div>
+      </a>
     </div>
-    <a class="btn" href="#book">Explore All Rate Cards</a>
+
+    <a class="btn" href="rate-cards.html">Explore All Rate Cards ➔</a>
   </div>
 </section>
 
@@ -856,13 +942,53 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
     <div class="med">
       <div>
         <h2>Radio, cinema, television &amp; outdoor media</h2>
-        <p class="lead">Custom media planning built around your target city and campaign budget. Get customized rate plans from our media planners.</p>
-        <ul class="mlist">
-          <li><b>Radio FM</b>Prime &amp; non-prime spots across Radio Mirchi, Red FM, Big FM.</li>
-          <li><b>Cinema Advertising</b>On-screen 10-20 sec slide &amp; video ads across PVR INOX &amp; Cinepolis.</li>
-          <li><b>Television Channels</b>High-impact regional &amp; national broadcast time bands.</li>
-          <li><b>Outdoor &amp; DOOH</b>Unipoles, metro branding, transit wraps, and digital billboards.</li>
-        </ul>
+        <p class="lead">Strategic 360° media planning built around your target cities and campaign budget. Click any medium to view rates.</p>
+        
+        <div class="media-cards-grid">
+          <a class="media-thumb-card" href="radio-ads.html">
+            <div class="media-thumb-img">
+              <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80" alt="Radio FM Studio">
+              <span>Radio FM</span>
+            </div>
+            <div class="media-thumb-txt">
+              <strong>Radio Advertising</strong>
+              <p>Top FM spots in 100+ cities (Mirchi, Red FM, Big FM).</p>
+            </div>
+          </a>
+
+          <a class="media-thumb-card" href="cinema-ads.html">
+            <div class="media-thumb-img">
+              <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80" alt="Cinema Multiplex">
+              <span>Cinema 70mm</span>
+            </div>
+            <div class="media-thumb-txt">
+              <strong>Cinema Multiplex Ads</strong>
+              <p>10–30s on-screen commercials across PVR INOX &amp; Cinepolis.</p>
+            </div>
+          </a>
+
+          <a class="media-thumb-card" href="tv-ads.html">
+            <div class="media-thumb-img">
+              <img src="https://images.unsplash.com/photo-1578022761797-b8636ac1773c?auto=format&fit=crop&w=400&q=80" alt="TV Studio Broadcast">
+              <span>Television</span>
+            </div>
+            <div class="media-thumb-txt">
+              <strong>Television Broadcast</strong>
+              <p>National news &amp; regional entertainment channels.</p>
+            </div>
+          </a>
+
+          <a class="media-thumb-card" href="outdoor-ads.html">
+            <div class="media-thumb-img">
+              <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=400&q=80" alt="Outdoor City Billboard">
+              <span>Outdoor &amp; DOOH</span>
+            </div>
+            <div class="media-thumb-txt">
+              <strong>Billboards &amp; DOOH</strong>
+              <p>Highway unipoles, metro branding &amp; digital LED screens.</p>
+            </div>
+          </a>
+        </div>
       </div>
       <form class="config-panel" id="inq">
         <h3 style="font-size:22px;margin-bottom:16px;font-weight:600">Request a Free Media Plan</h3>
@@ -990,12 +1116,12 @@ const E={
   'Delhi NCR + UP combo':1.45
 };
 const C=[
-  ['Matrimonial','Find matches across verified communities.',500,'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC. Status family. Early marriage. Write to: mail@example.com'],
-  ['Change of name','Announce legal name changes with affidavit.',450,'I, Anita Verma, daughter of Mohan Verma, resident of Model Town, Ludhiana, have changed my name to Anita Sharma for all future purposes. All concerned please note.','Notarised affidavit and ID proof'],
-  ['Property','Sell, purchase or lease real estate.',650,'3 BHK luxurious flat for sale in Sector 62, Noida. 1,650 sq ft, 4th floor, 100% power backup, covered car parking. Urgent sale. Call 98XXXXXX10.'],
-  ['Public notice','Statutory, corporate and court announcements.',700,'PUBLIC NOTICE. Notice is hereby given that M/s Example Traders has applied for title deeds. Objections, if any, within 7 days with documentary evidence.','Authority letter / Company seal'],
-  ['Obituary','Honor memories and schedule memorial prayers.',400,'With profound grief we announce the sad demise of Shri Ramesh Kumar on 12 October. Prayer meeting on Sunday, 5 PM, at Arya Samaj Mandir. In grief: Family.','Doctor / Death certificate'],
-  ['Recruitment','Hire candidates locally or across regions.',800,'Wanted: Senior Sales Executive, 2+ years experience in FMCG, Jaipur. Salary 25,000 to 35,000 + incentives. Walk-in or email CV to hr@example.com.']
+  ['Matrimonial','Find matches across verified communities.',500,'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC. Status family. Early marriage. Write to: mail@example.com','','https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80'],
+  ['Change of name','Announce legal name changes with affidavit.',450,'I, Anita Verma, daughter of Mohan Verma, resident of Model Town, Ludhiana, have changed my name to Anita Sharma for all future purposes. All concerned please note.','Notarised affidavit and ID proof','https://images.unsplash.com/photo-1450133064473-71024230f91b?auto=format&fit=crop&w=600&q=80'],
+  ['Property','Sell, purchase or lease real estate.',650,'3 BHK luxurious flat for sale in Sector 62, Noida. 1,650 sq ft, 4th floor, 100% power backup, covered car parking. Urgent sale. Call 98XXXXXX10.','','https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80'],
+  ['Public notice','Statutory, corporate and court announcements.',700,'PUBLIC NOTICE. Notice is hereby given that M/s Example Traders has applied for title deeds. Objections, if any, within 7 days with documentary evidence.','Authority letter / Company seal','https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80'],
+  ['Obituary','Honor memories and schedule memorial prayers.',400,'With profound grief we announce the sad demise of Shri Ramesh Kumar on 12 October. Prayer meeting on Sunday, 5 PM, at Arya Samaj Mandir. In grief: Family.','Doctor / Death certificate','https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80'],
+  ['Recruitment','Hire candidates locally or across regions.',800,'Wanted: Senior Sales Executive, 2+ years experience in FMCG, Jaipur. Salary 25,000 to 35,000 + incentives. Walk-in or email CV to hr@example.com.','','https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80']
 ];
 
 const $=i=>document.getElementById(i), inr=n=>'\u20B9 '+Math.round(n).toLocaleString('en-IN');
@@ -1009,9 +1135,15 @@ fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
 
 $('catgrid').innerHTML=C.map(c=>`
   <a class="cat" href="#book" data-c="${c[0]}">
-    <h3>${c[0]}</h3>
-    <p>${c[1]}</p>
-    <span>Starting from ${inr(c[2])} ➔</span>
+    <div class="cat-thumb">
+      <img src="${c[5]}" alt="${c[0]}" loading="lazy">
+      <span class="cat-tag">${c[0]}</span>
+    </div>
+    <div class="cat-body">
+      <h3>${c[0]}</h3>
+      <p>${c[1]}</p>
+      <span>Starting from ${inr(c[2])} ➔</span>
+    </div>
   </a>
 `).join('');
 
