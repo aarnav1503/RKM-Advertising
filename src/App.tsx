@@ -36,28 +36,28 @@ const RouteTransitionHandler: React.FC = () => {
     // Immediate scroll to top
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-    // Top progress bar micro-animation - smoother cadence
+    // Top progress bar micro-animation - slower and smoother cadence
     const bar = document.getElementById('route-progress-bar');
     if (bar) {
       bar.style.opacity = '1';
-      bar.style.width = '30%';
+      bar.style.width = '25%';
 
       const t1 = setTimeout(() => {
-        if (bar) bar.style.width = '70%';
-      }, 120);
+        if (bar) bar.style.width = '65%';
+      }, 180);
 
       const t2 = setTimeout(() => {
         if (bar) bar.style.width = '100%';
-      }, 280);
+      }, 420);
 
       const t3 = setTimeout(() => {
         if (bar) {
           bar.style.opacity = '0';
           setTimeout(() => {
             if (bar) bar.style.width = '0%';
-          }, 350);
+          }, 450);
         }
-      }, 480);
+      }, 720);
 
       return () => {
         clearTimeout(t1);
