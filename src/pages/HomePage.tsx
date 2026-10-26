@@ -310,16 +310,16 @@ export const HomePage: React.FC = () => {
                 'Change of name': '/images/change-of-name.png',
                 'Property': '/images/property.png',
                 'Public notice': '/images/public-notice.png',
-                'Recruitment': 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
-                'Obituary': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
+                'Recruitment': '/images/recruitment.png',
+                'Obituary': '/images/obituary.png',
               };
               const defaultImgs = [
                 '/images/matrimonial.png',
                 '/images/change-of-name.png',
                 '/images/property.png',
                 '/images/public-notice.png',
-                'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
-                'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
+                '/images/recruitment.png',
+                '/images/obituary.png',
               ];
               const imgSrc = imgMap[cat.name] || defaultImgs[idx % defaultImgs.length];
               return (
