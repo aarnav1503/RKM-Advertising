@@ -308,7 +308,7 @@ export const HomePage: React.FC = () => {
               const imgMap: Record<string, string> = {
                 'Matrimonial': '/images/matrimonial.png',
                 'Change of name': '/images/change-of-name.png',
-                'Property': 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80',
+                'Property': '/images/property.png',
                 'Public notice': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
                 'Recruitment': 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
                 'Obituary': 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
@@ -316,7 +316,7 @@ export const HomePage: React.FC = () => {
               const defaultImgs = [
                 '/images/matrimonial.png',
                 '/images/change-of-name.png',
-                'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80',
+                '/images/property.png',
                 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80',
                 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=600&q=80',
                 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=80',
