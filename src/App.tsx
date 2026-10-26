@@ -28,51 +28,95 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { TermsPage } from './pages/TermsPage';
 
-// ScrollToTop on route transition
-const ScrollToTop: React.FC = () => {
+// ScrollToTop and Route Indicator on route transition
+const RouteTransitionHandler: React.FC = () => {
   const { pathname, search } = useLocation();
 
   useEffect(() => {
+    // Immediate scroll to top
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+    // Top progress bar micro-animation
+    const bar = document.getElementById('route-progress-bar');
+    if (bar) {
+      bar.style.opacity = '1';
+      bar.style.width = '35%';
+
+      const t1 = setTimeout(() => {
+        if (bar) bar.style.width = '80%';
+      }, 80);
+
+      const t2 = setTimeout(() => {
+        if (bar) bar.style.width = '100%';
+      }, 180);
+
+      const t3 = setTimeout(() => {
+        if (bar) {
+          bar.style.opacity = '0';
+          setTimeout(() => {
+            if (bar) bar.style.width = '0%';
+          }, 250);
+        }
+      }, 320);
+
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
+    }
   }, [pathname, search]);
 
   return null;
+};
+
+// Animated Content Wrapper per route
+const AnimatedRoutes: React.FC = () => {
+  const location = useLocation();
+
+  return (
+    <div key={location.pathname} className="page-transition-wrapper flex-1">
+      <Routes location={location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/book-ad" element={<BookAdPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/track-ad" element={<TrackAdPage />} />
+        <Route path="/rate-cards" element={<RateCardsPage />} />
+
+        {/* Media Vertical Pages */}
+        <Route path="/newspaper-ads" element={<NewspaperAdsPage />} />
+        <Route path="/radio-ads" element={<RadioAdsPage />} />
+        <Route path="/cinema-ads" element={<CinemaAdsPage />} />
+        <Route path="/tv-ads" element={<TvAdsPage />} />
+        <Route path="/outdoor-ads" element={<OutdoorAdsPage />} />
+        <Route path="/digital-marketing" element={<DigitalMarketingPage />} />
+        <Route path="/influencer-marketing" element={<InfluencerMarketingPage />} />
+        <Route path="/transit-media" element={<TransitMediaPage />} />
+        <Route path="/lift-branding" element={<LiftBrandingPage />} />
+        <Route path="/ott-advertising" element={<OttAdvertisingPage />} />
+        <Route path="/programmatic-ads" element={<ProgrammaticAdsPage />} />
+
+        {/* Institutional & Legal Pages */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+
+        {/* Catch-all redirect */}
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </div>
+  );
 };
 
 export const App: React.FC = () => {
   return (
     <BookingProvider>
       <Router>
-        <ScrollToTop />
+        {/* Top Progress Bar for page navigation */}
+        <div id="route-progress-bar" style={{ width: '0%', opacity: 0 }} />
+        <RouteTransitionHandler />
         <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/book-ad" element={<BookAdPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/track-ad" element={<TrackAdPage />} />
-          <Route path="/rate-cards" element={<RateCardsPage />} />
-
-          {/* Media Vertical Pages */}
-          <Route path="/newspaper-ads" element={<NewspaperAdsPage />} />
-          <Route path="/radio-ads" element={<RadioAdsPage />} />
-          <Route path="/cinema-ads" element={<CinemaAdsPage />} />
-          <Route path="/tv-ads" element={<TvAdsPage />} />
-          <Route path="/outdoor-ads" element={<OutdoorAdsPage />} />
-          <Route path="/digital-marketing" element={<DigitalMarketingPage />} />
-          <Route path="/influencer-marketing" element={<InfluencerMarketingPage />} />
-          <Route path="/transit-media" element={<TransitMediaPage />} />
-          <Route path="/lift-branding" element={<LiftBrandingPage />} />
-          <Route path="/ott-advertising" element={<OttAdvertisingPage />} />
-          <Route path="/programmatic-ads" element={<ProgrammaticAdsPage />} />
-
-          {/* Institutional & Legal Pages */}
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-
-          {/* Catch-all redirect */}
-          <Route path="*" element={<HomePage />} />
-        </Routes>
+        <AnimatedRoutes />
         <Footer />
         <FloatingActions />
       </Router>
@@ -81,3 +125,4 @@ export const App: React.FC = () => {
 };
 
 export default App;
+

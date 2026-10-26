@@ -159,4 +159,54 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.body.appendChild(floatingDock);
   }
+
+  // 5. Smooth Page Transition Effect on Link Navigation
+  if (!document.getElementById('route-progress-bar')) {
+    const pBar = document.createElement('div');
+    pBar.id = 'route-progress-bar';
+    pBar.style.width = '0%';
+    pBar.style.opacity = '0';
+    document.body.appendChild(pBar);
+  }
+
+  // Animate page in
+  document.body.classList.add('page-transition-wrapper');
+
+  // Intercept internal HTML link clicks for smooth exit transition
+  document.querySelectorAll('a[href]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      // Only process local links, ignoring anchors, tel, mailto, javascript, external urls
+      if (
+        !href ||
+        href.startsWith('#') ||
+        href.startsWith('tel:') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('javascript:') ||
+        href.startsWith('http://') ||
+        href.startsWith('https://') ||
+        link.target === '_blank' ||
+        e.metaKey ||
+        e.ctrlKey
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+      const pBar = document.getElementById('route-progress-bar');
+      if (pBar) {
+        pBar.style.opacity = '1';
+        pBar.style.width = '70%';
+      }
+
+      document.body.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
+      document.body.style.opacity = '0.4';
+      document.body.style.transform = 'translateY(-6px)';
+
+      setTimeout(() => {
+        window.location.href = href;
+      }, 200);
+    });
+  });
 });
+
