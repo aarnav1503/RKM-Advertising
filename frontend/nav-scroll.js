@@ -199,14 +199,47 @@ document.addEventListener('DOMContentLoaded', () => {
         pBar.style.width = '70%';
       }
 
-      document.body.style.transition = 'opacity 0.22s ease, transform 0.22s ease';
-      document.body.style.opacity = '0.4';
-      document.body.style.transform = 'translateY(-6px)';
+      document.body.style.transition = 'opacity 0.28s ease, transform 0.28s cubic-bezier(0.16, 1, 0.3, 1)';
+      document.body.style.opacity = '0.35';
+      document.body.style.transform = 'translateY(-10px)';
 
       setTimeout(() => {
         window.location.href = href;
-      }, 200);
+      }, 260);
     });
   });
+
+  // 6. Intersection Observer for Scroll-Reveal Content Animations
+  const scrollTargets = document.querySelectorAll(
+    '.reveal-on-scroll, section:not(.hero):not(.sec-pad), .card, .step, .faq-item, .service-metric-card, .pub-badge, .media-vertical-section, .proof-stage, .config-panel'
+  );
+
+  const scrollObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          scrollObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.1,
+      rootMargin: '0px 0px -40px 0px',
+    }
+  );
+
+  scrollTargets.forEach((el) => {
+    if (!el.classList.contains('reveal-on-scroll')) {
+      el.classList.add('reveal-on-scroll');
+    }
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 50) {
+      el.classList.add('is-revealed');
+    } else {
+      scrollObserver.observe(el);
+    }
+  });
 });
+
 

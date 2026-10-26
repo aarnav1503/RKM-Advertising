@@ -36,28 +36,28 @@ const RouteTransitionHandler: React.FC = () => {
     // Immediate scroll to top
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
-    // Top progress bar micro-animation
+    // Top progress bar micro-animation - smoother cadence
     const bar = document.getElementById('route-progress-bar');
     if (bar) {
       bar.style.opacity = '1';
-      bar.style.width = '35%';
+      bar.style.width = '30%';
 
       const t1 = setTimeout(() => {
-        if (bar) bar.style.width = '80%';
-      }, 80);
+        if (bar) bar.style.width = '70%';
+      }, 120);
 
       const t2 = setTimeout(() => {
         if (bar) bar.style.width = '100%';
-      }, 180);
+      }, 280);
 
       const t3 = setTimeout(() => {
         if (bar) {
           bar.style.opacity = '0';
           setTimeout(() => {
             if (bar) bar.style.width = '0%';
-          }, 250);
+          }, 350);
         }
-      }, 320);
+      }, 480);
 
       return () => {
         clearTimeout(t1);
@@ -67,8 +67,55 @@ const RouteTransitionHandler: React.FC = () => {
     }
   }, [pathname, search]);
 
+  // Global Intersection Observer for scroll-reveal animations across all pages
+  useEffect(() => {
+    // Small timeout to allow new DOM content to mount after route switch
+    const timer = setTimeout(() => {
+      // Auto-tag major sections, cards, and grids if not already tagged
+      const targets = document.querySelectorAll(
+        '.reveal-on-scroll, section:not(.hero):not(.sec-pad), .card, .step, .faq-item, .service-metric-card, .pub-badge, .media-vertical-section, .proof-stage, .config-panel'
+      );
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              // Optional: unobserve once revealed for performance
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px',
+        }
+      );
+
+      targets.forEach((el) => {
+        if (!el.classList.contains('reveal-on-scroll')) {
+          el.classList.add('reveal-on-scroll');
+        }
+        // If element is already in initial viewport on page load, reveal it right away
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 50) {
+          el.classList.add('is-revealed');
+        } else {
+          observer.observe(el);
+        }
+      });
+
+      return () => {
+        observer.disconnect();
+      };
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [pathname, search]);
+
   return null;
 };
+
 
 // Animated Content Wrapper per route
 const AnimatedRoutes: React.FC = () => {
