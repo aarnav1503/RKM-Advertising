@@ -312,6 +312,8 @@ export const HomePage: React.FC = () => {
                 'Public notice': '/images/public-notice.png',
                 'Recruitment': '/images/recruitment.png',
                 'Obituary': '/images/obituary.png',
+                'Lost & Found': '/images/lost-and-found.png',
+                'Court Notice': '/images/court-notice.png',
               };
               const defaultImgs = [
                 '/images/matrimonial.png',
@@ -320,6 +322,8 @@ export const HomePage: React.FC = () => {
                 '/images/public-notice.png',
                 '/images/recruitment.png',
                 '/images/obituary.png',
+                '/images/lost-and-found.png',
+                '/images/court-notice.png',
               ];
               const imgSrc = imgMap[cat.name] || defaultImgs[idx % defaultImgs.length];
               return (
