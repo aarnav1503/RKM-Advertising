@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Newspaper Ad Online — 4-Step Live Print Booking | RKM Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gelasio:wght@400;600;700&family=Jost:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.stepper-bar{background:#FFF;border-bottom:1px solid var(--line);padding:14px 40px;display:flex;justify-content:center;gap:24px}
+.step-item{display:flex;align-items:center;gap:8px;font:600 13px var(--head);color:var(--ink-muted);letter-spacing:.04em;text-transform:uppercase}
+.step-item.active{color:var(--accent)}
+.step-num{width:24px;height:24px;border-radius:50%;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:12px}
+.step-item.active .step-num{background:var(--accent);color:#FFF}
+
+.builder-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:start}
+.proof-box{background:#E6E1D4;border-radius:24px;padding:24px;border:1px solid var(--line);box-shadow:0 12px 32px rgba(34,29,26,.06);position:sticky;top:100px}
+.live-paper{background:var(--paper-tint);color:#1A1715;padding:20px;font-family:Georgia,serif;border:1px solid rgba(40,35,31,.15);border-radius:2px;box-shadow:0 12px 28px rgba(34,29,26,.12);margin-bottom:20px}
+.paper-hdr{font:700 16px var(--serif);border-top:2px solid #1A1715;border-bottom:1px solid #1A1715;padding:5px 0;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.paper-cat{background:#1A1715;color:#FAF7EE;font:700 10.5px var(--head);letter-spacing:.14em;text-align:center;padding:3px;margin-bottom:8px;text-transform:uppercase}
+.paper-grid{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px}
+.paper-col-side{font-size:11px;line-height:1.28;text-align:justify;color:#787065;border-right:1px solid #D5CEBF;padding-right:8px}
+.paper-col-side:last-child{border-right:0;padding-right:0;border-left:1px solid #D5CEBF;padding-left:8px}
+
+.target-ad{color:#1A1715;font-size:12px;line-height:1.32;white-space:pre-wrap;word-break:break-word;position:relative;padding:6px;border-radius:2px;transition:all .2s ease}
+.target-ad.b{font-weight:700}
+.target-ad.c{background:var(--highlight-bg)}
+.target-ad.t{outline:1.5px solid #1A1715;outline-offset:-2px;padding:8px}
+
+.cut-badge{display:inline-flex;align-items:center;gap:8px;background:var(--sage);color:#1A1715;border-radius:999px;padding:8px 16px;font:600 13px var(--head);letter-spacing:.04em;margin-bottom:18px}
+.cut-badge::before{content:'';width:8px;height:8px;background:#15803D;border-radius:50%}
+
+.meter-box{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.tog{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.tog label{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:9px 16px;cursor:pointer;font:500 13px var(--sans);transition:all .2s}
+.tog label:hover{border-color:var(--ink);background:#FFF}
+.tog input{width:auto;accent-color:var(--ink);cursor:pointer}
+
+.bill-card{background:#FFF;border-radius:18px;padding:20px;border:1px solid var(--line);margin-bottom:16px}
+.bill{width:100%;border-collapse:collapse;font-size:14.5px}
+.bill td{padding:8px 0;border-bottom:1px dashed var(--line);color:#5A514A}
+.bill td:last-child{text-align:right;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.bill tr.tot td{font:700 20px var(--serif);border:0;padding-top:14px;color:var(--ink)}
+
+@media (max-width:960px){.builder-layout{grid-template-columns:1fr}.proof-box{position:static}}
+@media (max-width:600px){.stepper-bar{display:none}.paper-grid{grid-template-columns:1fr}.paper-col-side{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">RKM Ads<span>.</span></a>
+  <nav>
+    <a href="newspaper-ads.html">Newspaper</a>
+    <a href="radio-ads.html">Radio</a>
+    <a href="cinema-ads.html">Cinema</a>
+    <a href="tv-ads.html">Television</a>
+    <a href="outdoor-ads.html">Outdoor</a>
+    <a href="rate-cards.html">Rate Cards</a>
+  </nav>
+  <div class="header-actions">
+    <a class="phone-link" href="tel:+918800334456">📞 +91-8800334456</a>
+    <a class="btn sm outline" href="track-ad.html">Track Ad</a>
+  </div>
+</header>
+
+<div class="stepper-bar">
+  <div class="step-item"><span class="step-num">1</span> Newspaper &amp; Edition</div>
+  <div class="step-item"><span class="step-num">2</span> Category &amp; Date</div>
+  <div class="step-item active"><span class="step-num">3</span> Compose &amp; Preview</div>
+  <div class="step-item"><span class="step-num">4</span> Checkout</div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="builder-layout">
+      <!-- Left: Input Controls -->
+      <div class="card" style="padding:32px">
+        <h2 style="font-size:26px;margin-bottom:20px">Configure Your Advertisement</h2>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+          <div>
+            <label>Select Newspaper</label>
+            <select id="pub"></select>
+          </div>
+          <div>
+            <label>Edition / Combo Deal</label>
+            <select id="ed"></select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+          <div>
+            <label>Ad Category</label>
+            <select id="cat"></select>
+          </div>
+          <div>
+            <label>Publish Date</label>
+            <input type="date" id="date">
+          </div>
+        </div>
+
+        <div class="cut-badge" id="cut">Checking cut-off timer...</div>
+
+        <div class="form-group">
+          <label>Advertisement Content (Text)</label>
+          <textarea id="txt" style="min-height:130px" placeholder="Type your advertisement text here..."></textarea>
+          <div class="meter-box">
+            <span style="font:500 13px var(--head);color:#665D56" id="cnt">0 words, 0 lines</span>
+            <span style="font:700 12px var(--head);color:var(--accent)" id="chargemode">Charges per line</span>
+          </div>
+        </div>
+
+        <label>Visual Enhancements</label>
+        <div class="tog">
+          <label><input type="checkbox" id="b"> Bold Text (+₹50)</label>
+          <label><input type="checkbox" id="c"> Color Background (+₹150)</label>
+          <label><input type="checkbox" id="t"> Border &amp; Tick (+₹30)</label>
+        </div>
+
+        <div class="form-group" id="docbox" style="margin-top:18px">
+          <label>Upload Supporting Legal Document</label>
+          <input type="file" id="doc">
+          <p style="font-size:12.5px;color:var(--ink-muted);margin:6px 0 0" id="docnote"></p>
+        </div>
+      </div>
+
+      <!-- Right: Real-Time Live Broadsheet Simulator & Bill Breakdown -->
+      <div class="proof-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <span style="font:700 11.5px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#453E38;display:flex;align-items:center;gap:6px">
+            <span style="width:7px;height:7px;background:#EF4444;border-radius:50%;display:inline-block"></span> Live Print Simulation
+          </span>
+          <span style="font:500 11.5px var(--head);background:#FFF;padding:4px 10px;border-radius:999px;color:#70665E">Single Column (3.8 cm)</span>
+        </div>
+
+        <!-- The Printed Broadsheet Simulation Box -->
+        <div class="live-paper">
+          <div class="paper-hdr">
+            <span id="pm">THE TIMES OF INDIA</span>
+            <span id="pd"></span>
+          </div>
+          <div class="paper-cat" id="pcat">MATRIMONIAL</div>
+          <div class="paper-grid">
+            <div class="paper-col-side">
+              <b>TO LET</b><br>2 BHK furnished flat, Sector 15. Family only. Contact 98XXXXXX01.<br><br>
+              <b>WANTED</b><br>Commercial office, 500 sq ft, ground floor.
+            </div>
+            
+            <!-- Live User Ad -->
+            <div class="target-ad" id="pv">Your ad text will appear here formatted exactly as it will be printed in the newspaper column.</div>
+
+            <div class="paper-col-side">
+              <b>SITUATIONS VACANT</b><br>Receptionist required for clinic. Fluent English.<br><br>
+              <b>LOST &amp; FOUND</b><br>Brown briefcase in taxi. Reward offered.
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Price Calculation -->
+        <div class="bill-card">
+          <table class="bill">
+            <tr><td id="l1">Base Rate</td><td id="v1">₹ 0</td></tr>
+            <tr><td id="l2">Extra Units</td><td id="v2">₹ 0</td></tr>
+            <tr><td>Enhancements</td><td id="v3">₹ 0</td></tr>
+            <tr><td>GST (5%)</td><td id="v4">₹ 0</td></tr>
+            <tr class="tot"><td>Total Payable</td><td id="v5">₹ 0</td></tr>
+          </table>
+        </div>
+
+        <button class="btn accent" id="proceed-btn" style="width:100%;padding:16px" onclick="goToCheckout()">
+          Proceed to Checkout ➔
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:12px;color:#FFF">RKM Ads<span>.</span></div>
+        <p style="font-size:14px;opacity:.75">Self-service advertisement booking portal with real-time newsprint proofing.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Booking Help</h4>
+        <a href="rate-cards.html">Tariff Cards</a>
+        <a href="track-ad.html">Track My Ad</a>
+        <a href="terms.html">Booking Terms</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="tel:+918800334456">+91-8800334456</a>
+        <a href="contact.html">Customer Care</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Location</h4>
+        <p style="font-size:13px;opacity:.7">Sector 58, Noida, Uttar Pradesh 201301</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 RKM Ads / BookMyAd Clone. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const P={
+  toi:{n:'The Times of India',u:'line',base:1450,ex:290,cpl:35,bu:5},
+  ht:{n:'Hindustan Times',u:'word',base:1900,ex:95,bu:20},
+  dj:{n:'Dainik Jagran',u:'word',base:1100,ex:55,bu:20},
+  au:{n:'Amar Ujala',u:'word',base:1000,ex:50,bu:20}
+};
+const E={
+  'Delhi NCR':1,
+  'Mumbai':1.25,
+  'Lucknow':0.6,
+  'Chandigarh':0.7,
+  'Jaipur':0.65,
+  'Delhi NCR + UP combo':1.45
+};
+const C=[
+  ['Matrimonial','Find matches across verified communities.',500,'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC. Status family. Early marriage. Write to: mail@example.com'],
+  ['Change of name','Announce legal name changes with affidavit.',450,'I, Anita Verma, daughter of Mohan Verma, resident of Model Town, Ludhiana, have changed my name to Anita Sharma for all future purposes. All concerned please note.','Notarised affidavit and ID proof'],
+  ['Property','Sell, purchase or lease real estate.',650,'3 BHK luxurious flat for sale in Sector 62, Noida. 1,650 sq ft, 4th floor, 100% power backup, covered car parking. Urgent sale. Call 98XXXXXX10.'],
+  ['Public notice','Statutory, corporate and court announcements.',700,'PUBLIC NOTICE. Notice is hereby given that M/s Example Traders has applied for title deeds. Objections, if any, within 7 days with documentary evidence.','Authority letter / Company seal'],
+  ['Obituary','Honor memories and schedule memorial prayers.',400,'With profound grief we announce the sad demise of Shri Ramesh Kumar on 12 October. Prayer meeting on Sunday, 5 PM, at Arya Samaj Mandir. In grief: Family.','Doctor / Death certificate'],
+  ['Recruitment','Hire candidates locally or across regions.',800,'Wanted: Senior Sales Executive, 2+ years experience in FMCG, Jaipur. Salary 25,000 to 35,000 + incentives. Walk-in or email CV to hr@example.com.']
+];
+
+const $=i=>document.getElementById(i), inr=n=>'\u20B9 '+Math.round(n).toLocaleString('en-IN');
+const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
+
+fill($('pub'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
+fill($('cat'),C,c=>`<option>${c[0]}</option>`);
+fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
+
+function useTemplate(){
+  const c=C.find(x=>x[0]==$('cat').value);
+  if(c){
+    $('txt').value=c[3];
+    $('docbox').style.display=c[4]?'block':'none';
+    $('docnote').textContent=c[4]?'Mandatory legal requirement: '+c[4]+'.':'';
+    calc();
+  }
+}
+
+function lines(t,w){
+  let n=0,cur=0;
+  t.split('\n').forEach(p=>{
+    n++;cur=0;
+    p.split(/\s+/).filter(Boolean).forEach(x=>{
+      if(cur&&cur+x.length+1>w){n++;cur=0}
+      cur+=(cur?1:0)+x.length;
+    });
+  });
+  return n;
+}
+
+function calc(){
+  const p=P[$('pub').value], m=E[$('ed').value], t=$('txt').value,
+  words=t.trim()?t.trim().split(/\s+/).length:0,
+  ln=t.trim()?lines(t,35):0,
+  used=p.u=='line'?ln:words,
+  extra=Math.max(0,used-p.bu),
+  base=p.base*m,
+  ext=extra*p.ex*m,
+  en=($('b').checked?50:0)+($('c').checked?150:0)+($('t').checked?30:0),
+  sub=base+ext+en,
+  gst=sub*.05;
+
+  $('cnt').textContent=`${words} words, ${ln} lines (~35 chars/line)`;
+  $('chargemode').textContent=`${p.n} charges by ${p.u}`;
+  
+  $('l1').textContent=`Base Rate (${p.bu} ${p.u}s)`;
+  $('l2').textContent=`Extra ${p.u}s (${extra})`;
+  $('v1').textContent=inr(base);
+  $('v2').textContent=inr(ext);
+  $('v3').textContent=inr(en);
+  $('v4').textContent=inr(gst);
+  $('v5').textContent=inr(sub+gst);
+
+  const pv=$('pv');
+  pv.textContent=($('t').checked?'\u2713 ':'')+(t||'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.');
+  pv.className='target-ad'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
+
+  $('pm').textContent=p.n.toUpperCase();
+  $('pcat').textContent=$('cat').value.toUpperCase();
+
+  const d=$('date').value;
+  $('pd').textContent=d?new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}).toUpperCase():'';
+}
+
+function cutoff(){
+  const n=new Date(), a=new Date(n);
+  a.setDate(a.getDate()+(n.getHours()>=15?2:1));
+  const s=a.toISOString().slice(0,10), d=$('date');
+  d.min=s;
+  if(!d.value||d.value<s) d.value=s;
+  const e=new Date(n);
+  e.setHours(15,0,0,0);
+  const ms=e-n;
+  $('cut').textContent=ms>0 
+    ? 'Booking closes in '+new Date(ms).toISOString().slice(11,19)+' for print on '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})
+    : 'Today\u2019s 3 PM cut-off has passed. Earliest print: '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+  calc();
+}
+
+function goToCheckout(){
+  const orderDetails = {
+    pub: $('pub').value,
+    pubName: P[$('pub').value].n,
+    ed: $('ed').value,
+    cat: $('cat').value,
+    date: $('date').value,
+    text: $('txt').value,
+    total: $('v5').textContent
+  };
+  localStorage.setItem('currentBooking', JSON.stringify(orderDetails));
+  window.location.href = 'checkout.html';
+}
+
+['pub','ed','txt','date','b','c','t'].forEach(i=>$(i).addEventListener('input',calc));
+$('cat').addEventListener('change',useTemplate);
+
+useTemplate();
+cutoff();
+setInterval(cutoff,1000);
+</script>
+</body>
+</html>

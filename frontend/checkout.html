@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout &amp; Secure Payment | RKM Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gelasio:wght@400;600;700&family=Jost:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.checkout-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:start}
+.order-summary-box{background:#FFF;border-radius:20px;border:1px solid var(--line);padding:24px;box-shadow:0 8px 24px rgba(34,29,26,.05);position:sticky;top:90px}
+.pay-opt{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .2s}
+.pay-opt:hover, .pay-opt.active{border-color:var(--accent);background:var(--accent-light)}
+.upi-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;align-items:center;justify-content:center}
+.upi-modal.open{display:flex}
+.modal-box{background:#FFF;border-radius:24px;padding:32px;max-width:420px;width:90%;text-align:center}
+.qr-frame{background:#F7F5F0;border:2px dashed var(--line);padding:20px;border-radius:16px;margin:20px 0;display:inline-block}
+@media (max-width:850px){.checkout-grid{grid-template-columns:1fr}.order-summary-box{position:static}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">RKM Ads<span>.</span></a>
+  <div class="header-actions">
+    <span style="font-size:13px;color:var(--ink-muted)">🔒 256-Bit SSL Encrypted Checkout</span>
+  </div>
+</header>
+
+<div class="page-hero" style="padding:36px 20px 28px">
+  <div class="wrap">
+    <h1 style="font-size:32px">Review &amp; Confirm Booking</h1>
+    <p style="font-size:15px">Complete your billing information and verify publication schedule.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="checkout-grid">
+      <!-- Billing Form -->
+      <div class="card">
+        <h2 style="font-size:22px;margin-bottom:18px">1. Contact &amp; Billing Details</h2>
+        <form id="chk-form" onsubmit="event.preventDefault();openPaymentModal();">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+            <div><label>Full Name</label><input required id="c-name" placeholder="Rahul Verma"></div>
+            <div><label>Mobile Number (for WhatsApp Receipt)</label><input required type="tel" id="c-phone" placeholder="+91 98XXXXXXXX"></div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input required type="email" id="c-email" placeholder="rahul@example.com">
+          </div>
+          <div class="form-group">
+            <label>GSTIN (Optional for Tax Credit)</label>
+            <input placeholder="07AAAAA0000A1Z5">
+          </div>
+
+          <h2 style="font-size:22px;margin:28px 0 16px">2. Select Payment Method</h2>
+          <div class="pay-opt active">
+            <input type="radio" name="paym" checked>
+            <div>
+              <strong>Instant UPI QR (Google Pay, PhonePe, Paytm)</strong>
+              <div style="font-size:12.5px;color:var(--ink-muted)">Zero transaction fee • Instant approval</div>
+            </div>
+          </div>
+          <div class="pay-opt">
+            <input type="radio" name="paym">
+            <div>
+              <strong>Credit / Debit Card</strong>
+              <div style="font-size:12.5px;color:var(--ink-muted)">Visa, MasterCard, RuPay, Amex</div>
+            </div>
+          </div>
+          <div class="pay-opt">
+            <input type="radio" name="paym">
+            <div>
+              <strong>Net Banking / NEFT</strong>
+              <div style="font-size:12.5px;color:var(--ink-muted)">All Indian commercial banks</div>
+            </div>
+          </div>
+
+          <button class="btn accent" style="width:100%;padding:16px;margin-top:20px" type="submit">
+            Pay &amp; Release Advertisement ➔
+          </button>
+        </form>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="order-summary-box">
+        <h3 style="font-size:20px;margin-bottom:16px;border-bottom:1px solid var(--line);padding-bottom:12px">Order Summary</h3>
+        <div style="font-size:14px;line-height:1.7;color:var(--ink-muted)">
+          <div><strong>Newspaper:</strong> <span id="s-pub">The Times of India</span></div>
+          <div><strong>Edition:</strong> <span id="s-ed">Delhi NCR</span></div>
+          <div><strong>Category:</strong> <span id="s-cat">Matrimonial</span></div>
+          <div><strong>Print Date:</strong> <span id="s-date">28 Oct 2026</span></div>
+          <div style="margin-top:10px;padding:10px;background:var(--bg);border-radius:8px;font-family:Georgia,serif;font-size:12px;color:var(--ink)" id="s-text">
+            Wanted suitable match for Punjabi Khatri girl...
+          </div>
+        </div>
+
+        <div style="border-top:1px dashed var(--line);margin:16px 0;padding-top:14px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px">
+            <span>Subtotal</span><span id="s-sub">₹ 1,450</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px">
+            <span>GST (5%)</span><span id="s-gst">₹ 72</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:700;color:var(--ink);margin-top:10px">
+            <span>Total Payable</span><span id="s-tot" style="color:var(--accent)">₹ 1,522</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPI Modal Simulation -->
+<div class="upi-modal" id="upi-modal">
+  <div class="modal-box">
+    <h3 style="font-size:22px;margin-bottom:6px">Scan to Pay via UPI</h3>
+    <p style="font-size:13px;color:var(--ink-muted);margin:0">Open GPay, PhonePe, Paytm, or BHIM</p>
+    <div class="qr-frame">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=rkmads@icici&pn=RKM%20Ads&am=1522" alt="UPI QR Code" style="display:block">
+    </div>
+    <div style="font-size:18px;font-weight:700;color:var(--accent);margin-bottom:14px" id="modal-amt">₹ 1,522</div>
+    <button class="btn accent" style="width:100%" onclick="completePayment()">Simulate Successful Payment</button>
+    <button class="btn outline sm" style="width:100%;margin-top:8px" onclick="document.getElementById('upi-modal').classList.remove('open')">Cancel</button>
+  </div>
+</div>
+
+<script>
+const booking = JSON.parse(localStorage.getItem('currentBooking') || '{}');
+if(booking.pubName){
+  document.getElementById('s-pub').textContent = booking.pubName;
+  document.getElementById('s-ed').textContent = booking.ed;
+  document.getElementById('s-cat').textContent = booking.cat;
+  document.getElementById('s-date').textContent = booking.date || 'Earliest Available';
+  document.getElementById('s-text').textContent = booking.text || 'Ad text';
+  document.getElementById('s-tot').textContent = booking.total;
+  document.getElementById('modal-amt').textContent = booking.total;
+}
+
+function openPaymentModal(){
+  document.getElementById('upi-modal').classList.add('open');
+}
+
+function completePayment(){
+  const randomOrderId = 'BMA-2026-' + Math.floor(1000 + Math.random() * 9000);
+  sessionStorage.setItem('lastOrder', randomOrderId);
+  window.location.href = 'track-ad.html?order=' + randomOrderId;
+}
+</script>
+</body>
+</html>

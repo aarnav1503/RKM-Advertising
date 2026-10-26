@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Official Newspaper Rate Cards &amp; Tariffs | RKM Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Gelasio:wght@400;600;700&family=Jost:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.search-bar{background:#FFF;border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;box-shadow:0 8px 24px rgba(34,29,26,.05);margin-bottom:32px}
+.rate-table{width:100%;border-collapse:collapse;background:#FFF;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 8px 24px rgba(34,29,26,.04)}
+.rate-table th{background:var(--soft);padding:14px 18px;text-align:left;font:600 12.5px var(--head);letter-spacing:.08em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+.rate-table td{padding:14px 18px;border-bottom:1px solid var(--line-light);font-size:14px}
+.rate-table tr:hover td{background:var(--bg)}
+@media (max-width:900px){.search-bar{grid-template-columns:1fr 1fr}}
+@media (max-width:550px){.search-bar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">RKM Ads<span>.</span></a>
+  <nav>
+    <a href="newspaper-ads.html">Newspaper</a>
+    <a href="radio-ads.html">Radio</a>
+    <a href="cinema-ads.html">Cinema</a>
+    <a href="tv-ads.html">Television</a>
+    <a href="outdoor-ads.html">Outdoor</a>
+    <a href="digital-marketing.html">Digital PR</a>
+    <a href="rate-cards.html" class="active">Rate Cards</a>
+  </nav>
+  <div class="header-actions">
+    <a class="phone-link" href="tel:+918800334456">📞 +91-8800334456</a>
+    <a class="btn sm accent" href="book-ad.html">Book Online</a>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>All Newspaper Rate Cards &amp; Tariffs (2026)</h1>
+    <p>Search, compare, and verify official publication tariffs across all 2,000+ Indian city editions and categories with zero agency surcharge.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="search-bar">
+      <div>
+        <label>Filter Publication</label>
+        <select id="flt-pub" onchange="filterRates()">
+          <option value="all">All Publications</option>
+          <option value="Times of India">The Times of India</option>
+          <option value="Hindustan Times">Hindustan Times</option>
+          <option value="Dainik Jagran">Dainik Jagran</option>
+          <option value="Amar Ujala">Amar Ujala</option>
+          <option value="The Hindu">The Hindu</option>
+          <option value="Dainik Bhaskar">Dainik Bhaskar</option>
+        </select>
+      </div>
+      <div>
+        <label>Filter Region / City</label>
+        <select id="flt-city" onchange="filterRates()">
+          <option value="all">All Regions</option>
+          <option value="Delhi NCR">Delhi NCR</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="UP">Uttar Pradesh</option>
+          <option value="Lucknow">Lucknow</option>
+          <option value="Chandigarh">Chandigarh</option>
+          <option value="Jaipur">Jaipur</option>
+        </select>
+      </div>
+      <div>
+        <label>Category</label>
+        <select id="flt-cat" onchange="filterRates()">
+          <option value="all">All Categories</option>
+          <option value="Matrimonial">Matrimonial</option>
+          <option value="Change of Name">Change of Name</option>
+          <option value="Property">Property</option>
+          <option value="Public Notice">Public Notice</option>
+          <option value="Obituary">Obituary</option>
+        </select>
+      </div>
+      <div>
+        <label>Ad Type</label>
+        <select id="flt-type" onchange="filterRates()">
+          <option value="all">Classified Text &amp; Display</option>
+          <option value="Text">Classified Text (ROD)</option>
+          <option value="Display">Classified Display (CD)</option>
+        </select>
+      </div>
+    </div>
+
+    <table class="rate-table" id="rates-table">
+      <thead>
+        <tr>
+          <th>Newspaper</th>
+          <th>Edition</th>
+          <th>Category</th>
+          <th>Base Unit</th>
+          <th>Base Rate</th>
+          <th>Extra Unit</th>
+          <th>Cut-off Time</th>
+          <th>Book</th>
+        </tr>
+      </thead>
+      <tbody id="rates-body">
+        <!-- Rendered via JS -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo" style="margin-bottom:12px;color:#FFF">RKM Ads<span>.</span></div>
+        <p style="font-size:14px;opacity:.75">Authorized rate card and booking portal for Indian print media.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="newspaper-ads.html">Newspapers</a>
+        <a href="radio-ads.html">Radio FM</a>
+        <a href="rate-cards.html">Tariff Cards</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="track-ad.html">Track Ad</a>
+        <a href="contact.html">Customer Care</a>
+        <a href="about.html">About Us</a>
+      </div>
+      <div class="footer-col">
+        <h4>Help Desk</h4>
+        <a href="tel:+918800334456">+91-8800334456</a>
+        <a href="mailto:sales@rkmads.com">sales@rkmads.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 RKM Ads / BookMyAd Clone. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+<a class="wa-float" href="https://wa.me/918800334456" target="_blank">Chat on WhatsApp</a>
+
+<script>
+const ratesData = [
+  {pub:"The Times of India", ed:"Delhi NCR", cat:"Matrimonial", unit:"5 Lines", base:1450, ex:290, cutoff:"Friday 3 PM"},
+  {pub:"The Times of India", ed:"Mumbai", cat:"Property", unit:"5 Lines", base:1800, ex:360, cutoff:"1 Day Prior 3 PM"},
+  {pub:"The Times of India", ed:"Delhi NCR + UP", cat:"Change of Name", unit:"5 Lines", base:2100, ex:420, cutoff:"1 Day Prior 2 PM"},
+  {pub:"Hindustan Times", ed:"Delhi NCR", cat:"Matrimonial", unit:"20 Words", base:1900, ex:95, cutoff:"Friday 2 PM"},
+  {pub:"Hindustan Times", ed:"Chandigarh", cat:"Recruitment", unit:"20 Words", base:1350, ex:65, cutoff:"1 Day Prior 3 PM"},
+  {pub:"Dainik Jagran", ed:"UP All Editions", cat:"Public Notice", unit:"20 Words", base:1600, ex:80, cutoff:"1 Day Prior 1 PM"},
+  {pub:"Dainik Jagran", ed:"Lucknow", cat:"Obituary", unit:"20 Words", base:650, ex:35, cutoff:"Same Day 10 AM"},
+  {pub:"Amar Ujala", ed:"UP & Uttarakhand", cat:"Change of Name", unit:"20 Words", base:1200, ex:60, cutoff:"1 Day Prior 2 PM"},
+  {pub:"The Hindu", ed:"Chennai + Bangalore", cat:"Property", unit:"5 Lines", base:1500, ex:300, cutoff:"1 Day Prior 3 PM"},
+  {pub:"Dainik Bhaskar", ed:"Jaipur", cat:"Matrimonial", unit:"20 Words", base:900, ex:45, cutoff:"Friday 4 PM"}
+];
+
+function renderRates(list){
+  const tb = document.getElementById('rates-body');
+  tb.innerHTML = list.map(r=>`
+    <tr>
+      <td><strong>${r.pub}</strong></td>
+      <td>${r.ed}</td>
+      <td>${r.cat}</td>
+      <td>${r.unit}</td>
+      <td><strong>₹ ${r.base.toLocaleString('en-IN')}</strong></td>
+      <td>₹ ${r.ex} / extra</td>
+      <td><span style="color:var(--accent);font-weight:600">${r.cutoff}</span></td>
+      <td><a class="btn sm accent" href="book-ad.html">Book Now</a></td>
+    </tr>
+  `).join('');
+}
+
+function filterRates(){
+  const p = document.getElementById('flt-pub').value;
+  const c = document.getElementById('flt-city').value;
+  const cat = document.getElementById('flt-cat').value;
+  const filtered = ratesData.filter(r => {
+    return (p === 'all' || r.pub.includes(p)) &&
+           (c === 'all' || r.ed.includes(c)) &&
+           (cat === 'all' || r.cat === cat);
+  });
+  renderRates(filtered);
+}
+
+renderRates(ratesData);
+</script>
+</body>
+</html>

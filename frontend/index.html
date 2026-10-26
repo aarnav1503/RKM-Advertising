@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RKM Ads — Book Newspaper, Radio, Cinema &amp; Outdoor Ads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Jost:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F6F0;
+  --ink:#28231F;
+  --sage:#CBD6CA;
+  --sage-light:#E5EDE4;
+  --soft:#EFECE3;
+  --paper-tint:#FAF7EE;
+  --line:#DCD5C7;
+  --line-dark:#342D29;
+  --btn:#28231F;
+  --btnt:#FAF7F0;
+  --accent:#D95A2B;
+  --accent-light:#FDEFEA;
+  --gold:#E8B931;
+  --highlight-bg:#FDF3C7;
+  --serif:'Gelasio',Georgia,serif;
+  --news-serif:'Playfair Display','Gelasio',Georgia,serif;
+  --sans:'DM Sans',system-ui,-apple-system,sans-serif;
+  --head:'Jost',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(85px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;margin:0}
+
+/* Button & UI Elements */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  border:0;border-radius:999px;background:var(--btn);color:var(--btnt);
+  font:600 13px/1 var(--head);letter-spacing:.06em;text-transform:uppercase;
+  padding:14px 24px;cursor:pointer;text-decoration:none;white-space:nowrap;
+  box-shadow:0 6px 18px rgba(40,35,31,.14);
+  transition:all .2s cubic-bezier(.2,.8,.2,1);
+}
+.btn:hover{background:#171412;transform:translateY(-1.5px);box-shadow:0 10px 22px rgba(40,35,31,.2)}
+.btn:active{transform:translateY(0)}
+.btn.accent{background:var(--accent);color:#fff;box-shadow:0 6px 18px rgba(217,90,43,.26)}
+.btn.accent:hover{background:#BF471A;box-shadow:0 10px 22px rgba(217,90,43,.34)}
+.btn.outline{background:transparent;border:1.5px solid var(--ink);color:var(--ink);box-shadow:none}
+.btn.outline:hover{background:var(--ink);color:var(--bg)}
+.btn.sm{padding:9px 16px;font-size:12px}
+
+/* Header */
+header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:clamp(10px, 2vw, 24px);
+  padding:12px clamp(16px, 3vw, 36px);
+  background:rgba(248, 246, 240, 0.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  transition:background .3s,box-shadow .3s;
+}
+header.s{background:color-mix(in srgb,var(--bg) 92%,transparent);box-shadow:0 4px 20px rgba(0,0,0,.05)}
+.logo{
+  font:700 28px/1 var(--news-serif);text-decoration:none;letter-spacing:-.03em;
+  display:inline-flex;align-items:baseline;white-space:nowrap;flex-shrink:0;color:var(--ink);
+}
+.logo span{color:var(--accent);font-size:32px;display:inline;margin-left:1px}
+nav{
+  display:flex;align-items:center;gap:clamp(10px, 1.6vw, 22px);
+  flex-shrink:1;
+}
+nav a{
+  font:600 12.5px var(--head);letter-spacing:.05em;text-transform:uppercase;
+  text-decoration:none;position:relative;padding:5px 0;white-space:nowrap;
+  color:var(--ink);transition:color .2s;
+}
+nav a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width .2s}
+nav a:hover{color:var(--accent)}
+nav a:hover::after{width:100%}
+.right{
+  display:flex;align-items:center;gap:clamp(8px, 1.2vw, 16px);
+  flex-shrink:0;white-space:nowrap;
+}
+.phone-link{
+  font:600 12.5px var(--head);color:var(--ink);white-space:nowrap;
+  display:inline-flex;align-items:center;gap:4px;text-decoration:none;
+}
+.phone-link:hover{color:var(--accent)}
+
+/* ==========================================================================
+   HERO & RESIZED/REDESIGNED NEWSPAPER MOCKUP
+   ========================================================================== */
+.hero{
+  display:grid;grid-template-columns:1.08fr .92fr;
+  min-height:calc(100vh - 75px);align-items:stretch;
+  border-bottom:1px solid var(--line);
+}
+
+/* Studio stage surrounding the newspaper */
+.photo-stage{
+  background:radial-gradient(ellipse at 50% 40%,#EDE8DD 0%,#DFD8C9 100%);
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  padding:44px 36px;
+  overflow:hidden;
+}
+
+/* Subtle architectural/studio shadow backdrop */
+.photo-stage::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(rgba(52,45,41,.06) 1px,transparent 1px);
+  background-size:20px 20px;opacity:.5;pointer-events:none;
+}
+
+/* Floating interactive pill indicator */
+.stage-pill{
+  position:absolute;top:24px;left:32px;z-index:10;
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(8px);
+  border:1px solid rgba(52,45,41,.12);border-radius:999px;
+  padding:6px 14px;font:600 11.5px var(--head);letter-spacing:.06em;
+  text-transform:uppercase;box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+.stage-pill::before{content:'';width:7px;height:7px;background:#22C55E;border-radius:50%;box-shadow:0 0 8px #22C55E}
+
+.stage-pill-right{
+  position:absolute;bottom:24px;right:32px;z-index:10;
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(40,35,31,.92);color:#fff;
+  border-radius:999px;padding:8px 16px;
+  font:500 12px var(--head);letter-spacing:.04em;
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+}
+
+/* NEWSPAPER CONTAINER: Perfectly proportioned & visually elevated */
+.np-broadsheet{
+  width:100%;max-width:510px;
+  background:var(--paper-tint);color:#1A1715;
+  padding:26px 28px 22px;
+  position:relative;
+  /* Realistic multi-layer physical drop-shadow */
+  box-shadow:
+    0 1px 3px rgba(40,35,31,.08),
+    0 10px 25px -5px rgba(40,35,31,.16),
+    0 25px 45px -10px rgba(40,35,31,.22),
+    0 0 0 1px rgba(40,35,31,.08);
+  border-radius:3px;
+  transform:rotate(-0.6deg);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s ease;
+}
+.np-broadsheet:hover{
+  transform:rotate(0deg) scale(1.01);
+  box-shadow:
+    0 2px 5px rgba(40,35,31,.08),
+    0 16px 35px -5px rgba(40,35,31,.2),
+    0 35px 60px -10px rgba(40,35,31,.28),
+    0 0 0 1px rgba(40,35,31,.1);
+}
+
+/* Realistic newspaper paper texture & fold */
+.np-broadsheet::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 48.5%,rgba(52,45,41,.03) 49.5%,rgba(52,45,41,.08) 50%,transparent 51.5%);
+  pointer-events:none;
+}
+
+/* Newspaper Header & Masthead */
+.np-top-strip{
+  display:flex;justify-content:space-between;align-items:center;
+  font:600 9.5px var(--head);letter-spacing:.12em;text-transform:uppercase;
+  border-top:2px solid #1A1715;border-bottom:1px solid #1A1715;
+  padding:4px 2px;margin-bottom:8px;
+}
+.np-masthead{
+  font:900 clamp(32px,3.8vw,48px)/0.95 var(--news-serif);
+  text-align:center;letter-spacing:-.03em;
+  padding:6px 0 8px;margin:0;color:#120F0D;
+}
+.np-tagline{
+  text-align:center;font:italic 400 10.5px/1.2 var(--serif);
+  color:#554C46;margin-bottom:8px;letter-spacing:.02em;
+}
+.np-section-strip{
+  display:flex;justify-content:space-around;
+  font:600 9px var(--head);letter-spacing:.14em;text-transform:uppercase;
+  border-top:1px solid #1A1715;border-bottom:2px solid #1A1715;
+  padding:3.5px 0;margin-bottom:12px;
+}
+
+/* Newspaper Lead Story */
+.np-lead{
+  display:grid;grid-template-columns:1.35fr 1fr;gap:14px;
+  border-bottom:1px solid #1A1715;padding-bottom:10px;margin-bottom:10px;
+}
+.np-lead h4{
+  font:700 clamp(18px,1.9vw,22px)/1.08 var(--news-serif);
+  letter-spacing:-.015em;margin:0 0 6px;color:#120F0D;
+}
+.np-dek{font:italic 400 11px/1.3 var(--serif);color:#443C36;margin:0}
+.np-photo-box{
+  height:105px;border-radius:2px;
+  background:
+    linear-gradient(145deg,rgba(26,23,21,.65),rgba(26,23,21,.1) 75%),
+    repeating-radial-gradient(#1A1715 0 1px,transparent 1px 3px) 0 0/4px 4px,
+    #BDB5A4;
+  border:1px solid #1A1715;position:relative;display:flex;align-items:flex-end;padding:6px;
+}
+.np-photo-caption{font:italic 500 8.5px/1 var(--serif);color:#FFF;background:rgba(0,0,0,.6);padding:2px 4px;border-radius:1px}
+
+/* Main Articles in Columns */
+.np-columns{
+  column-count:3;column-gap:10px;column-rule:1px solid #D1C9BA;
+  font:400 10px/1.26 var(--serif);text-align:justify;hyphens:auto;color:#2D2723;
+}
+.np-columns h5{font:700 11.5px/1.1 var(--news-serif);margin:0 0 3px;break-after:avoid;color:#120F0D}
+.np-columns p{margin:0 0 5px;text-indent:.8em}
+
+/* Classifieds Section on the Frontpage */
+.np-classifieds-wrap{
+  margin-top:10px;padding-top:6px;
+  border-top:3px double #1A1715;
+}
+.np-classifieds-banner{
+  background:#1A1715;color:#FAF7EE;
+  font:700 10px var(--head);letter-spacing:.18em;
+  text-align:center;padding:4px 6px;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.np-classifieds-banner span{font-size:8px;letter-spacing:.08em;opacity:.8}
+
+.np-ads-grid{
+  column-count:3;column-gap:8px;column-rule:1px solid #D1C9BA;
+  font:400 9.5px/1.24 var(--serif);text-align:left;
+}
+.ad-unit{break-inside:avoid;margin-bottom:7px;display:block}
+.ad-unit b{display:block;font:700 8.5px var(--head);letter-spacing:.08em;color:#120F0D;margin-bottom:1px}
+.ad-unit.spotlight{
+  background:#FAF1D0;border:1.5px solid #1A1715;padding:5px;
+  position:relative;box-shadow:2px 2px 0 rgba(26,23,21,.12);
+}
+.ad-unit.spotlight::after{
+  content:'YOUR AD HERE';position:absolute;top:-7px;right:4px;
+  background:#D95A2B;color:#FFF;font:700 7px var(--head);letter-spacing:.06em;
+  padding:1px 4px;border-radius:2px;
+}
+
+/* ==========================================================================
+   HERO RIGHT SIDE FORM
+   ========================================================================== */
+.side{display:flex;flex-direction:column;justify-content:center}
+.side .h{padding:clamp(36px,5vw,70px) clamp(32px,5vw,72px) 24px}
+.side .h h1{font-size:clamp(40px,5vw,72px);letter-spacing:-.02em;font-weight:400;margin-bottom:16px}
+.side .h .sub{font-size:18px;color:#574E47;max-width:38ch;line-height:1.5}
+
+.sage-box{
+  background:var(--sage-light);
+  border-top:1px solid rgba(52,45,41,.1);
+  padding:clamp(28px,4vw,44px) clamp(32px,5vw,72px);
+}
+.omni{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.form-field{display:flex;flex-direction:column}
+label{font:600 12px var(--head);letter-spacing:.08em;text-transform:uppercase;color:#453E38;margin-bottom:6px}
+select,textarea,input{
+  width:100%;font:400 15.5px var(--sans);color:var(--ink);
+  background:#FFF;border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;transition:border-color .2s,box-shadow .2s;
+}
+select:focus,textarea:focus,input:focus{outline:none;border-color:var(--ink);box-shadow:0 0 0 3px rgba(40,35,31,.08)}
+
+/* ==========================================================================
+   SECTIONS & CATEGORIES
+   ========================================================================== */
+section{padding:clamp(60px,8vw,100px) clamp(24px,5vw,64px)}
+.wrap{max-width:1160px;margin:0 auto}
+h2{font-size:clamp(32px,4vw,50px);letter-spacing:-.02em;margin-bottom:10px}
+.lead{font-size:18px;max-width:54ch;color:#574E47;margin:0 0 40px}
+
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cat{
+  border-radius:24px;padding:28px;background:var(--soft);
+  display:flex;flex-direction:column;gap:8px;min-height:180px;
+  text-decoration:none;border:1px solid transparent;
+  transition:all .25s ease;
+}
+.cat:hover{transform:translateY(-3px);background:#FFF;border-color:var(--line);box-shadow:0 12px 28px rgba(40,35,31,.06)}
+.cat:nth-child(even){background:var(--sage-light)}
+.cat:nth-child(even):hover{background:#FFF}
+.cat h3{font-size:24px;font-family:var(--serif);font-weight:600}
+.cat p{font-size:14.5px;color:#5A514B;margin:0}
+.cat span{margin-top:auto;font:600 14px var(--head);letter-spacing:.06em;color:var(--accent)}
+
+/* ==========================================================================
+   INTERACTIVE BOOKING SIMULATOR & SURROUNDINGS
+   ========================================================================== */
+.book-section{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.builder-grid{display:grid;grid-template-columns:1fr 1.05fr;gap:36px;align-items:start}
+
+/* Left Configuration Panel */
+.config-panel{
+  background:#FFF;border-radius:28px;padding:32px;
+  border:1px solid var(--line);
+  box-shadow:0 10px 30px rgba(40,35,31,.05);
+}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.f{margin-bottom:16px}
+textarea{min-height:120px;resize:vertical;font-family:var(--serif);line-height:1.45}
+
+.meter-box{
+  background:var(--bg);border:1px solid var(--line);border-radius:10px;
+  padding:10px 14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;
+}
+.meta-txt{font:500 13px var(--head);color:#665D56}
+.meta-pill{font:700 12px var(--head);color:var(--accent);letter-spacing:.04em}
+
+.tog{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.tog label{
+  display:flex;align-items:center;gap:8px;margin:0;
+  background:var(--bg);border:1px solid var(--line);border-radius:999px;
+  padding:9px 16px;cursor:pointer;font:500 13px var(--sans);letter-spacing:0;text-transform:none;
+  transition:all .2s ease;
+}
+.tog label:hover{border-color:var(--ink);background:#FFF}
+.tog input{width:auto;accent-color:var(--ink);cursor:pointer}
+
+.cut-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--sage);color:#1A1715;border-radius:999px;
+  padding:8px 16px;font:600 13px var(--head);letter-spacing:.04em;margin-bottom:18px;
+}
+.cut-badge::before{content:'';width:8px;height:8px;background:#15803D;border-radius:50%}
+
+/* RIGHT SIDE: PROFESSIONAL PROOF SIMULATOR DESK */
+.proof-stage{
+  background:#E6E1D4;border-radius:28px;padding:24px;
+  border:1px solid var(--line);box-shadow:0 12px 35px rgba(40,35,31,.06);
+}
+.proof-topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;padding:0 4px;
+}
+.proof-tag{
+  font:700 12px var(--head);letter-spacing:.12em;text-transform:uppercase;
+  display:flex;align-items:center;gap:6px;color:#453E38;
+}
+.proof-tag::before{content:'';width:8px;height:8px;background:#EF4444;border-radius:50%;box-shadow:0 0 8px #EF4444}
+.proof-dims{font:500 12px var(--head);color:#70665E;background:#FFF;padding:4px 10px;border-radius:999px}
+
+/* The Live Printed Paper Clipping */
+.live-paper{
+  background:var(--paper-tint);color:#1A1715;
+  padding:20px;font-family:Georgia,var(--serif);
+  border:1px solid rgba(40,35,31,.15);border-radius:2px;
+  box-shadow:0 12px 30px rgba(40,35,31,.12);
+  margin-bottom:20px;position:relative;
+}
+.live-paper::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:repeating-linear-gradient(45deg,#342D29,#342D29 10px,#FAF7EE 10px,#FAF7EE 20px);
+  opacity:.15;
+}
+.paper-header{
+  font:700 16px var(--serif);border-top:2px solid #1A1715;border-bottom:1px solid #1A1715;
+  padding:5px 0;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;
+}
+.paper-cat-banner{
+  background:#1A1715;color:#FAF7EE;
+  font:700 11px var(--head);letter-spacing:.14em;
+  text-align:center;padding:3px;margin-bottom:8px;text-transform:uppercase;
+}
+.paper-columns{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:10px}
+.paper-col-side{
+  font-size:11px;line-height:1.28;text-align:justify;color:#787065;
+  border-right:1px solid #D5CEBF;padding-right:8px;
+}
+.paper-col-side:last-child{border-right:0;padding-right:0;border-left:1px solid #D5CEBF;padding-left:8px}
+
+/* Target Ad Column */
+.target-ad-slot{
+  color:#1A1715;font-size:12px;line-height:1.32;
+  white-space:pre-wrap;word-break:break-word;
+  position:relative;padding:6px;border-radius:2px;
+  transition:all .2s ease;
+}
+.target-ad-slot.b{font-weight:700}
+.target-ad-slot.c{background:var(--highlight-bg)}
+.target-ad-slot.t{outline:1.5px solid #1A1715;outline-offset:-2px;padding:8px}
+
+/* Receipt Bill Summary */
+.bill-card{
+  background:#FFF;border-radius:18px;padding:20px;
+  border:1px solid var(--line);margin-bottom:16px;
+}
+.bill{width:100%;border-collapse:collapse;font-size:14.5px}
+.bill td{padding:8px 0;border-bottom:1px dashed var(--line);color:#5A514A}
+.bill td:last-child{text-align:right;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.bill tr.tot td{font:700 20px var(--serif);border:0;padding-top:14px;color:var(--ink)}
+
+/* Steps & Media */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:16px}
+.steps li::before{content:counter(s);font:600 36px var(--news-serif);display:block;margin-bottom:4px;color:var(--accent)}
+.steps h3{font-size:20px;margin-bottom:6px;font-weight:600}
+.steps p{margin:0;font-size:14px;color:#5A514B}
+
+.pubs{display:flex;flex-wrap:wrap;gap:12px 32px;font:700 clamp(24px,3.2vw,38px) var(--news-serif);margin-bottom:28px;color:#3D352F}
+.med{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.mlist{list-style:none;padding:0;margin:0}
+.mlist li{padding:16px 0;border-bottom:1px solid var(--line)}
+.mlist b{font:600 20px var(--serif);display:block;margin-bottom:2px}
+
+.band{background:var(--sage-light);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stepper{display:flex;gap:8px;list-style:none;padding:0;margin:20px 0 0;flex-wrap:wrap}
+.stepper li{flex:1;min-width:110px;border-radius:999px;padding:10px 12px;text-align:center;font:600 12px var(--head);border:1px solid var(--ink);background:#FFF}
+.stepper li.on{background:var(--ink);color:#FFF}
+.trk{display:flex;gap:10px;max-width:500px}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.trust h3{font-size:20px;margin-bottom:6px;font-weight:600}
+.trust p{margin:0;font-size:14px;color:#5A514B}
+
+details{border-bottom:1px solid var(--line);padding:18px 0}
+summary{font:600 21px var(--serif);cursor:pointer}
+details p{margin:10px 0 0;max-width:62ch;color:#5A514B}
+
+footer{background:var(--ink);color:var(--bg);padding:56px clamp(20px,5vw,64px)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px}
+footer a{display:block;margin:6px 0;text-decoration:none;opacity:.85}
+footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:70ch}
+.wa{position:fixed;right:24px;bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:50;background:#16A34A;color:#fff;border-radius:999px;padding:13px 22px;font:600 13.5px var(--head);letter-spacing:.06em;text-decoration:none;box-shadow:0 8px 24px rgba(22,163,74,.36);transition:transform .2s}
+.wa:hover{transform:scale(1.04)}
+
+/* Responsive adjustments */
+@media (max-width:1150px){
+  nav{gap:10px}
+  nav a{font-size:12px;letter-spacing:.03em}
+}
+@media (max-width:980px){
+  header{padding:12px 20px}
+  nav{display:none}
+  .phone-link{display:none}
+}
+@media (max-width:1024px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .photo-stage{min-height:560px;padding:40px 20px}
+  .builder-grid,.med{grid-template-columns:1fr}
+  .cats,.trust{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:768px){
+  .omni{grid-template-columns:1fr}
+  .cats,.trust,.steps,.row{grid-template-columns:1fr}
+  .paper-columns{grid-template-columns:1fr}
+  .paper-col-side{display:none}
+  .trk{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<header id="hd">
+  <a class="logo" href="index.html">RKM Ads<span>.</span></a>
+  <nav aria-label="Main">
+    <a href="newspaper-ads.html">Newspaper</a>
+    <a href="radio-ads.html">Radio</a>
+    <a href="cinema-ads.html">Cinema</a>
+    <a href="tv-ads.html">Television</a>
+    <a href="outdoor-ads.html">Outdoor</a>
+    <a href="digital-marketing.html">Digital PR</a>
+    <a href="rate-cards.html">Rate Cards</a>
+  </nav>
+  <div class="right">
+    <a class="phone-link" href="tel:+918800334456">📞 +91-8800334456</a>
+    <a class="btn sm outline" href="track-ad.html">Track Ad</a>
+    <a class="btn sm accent" href="book-ad.html">Book Ad Now</a>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO SECTION WITH RESIZED & REALISTIC NEWSPAPER BROADSHEET -->
+<div class="hero">
+  <!-- Left Side: Warm Studio Stage with Floating Authentic Newspaper -->
+  <div class="photo-stage" aria-hidden="true">
+    <div class="stage-pill">INS Accredited Network</div>
+    
+    <!-- Realistically Scaled Broadsheet Newspaper -->
+    <div class="np-broadsheet">
+      <div class="np-top-strip">
+        <span>Vol. CXLIX, No. 298</span>
+        <span>Monday, 26 October 2026</span>
+        <span>Price: ₹ 5.00</span>
+      </div>
+
+      <h3 class="np-masthead">The Daily Chronicle</h3>
+      <div class="np-tagline">Northern India’s Foremost Morning Broadsheet • Established 1877</div>
+
+      <div class="np-section-strip">
+        <span>Nation</span>
+        <span>City Pulse</span>
+        <span>Commerce</span>
+        <span>Sports</span>
+        <span>Classifieds</span>
+      </div>
+
+      <div class="np-lead">
+        <div>
+          <h4>Metro Corridor Cleared After Three-Year Review</h4>
+          <p class="np-dek">Work on the 14-km suburban line will commence this January, connecting eastern districts to the central airport.</p>
+        </div>
+        <div class="np-photo-box">
+          <span class="np-photo-caption">City Rail Division • Archive</span>
+        </div>
+      </div>
+
+      <div class="np-columns">
+        <h5>Alignment Backed</h5>
+        <p>The urban transport council voted unanimously on Sunday to approve the revised track blueprint.</p>
+        <p>Relocation packages have been finalized for all registered shopkeepers along the avenue.</p>
+        <h5>Markets High</h5>
+        <p>Benchmark indices closed with 240-point gains as heavy industry and power shares led the rally.</p>
+        <h5>Early School</h5>
+        <p>Winter classroom schedules will take effect from next week across all municipal wards.</p>
+      </div>
+
+      <!-- Classified Ads Section with Highlighted Ad -->
+      <div class="np-classifieds-wrap">
+        <div class="np-classifieds-banner">
+          <span>PAGE 14 — REGIONAL NOTICES</span>
+          <strong>OFFICIAL CLASSIFIEDS</strong>
+          <span>DELHI NCR</span>
+        </div>
+        <div class="np-ads-grid">
+          <div class="ad-unit spotlight">
+            <b>CHANGE OF NAME</b>
+            I, Anita Verma, d/o Mohan Verma, r/o Model Town, have changed my name to Anita Sharma.
+          </div>
+          <div class="ad-unit">
+            <b>TO LET / RENT</b>
+            2 BHK furnished flat, Sector 15. Family only. Call 98XXXXXX01.
+          </div>
+          <div class="ad-unit">
+            <b>MATRIMONIAL</b>
+            Alliance invited for Khatri boy, 30, Software Engineer in Gurugram.
+          </div>
+          <div class="ad-unit">
+            <b>RECRUITMENT</b>
+            Clinic receptionist wanted. Fluent English required. Walk-in 10 AM.
+          </div>
+          <div class="ad-unit">
+            <b>PUBLIC NOTICE</b>
+            Lost share certificates of M/s Example Corp stand cancelled.
+          </div>
+          <div class="ad-unit">
+            <b>OBITUARY</b>
+            Shri Ramesh Kumar passed away peacefully on 12 Oct. Prayer meet Sunday.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-pill-right">
+      <span>Circulation: 1.45M copies daily</span>
+    </div>
+  </div>
+
+  <!-- Right Side: Fast Selection & Hero CTA -->
+  <div class="side">
+    <div class="h">
+      <h1>Say it in print. Reach the entire city.</h1>
+      <p class="sub">Book verified classified and display notices in India's leading dailies with live column preview and upfront rates.</p>
+    </div>
+    <div class="sage-box">
+      <form class="omni" id="omni">
+        <div class="form-field">
+          <label for="hm">Media Channel</label>
+          <select id="hm">
+            <option>Newspaper</option>
+            <option>Radio FM</option>
+            <option>Cinema</option>
+            <option>Outdoor</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="hc">Notice Category</label>
+          <select id="hc"></select>
+        </div>
+        <div class="form-field">
+          <label for="hp">Newspaper</label>
+          <select id="hp"></select>
+        </div>
+      </form>
+      <button class="btn accent" id="go" type="button">Check Rates &amp; Book Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- POPULAR CATEGORIES -->
+<section id="categories">
+  <div class="wrap">
+    <h2>Pick the notice you need to publish</h2>
+    <p class="lead">Each category includes ready-to-use legal formats and mandatory document checklists.</p>
+    <div class="cats" id="catgrid"></div>
+  </div>
+</section>
+
+<!-- INTERACTIVE AD BOOKING BUILDER & LIVE PRINT PROOF -->
+<section class="book-section" id="book">
+  <div class="wrap">
+    <h2>Write your notice &amp; watch it print</h2>
+    <p class="lead">Your text updates in an actual newspaper column in real time. Accurate character and line counters keep you in control of your budget.</p>
+    
+    <div class="builder-grid">
+      <!-- Left: Form Controls -->
+      <div class="config-panel">
+        <div class="row">
+          <div class="form-field">
+            <label for="pub">Newspaper</label>
+            <select id="pub"></select>
+          </div>
+          <div class="form-field">
+            <label for="ed">Edition / Combo</label>
+            <select id="ed"></select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-field">
+            <label for="cat">Category</label>
+            <select id="cat"></select>
+          </div>
+          <div class="form-field">
+            <label for="date">Insertion Date</label>
+            <input type="date" id="date">
+          </div>
+        </div>
+
+        <div class="cut-badge" id="cut">Checking cut-off time...</div>
+
+        <div class="f">
+          <label for="txt">Your Advertisement Content</label>
+          <textarea id="txt" placeholder="Draft your advertisement text here..."></textarea>
+          <div class="meter-box">
+            <span class="meta-txt" id="cnt">0 words, 0 lines</span>
+            <span class="meta-pill" id="chargemode">Charges per line</span>
+          </div>
+        </div>
+
+        <label>Visual Enhancements</label>
+        <div class="tog">
+          <label><input type="checkbox" id="b"> Bold Text (+₹50)</label>
+          <label><input type="checkbox" id="c"> Color Highlight (+₹150)</label>
+          <label><input type="checkbox" id="t"> Border &amp; Tick (+₹30)</label>
+        </div>
+
+        <div class="f" id="docbox" style="margin-top:16px">
+          <label for="doc">Supporting Legal Document</label>
+          <input type="file" id="doc">
+          <p class="meta-txt" id="docnote" style="margin-top:6px"></p>
+        </div>
+      </div>
+
+      <!-- Right: Real-time Newsprint Proof & Itemized Bill -->
+      <div class="proof-stage">
+        <div class="proof-topbar">
+          <span class="proof-tag">Live Broadsheet Simulation</span>
+          <span class="proof-dims">Single Column (3.8 cm)</span>
+        </div>
+
+        <!-- The Live Simulated Newsprint Clipping -->
+        <div class="live-paper" aria-live="polite">
+          <div class="paper-header">
+            <span id="pm">THE TIMES OF INDIA</span>
+            <span id="pd"></span>
+          </div>
+          <div class="paper-cat-banner" id="pcat">MATRIMONIAL</div>
+          <div class="paper-columns">
+            <div class="paper-col-side">
+              <b>TO LET</b><br>2 BHK furnished flat, Sector 15. Family only. Contact 98XXXXXX01.<br><br>
+              <b>WANTED</b><br>Tenant for commercial showroom, 500 sq ft, ground floor.
+            </div>
+            
+            <!-- Target User Ad -->
+            <div class="target-ad-slot" id="pv"></div>
+            
+            <div class="paper-col-side">
+              <b>SITUATIONS VACANT</b><br>Receptionist required for clinic. Graduate, fluent English.<br><br>
+              <b>LOST &amp; FOUND</b><br>Brown briefcase in taxi. Reward offered.
+            </div>
+          </div>
+        </div>
+
+        <!-- Itemized Billing Card -->
+        <div class="bill-card">
+          <table class="bill" aria-label="Price breakdown">
+            <tr><td id="l1">Base Rate</td><td id="v1">₹ 0</td></tr>
+            <tr><td id="l2">Extra Units</td><td id="v2">₹ 0</td></tr>
+            <tr><td>Enhancements</td><td id="v3">₹ 0</td></tr>
+            <tr><td>GST (5%)</td><td id="v4">₹ 0</td></tr>
+            <tr class="tot"><td>Total Payable</td><td id="v5">₹ 0</td></tr>
+          </table>
+        </div>
+
+        <button class="btn accent" id="pay" type="button" style="width:100%;padding:16px;font-size:14px">
+          Continue to Secure Checkout ➔
+        </button>
+        <p class="meta-txt" id="msg" role="status" style="margin-top:10px;text-align:center"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4-STEP BOOKING FLOW -->
+<section id="how">
+  <div class="wrap">
+    <h2>From text to press in four steps</h2>
+    <p class="lead">One seamless workflow for over 150 newspapers with auto-saved drafts.</p>
+    <ol class="steps">
+      <li><h3>1. Choose Publication</h3><p>Filter by newspaper, region, language, and category.</p></li>
+      <li><h3>2. Select Edition</h3><p>Choose an individual city edition or discounted combo packages.</p></li>
+      <li><h3>3. Compose Ad</h3><p>Type text, toggle enhancements, and review in the live column.</p></li>
+      <li><h3>4. Schedule &amp; Pay</h3><p>Choose your print date, attach documents, and pay via UPI or card.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- PUBLICATIONS RATE COMPARISON -->
+<section id="rates" class="book-section">
+  <div class="wrap">
+    <h2>Over 150 accredited newspapers</h2>
+    <p class="lead">Direct authorized tariff cards with zero hidden markup.</p>
+    <div class="pubs">
+      <span>The Times of India</span>
+      <span>Hindustan Times</span>
+      <span>Dainik Jagran</span>
+      <span>Amar Ujala</span>
+      <span>The Hindu</span>
+      <span>Dainik Bhaskar</span>
+    </div>
+    <a class="btn" href="#book">Explore All Rate Cards</a>
+  </div>
+</section>
+
+<!-- MULTI-MEDIA PLANNING (RADIO, CINEMA, OUTDOOR) -->
+<section id="media">
+  <div class="wrap">
+    <div class="med">
+      <div>
+        <h2>Radio, cinema, television &amp; outdoor media</h2>
+        <p class="lead">Custom media planning built around your target city and campaign budget. Get customized rate plans from our media planners.</p>
+        <ul class="mlist">
+          <li><b>Radio FM</b>Prime &amp; non-prime spots across Radio Mirchi, Red FM, Big FM.</li>
+          <li><b>Cinema Advertising</b>On-screen 10-20 sec slide &amp; video ads across PVR INOX &amp; Cinepolis.</li>
+          <li><b>Television Channels</b>High-impact regional &amp; national broadcast time bands.</li>
+          <li><b>Outdoor &amp; DOOH</b>Unipoles, metro branding, transit wraps, and digital billboards.</li>
+        </ul>
+      </div>
+      <form class="config-panel" id="inq">
+        <h3 style="font-size:22px;margin-bottom:16px;font-weight:600">Request a Free Media Plan</h3>
+        <div class="f"><label for="iq1">Full Name</label><input id="iq1" required autocomplete="name" placeholder="Rahul Sharma"></div>
+        <div class="f"><label for="iq2">Phone Number</label><input id="iq2" type="tel" required autocomplete="tel" placeholder="+91 98XXXXXXXX"></div>
+        <div class="f"><label for="iq3">Medium</label><select id="iq3"><option>Radio FM</option><option>Cinema</option><option>Television</option><option>Outdoor / DOOH</option></select></div>
+        <div class="f"><label for="iq4">Target City &amp; Estimated Budget</label><input id="iq4" placeholder="Delhi NCR, approx ₹75,000"></div>
+        <button class="btn accent" type="submit" style="width:100%">Submit Plan Request</button>
+        <p class="meta-txt" id="iqm" role="status" style="margin-top:10px;text-align:center"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE AD TRACKER & PROOFS -->
+<section class="band" id="track">
+  <div class="wrap">
+    <h2>Track your notice to the printing press</h2>
+    <p class="lead">Follow real-time status from verification to morning delivery. Download your scanned e-tearsheet proof once published.</p>
+    
+    <div class="trk">
+      <input id="oid" placeholder="e.g. BMA-2026-9812" aria-label="Order ID">
+      <button class="btn" id="tk" type="button">Track Status</button>
+    </div>
+
+    <ol class="stepper" id="stp">
+      <li>1. Placed</li>
+      <li>2. Editorial Verification</li>
+      <li>3. Scheduled at Press</li>
+      <li>4. Published &amp; Proof</li>
+    </ol>
+    <p class="meta-txt" id="tkm" style="margin-top:14px">Enter your booking ID to track publishing milestones.</p>
+
+    <div class="trust">
+      <div><h3>INS Accredited</h3><p>Direct submission to accredited publisher networks nationwide.</p></div>
+      <div><h3>Publication Guarantee</h3><p>Guaranteed release on the chosen date and edition.</p></div>
+      <div><h3>Digital e-Tearsheet</h3><p>Zoomable scan of the actual printed page plus compliant GST invoice.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap" style="max-width:840px">
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>What documents are needed for a Change of Name ad?</summary>
+      <p>Newspapers require a copy of a notarized affidavit (attested within the last 6 months) and a valid government ID proof. Upload them during Step 4 before payment.</p>
+    </details>
+    <details>
+      <summary>How does the word vs. line counting formula work?</summary>
+      <p>The Times of India charges on a per-line basis (standard ~35 characters per line). Hindi publications like Dainik Jagran charge per word. The live calculator handles this math automatically as you type.</p>
+    </details>
+    <details>
+      <summary>What is the publication cut-off time?</summary>
+      <p>Most national newspapers close their next-day editions by 3:00 PM. Weekend matrimonial sections close on Friday afternoon. The cut-off timer will automatically guide your date selection.</p>
+    </details>
+    <details>
+      <summary>Can I obtain a GST invoice for tax credit?</summary>
+      <p>Yes. Enter your GSTIN during checkout, and a compliant tax invoice will be generated along with your booking confirmation.</p>
+    </details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1.5fr repeat(4, 1fr);gap:32px;margin-bottom:36px;text-align:left">
+      <div>
+        <div class="logo" style="margin-bottom:12px;color:#FFF">RKM Ads<span>.</span></div>
+        <p style="font-size:14px;opacity:.75;line-height:1.6">INS Accredited online advertisement agency for newspapers, radio, television, cinema and out-of-home media across India.</p>
+        <div style="margin-top:16px;font-size:15px;font-weight:600">Helpline: <a href="tel:+918800334456" style="color:var(--accent)">+91-8800334456</a></div>
+      </div>
+      <div>
+        <h4 style="font:600 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#FFF;margin-bottom:14px">Newspapers</h4>
+        <a href="newspaper-ads.html">Classified Text</a>
+        <a href="newspaper-ads.html">Classified Display</a>
+        <a href="newspaper-ads.html">Display Ads</a>
+        <a href="rate-cards.html">Tariff Cards</a>
+      </div>
+      <div>
+        <h4 style="font:600 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#FFF;margin-bottom:14px">Other Media</h4>
+        <a href="radio-ads.html">Radio FM</a>
+        <a href="cinema-ads.html">Cinema Screen</a>
+        <a href="tv-ads.html">Television Ads</a>
+        <a href="outdoor-ads.html">Outdoor &amp; DOOH</a>
+      </div>
+      <div>
+        <h4 style="font:600 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#FFF;margin-bottom:14px">Services</h4>
+        <a href="digital-marketing.html">Digital PR</a>
+        <a href="digital-marketing.html">Google Ads</a>
+        <a href="track-ad.html">Track Booking</a>
+        <a href="book-ad.html">Book Online</a>
+      </div>
+      <div>
+        <h4 style="font:600 13px var(--head);letter-spacing:.12em;text-transform:uppercase;color:#FFF;margin-bottom:14px">Company</h4>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="terms.html">Terms &amp; Policies</a>
+        <a href="terms.html">Refund Policy</a>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:13px;opacity:.65;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <span>© 2026 RKM Ads / BookMyAd Clone. INS Accredited Agency. Sector 58, Noida, UP, India.</span>
+      <span>Mon–Sat: 10:00 AM – 7:00 PM IST</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/918800334456" target="_blank" rel="noopener">Chat on WhatsApp</a>
+
+<script>
+const P={
+  toi:{n:'The Times of India',u:'line',base:1450,ex:290,cpl:35,bu:5},
+  ht:{n:'Hindustan Times',u:'word',base:1900,ex:95,bu:20},
+  dj:{n:'Dainik Jagran',u:'word',base:1100,ex:55,bu:20},
+  au:{n:'Amar Ujala',u:'word',base:1000,ex:50,bu:20}
+};
+const E={
+  'Delhi NCR':1,
+  'Mumbai':1.25,
+  'Lucknow':0.6,
+  'Chandigarh':0.7,
+  'Jaipur':0.65,
+  'Delhi NCR + UP combo':1.45
+};
+const C=[
+  ['Matrimonial','Find matches across verified communities.',500,'Wanted suitable match for Punjabi Khatri girl, 28, MBA, 5\u20326\u2033, working in Gurugram MNC. Status family. Early marriage. Write to: mail@example.com'],
+  ['Change of name','Announce legal name changes with affidavit.',450,'I, Anita Verma, daughter of Mohan Verma, resident of Model Town, Ludhiana, have changed my name to Anita Sharma for all future purposes. All concerned please note.','Notarised affidavit and ID proof'],
+  ['Property','Sell, purchase or lease real estate.',650,'3 BHK luxurious flat for sale in Sector 62, Noida. 1,650 sq ft, 4th floor, 100% power backup, covered car parking. Urgent sale. Call 98XXXXXX10.'],
+  ['Public notice','Statutory, corporate and court announcements.',700,'PUBLIC NOTICE. Notice is hereby given that M/s Example Traders has applied for title deeds. Objections, if any, within 7 days with documentary evidence.','Authority letter / Company seal'],
+  ['Obituary','Honor memories and schedule memorial prayers.',400,'With profound grief we announce the sad demise of Shri Ramesh Kumar on 12 October. Prayer meeting on Sunday, 5 PM, at Arya Samaj Mandir. In grief: Family.','Doctor / Death certificate'],
+  ['Recruitment','Hire candidates locally or across regions.',800,'Wanted: Senior Sales Executive, 2+ years experience in FMCG, Jaipur. Salary 25,000 to 35,000 + incentives. Walk-in or email CV to hr@example.com.']
+];
+
+const $=i=>document.getElementById(i), inr=n=>'\u20B9 '+Math.round(n).toLocaleString('en-IN');
+const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
+
+fill($('hp'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
+fill($('pub'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
+fill($('hc'),C,c=>`<option>${c[0]}</option>`);
+fill($('cat'),C,c=>`<option>${c[0]}</option>`);
+fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
+
+$('catgrid').innerHTML=C.map(c=>`
+  <a class="cat" href="#book" data-c="${c[0]}">
+    <h3>${c[0]}</h3>
+    <p>${c[1]}</p>
+    <span>Starting from ${inr(c[2])} ➔</span>
+  </a>
+`).join('');
+
+function useTemplate(){
+  const c=C.find(x=>x[0]==$('cat').value);
+  if(c){
+    $('txt').value=c[3];
+    $('docbox').style.display=c[4]?'block':'none';
+    $('docnote').textContent=c[4]?'Mandatory requirement: '+c[4]+'.':'';
+    calc();
+  }
+}
+
+function lines(t,w){
+  let n=0,cur=0;
+  t.split('\n').forEach(p=>{
+    n++;cur=0;
+    p.split(/\s+/).filter(Boolean).forEach(x=>{
+      if(cur&&cur+x.length+1>w){n++;cur=0}
+      cur+=(cur?1:0)+x.length;
+    });
+  });
+  return n;
+}
+
+function calc(){
+  const p=P[$('pub').value], m=E[$('ed').value], t=$('txt').value,
+  words=t.trim()?t.trim().split(/\s+/).length:0,
+  ln=t.trim()?lines(t,35):0,
+  used=p.u=='line'?ln:words,
+  extra=Math.max(0,used-p.bu),
+  base=p.base*m,
+  ext=extra*p.ex*m,
+  en=($('b').checked?50:0)+($('c').checked?150:0)+($('t').checked?30:0),
+  sub=base+ext+en,
+  gst=sub*.05;
+
+  $('cnt').textContent=`${words} words, ${ln} lines (~35 chars/line)`;
+  $('chargemode').textContent=`${p.n} charges by ${p.u}`;
+  
+  $('l1').textContent=`Base Rate (${p.bu} ${p.u}s)`;
+  $('l2').textContent=`Extra ${p.u}s (${extra})`;
+  $('v1').textContent=inr(base);
+  $('v2').textContent=inr(ext);
+  $('v3').textContent=inr(en);
+  $('v4').textContent=inr(gst);
+  $('v5').textContent=inr(sub+gst);
+
+  const pv=$('pv');
+  pv.textContent=($('t').checked?'\u2713 ':'')+(t||'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.');
+  pv.className='target-ad-slot'+($('b').checked?' b':'')+($('c').checked?' c':'')+($('t').checked?' t':'');
+
+  $('pm').textContent=p.n.toUpperCase();
+  $('pcat').textContent=$('cat').value.toUpperCase();
+
+  const d=$('date').value;
+  $('pd').textContent=d?new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}).toUpperCase():'';
+}
+
+function cutoff(){
+  const n=new Date(), a=new Date(n);
+  a.setDate(a.getDate()+(n.getHours()>=15?2:1));
+  const s=a.toISOString().slice(0,10), d=$('date');
+  d.min=s;
+  if(!d.value||d.value<s) d.value=s;
+  const e=new Date(n);
+  e.setHours(15,0,0,0);
+  const ms=e-n;
+  $('cut').textContent=ms>0 
+    ? 'Booking closes in '+new Date(ms).toISOString().slice(11,19)+' for print on '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'})
+    : 'Today\u2019s 3 PM cut-off has passed. Earliest print: '+a.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+  calc();
+}
+
+['pub','ed','txt','date','b','c','t'].forEach(i=>$(i).addEventListener('input',calc));
+$('cat').addEventListener('change',useTemplate);
+$('catgrid').addEventListener('click',e=>{
+  const a=e.target.closest('.cat');
+  if(a){$('cat').value=a.dataset.c;useTemplate();$('book').scrollIntoView({behavior:'smooth'})}
+});
+
+$('go').onclick=()=>{
+  if($('hm').value=='Newspaper'){
+    $('cat').value=$('hc').value;
+    $('pub').value=$('hp').value;
+    useTemplate();
+    $('book').scrollIntoView({behavior:'smooth'});
+  } else {
+    $('iq3').value=$('hm').value=='Outdoor'?'Outdoor / DOOH':$('hm').value;
+    $('media').scrollIntoView({behavior:'smooth'});
+  }
+};
+
+$('hm').onchange=()=>{
+  $('go').textContent=$('hm').value=='Newspaper'?'Check Rates & Book Now':'Request a Media Plan';
+};
+
+$('pay').onclick=()=>{
+  const orderDetails = {
+    pub: $('pub').value,
+    pubName: P[$('pub').value].n,
+    ed: $('ed').value,
+    cat: $('cat').value,
+    date: $('date').value,
+    text: $('txt').value,
+    total: $('v5').textContent
+  };
+  localStorage.setItem('currentBooking', JSON.stringify(orderDetails));
+  $('msg').textContent='✔ Draft saved! Redirecting to secure checkout...';
+  setTimeout(()=>{ window.location.href = 'checkout.html'; }, 400);
+};
+
+$('inq').onsubmit=e=>{
+  e.preventDefault();
+  $('iqm').textContent='✔ Thank you! Our senior media planner will contact you within 2 working hours.';
+  e.target.reset();
+};
+
+$('tk').onclick=()=>{
+  const v=$('oid').value.trim();
+  if(!v){$('tkm').textContent='Please enter a valid booking ID (e.g. BMA-2026-9812).';return}
+  [...$('stp').children].forEach((li,i)=>li.classList.toggle('on',i<3));
+  $('tkm').textContent='Order '+v+' is verified & scheduled at press. Your scanned e-tearsheet will be available by 8:00 AM on the release date.';
+};
+
+const hd=$('hd');
+addEventListener('scroll',()=>hd.classList.toggle('s',scrollY>40),{passive:true});
+
+useTemplate();
+cutoff();
+setInterval(cutoff,1000);
+</script>
+</body>
+</html>
