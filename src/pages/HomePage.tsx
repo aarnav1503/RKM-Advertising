@@ -31,92 +31,16 @@ export const HomePage: React.FC = () => {
           ========================================================================== */}
       <div className="hero">
         {/* Authentic Newspaper Stage: Visible on desktop and phone above 'Say it in print' */}
-        <div className="photo-stage flex" aria-hidden="true">
-          <div className="stage-pill">INS Accredited Network</div>
-
-          {/* Realistically Scaled Broadsheet Newspaper */}
-          <div className="np-broadsheet">
-            <div className="np-top-strip">
-              <span>Vol. CXLIX, No. 298</span>
-              <span>Monday, 26 October 2026</span>
-              <span>Price: ₹ 5.00</span>
-            </div>
-
-            <h3 className="np-masthead">The Daily Chronicle</h3>
-            <div className="np-tagline">Northern India’s Foremost Morning Broadsheet • Established 1877</div>
-
-            <div className="np-section-strip">
-              <span>Nation</span>
-              <span>City Pulse</span>
-              <span>Commerce</span>
-              <span>Sports</span>
-              <span>Classifieds</span>
-            </div>
-
-            <div className="np-lead">
-              <div>
-                <h4>Metro Corridor Cleared After Three-Year Review</h4>
-                <p className="np-dek">Work on the 14-km suburban line will commence this January, connecting eastern districts to the central airport.</p>
-              </div>
-              <div className="np-photo-box">
-                <img
-                  src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=500&q=80"
-                  alt="Metro Rail Infrastructure"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) contrast(125%) brightness(95%)', display: 'block' }}
-                />
-                <span className="np-photo-caption">City Rail Division • Archive</span>
-              </div>
-            </div>
-
-            <div className="np-columns">
-              <h5>Alignment Backed</h5>
-              <p>The urban transport council voted unanimously on Sunday to approve the revised track blueprint.</p>
-              <p>Relocation packages have been finalized for all registered shopkeepers along the avenue.</p>
-              <h5>Markets High</h5>
-              <p>Benchmark indices closed with 240-point gains as heavy industry and power shares led the rally.</p>
-              <h5>Early School</h5>
-              <p>Winter classroom schedules will take effect from next week across all municipal wards.</p>
-            </div>
-
-            {/* Classified Ads Section with Highlighted Ad */}
-            <div className="np-classifieds-wrap">
-              <div className="np-classifieds-banner">
-                <span>PAGE 14 — REGIONAL NOTICES</span>
-                <strong>OFFICIAL CLASSIFIEDS</strong>
-                <span>DELHI NCR</span>
-              </div>
-              <div className="np-ads-grid">
-                <div className="ad-unit spotlight">
-                  <b>CHANGE OF NAME</b>
-                  I, Anita Verma, d/o Mohan Verma, r/o Model Town, have changed my name to Anita Sharma.
-                </div>
-                <div className="ad-unit">
-                  <b>TO LET / RENT</b>
-                  2 BHK furnished flat, Sector 15. Family only. Call 98XXXXXX01.
-                </div>
-                <div className="ad-unit">
-                  <b>MATRIMONIAL</b>
-                  Alliance invited for Khatri boy, 30, Software Engineer in Gurugram.
-                </div>
-                <div className="ad-unit">
-                  <b>RECRUITMENT</b>
-                  Clinic receptionist wanted. Fluent English required. Walk-in 10 AM.
-                </div>
-                <div className="ad-unit">
-                  <b>PUBLIC NOTICE</b>
-                  Lost share certificates of M/s Example Corp stand cancelled.
-                </div>
-                <div className="ad-unit">
-                  <b>OBITUARY</b>
-                  Shri Ramesh Kumar passed away peacefully on 12 Oct. Prayer meet Sunday.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="stage-pill-right">
-            <span>Circulation: 1.45M copies daily</span>
-          </div>
+        {/* Multi-Channel Media & Advertising Stage: Responsive SVG Graphic */}
+        <div className="photo-stage" aria-hidden="true">
+          <picture className="hero-stage-picture">
+            <source media="(max-width: 768px)" srcSet="/images/rkm-hero-mobile-final.svg" />
+            <img
+              src="/images/rkm-hero-desktop-final.svg"
+              alt="RKM Ads Multi-Channel Media Network"
+              className="hero-stage-img"
+            />
+          </picture>
         </div>
 
         {/* Right Side: Hero Pitch */}
@@ -196,10 +120,10 @@ export const HomePage: React.FC = () => {
           <h2>From text to press in four steps</h2>
           <p className="lead">One seamless workflow for over 150 newspapers with auto-saved drafts.</p>
           <ol className="steps">
-            <li><h3>1. Choose Publication</h3><p>Filter by newspaper, region, language, and category.</p></li>
-            <li><h3>2. Select Edition</h3><p>Choose an individual city edition or discounted combo packages.</p></li>
-            <li><h3>3. Compose Ad</h3><p>Type text, toggle enhancements, and review in the live column.</p></li>
-            <li><h3>4. Schedule &amp; Pay</h3><p>Choose your print date, attach documents, and pay via UPI or card.</p></li>
+            <li><h3>Choose Publication</h3><p>Filter by newspaper, region, language, and category.</p></li>
+            <li><h3>Select Edition</h3><p>Choose an individual city edition or discounted combo packages.</p></li>
+            <li><h3>Compose Ad</h3><p>Type text, toggle enhancements, and review in the live column.</p></li>
+            <li><h3>Schedule &amp; Pay</h3><p>Choose your print date, attach documents, and pay via UPI or card.</p></li>
           </ol>
         </div>
       </section>
