@@ -1,260 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useBooking } from '../context/BookingContext';
-import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES, calculateLines, formatINR } from '../data/publicationsData';
-
-const AD_FORMATS = [
-  {
-    id: 'text' as const,
-    name: 'Classified Text (ROD)',
-    tagline: 'Run-on-line notices',
-    badge: 'Popular',
-    pricingNote: 'Per line/word tariff',
-  },
-  {
-    id: 'cd' as const,
-    name: 'Classified Display (CD)',
-    tagline: 'Boxed ad with custom border',
-    badge: 'High Impact',
-    pricingNote: 'Boxed column tariff (+₹350)',
-  },
-  {
-    id: 'display' as const,
-    name: 'Commercial Display',
-    tagline: 'Quarter, half or full page',
-    badge: 'Impact Ad',
-    pricingNote: 'From ₹12,000 / insertion',
-  },
-];
+import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES, formatINR } from '../data/publicationsData';
+import { NewspaperCard } from '../components/common/NewspaperCard';
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { booking, updateBooking, setCategoryTemplate } = useBooking();
+  const { setCategoryTemplate } = useBooking();
 
   // Hero Omni State
   const [heroMedia, setHeroMedia] = useState('');
   const [heroCat, setHeroCat] = useState('');
   const [heroPub, setHeroPub] = useState('');
 
-  // Interactive Booking Builder State on Home Page
-  const [builderPub, setBuilderPub] = useState(booking.publicationId || '');
-  const [builderEd, setBuilderEd] = useState(booking.edition || '');
-  const [builderCat, setBuilderCat] = useState(booking.category || '');
-  const [builderFormat, setBuilderFormat] = useState<'text' | 'cd' | 'display'>('text');
-  const [builderDate, setBuilderDate] = useState(booking.publishDate || '');
-  const [builderText, setBuilderText] = useState(booking.adText || '');
-  const [isBold, setIsBold] = useState(booking.enhancements.bold || false);
-  const [isColor, setIsColor] = useState(booking.enhancements.colorBg || false);
-  const [isBorder, setIsBorder] = useState(booking.enhancements.borderTick || false);
-  const [checkoutMsg, setCheckoutMsg] = useState('');
-  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  const [pickerMonth, setPickerMonth] = useState<Date>(() => {
-    const d = new Date();
-    return new Date(d.getFullYear(), d.getMonth(), 1);
-  });
-  const datePickerRef = useRef<HTMLDivElement>(null);
-
-  const [simulatedSummary, setSimulatedSummary] = useState<null | {
-    pubName: string;
-    edition: string;
-    category: string;
-    format: string;
-    date: string;
-    words: number;
-    lines: number;
-    total: number;
-  }>(null);
-
-  // Media plan inquiry form state
-  const [inqName, setInqName] = useState('');
-  const [inqPhone, setInqPhone] = useState('');
-  const [inqMedium, setInqMedium] = useState('');
-  const [inqCityBudget, setInqCityBudget] = useState('');
-  const [inqMsg, setInqMsg] = useState('');
-
   // Track status section state
   const [trackId, setTrackId] = useState('');
   const [trackStep, setTrackStep] = useState(0);
   const [trackMsg, setTrackMsg] = useState('Enter your booking ID to track publishing milestones.');
 
-  // Cut-off timer calculation
-  const [cutoffMsg, setCutoffMsg] = useState('Checking cut-off time...');
-
-  // Available publications & editions map from index.html
-  const P: Record<string, { n: string; u: 'line' | 'word'; base: number; ex: number; cpl?: number; bu: number }> = {
-    toi: { n: 'The Times of India', u: 'line', base: 1450, ex: 290, cpl: 35, bu: 5 },
-    ht: { n: 'Hindustan Times', u: 'word', base: 1900, ex: 95, bu: 20 },
-    dj: { n: 'Dainik Jagran', u: 'word', base: 1100, ex: 55, bu: 20 },
-    au: { n: 'Amar Ujala', u: 'word', base: 1000, ex: 50, bu: 20 }
-  };
-
-  const E: Record<string, number> = {
-    'Delhi NCR': 1,
-    'Mumbai': 1.25,
-    'Lucknow': 0.6,
-    'Chandigarh': 0.7,
-    'Jaipur': 0.65,
-    'Delhi NCR + UP combo': 1.45
-  };
-
-  const currentPub = builderPub && P[builderPub] ? P[builderPub] : null;
-  const currentEdMult = (builderEd && E[builderEd]) ? E[builderEd] : 1;
-
-  // Calculation logic with Ad Format support
-  const trimmed = builderText.trim();
-  const wordCount = trimmed ? trimmed.split(/\s+/).length : 0;
-  const lineCount = trimmed ? calculateLines(trimmed, 35) : 0;
-  const usedUnits = currentPub ? (currentPub.u === 'line' ? lineCount : wordCount) : 0;
-  const extraUnits = currentPub ? Math.max(0, usedUnits - currentPub.bu) : 0;
-
-  let baseRate = currentPub ? currentPub.base * currentEdMult : 0;
-  let extraRate = currentPub ? extraUnits * currentPub.ex * currentEdMult : 0;
-  let enhRate = (isBold ? 50 : 0) + (isColor ? 150 : 0) + (isBorder ? 30 : 0);
-
-  if (builderFormat === 'cd') {
-    baseRate = baseRate ? baseRate + 350 : 350;
-  } else if (builderFormat === 'display') {
-    baseRate = 12000;
-    extraRate = 0;
-    enhRate = 0;
-  }
-
-  const subTotal = (baseRate || extraRate || (trimmed && enhRate)) ? (baseRate + extraRate + enhRate) : 0;
-  const gst = subTotal * 0.05;
-  const totalPayable = subTotal + gst;
-
-  // Selected Category Object for required legal documents
-  const selectedCatObj = CATEGORY_TEMPLATES.find((c) => c.name === builderCat);
-
-  // Sync date min & cut-off timer (does not auto-force builderDate so it stays blank initially)
-  useEffect(() => {
-    const updateCutoff = () => {
-      const now = new Date();
-      const a = new Date(now);
-      a.setDate(a.getDate() + (now.getHours() >= 15 ? 2 : 1));
-
-      const e = new Date(now);
-      e.setHours(15, 0, 0, 0);
-      const ms = e.getTime() - now.getTime();
-      const dateFmt = a.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
-
-      if (ms > 0) {
-        setCutoffMsg(
-          `Booking closes in ${new Date(ms).toISOString().slice(11, 19)} for print on ${dateFmt}`
-        );
-      } else {
-        setCutoffMsg(`Today's 3 PM cut-off has passed. Earliest print: ${dateFmt}`);
-      }
-    };
-
-    updateCutoff();
-    const timer = setInterval(updateCutoff, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Close datepicker when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (datePickerRef.current && !datePickerRef.current.contains(e.target as Node)) {
-        setIsDatePickerOpen(false);
-      }
-    };
-    if (isDatePickerOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isDatePickerOpen]);
-
-  // Calendar calculations
-  const now = new Date();
-  const minAllowedDateObj = new Date(now);
-  minAllowedDateObj.setDate(minAllowedDateObj.getDate() + (now.getHours() >= 15 ? 2 : 1));
-  const minDateStr = minAllowedDateObj.toISOString().slice(0, 10);
-  const minDateDisplay = minAllowedDateObj.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
-
-  const nextSundayObj = new Date(minAllowedDateObj);
-  const daysUntilSunday = (7 - nextSundayObj.getDay()) % 7 || 7;
-  nextSundayObj.setDate(nextSundayObj.getDate() + daysUntilSunday);
-  const nextSundayStr = nextSundayObj.toISOString().slice(0, 10);
-
-  const currentViewYear = pickerMonth.getFullYear();
-  const currentViewMonth = pickerMonth.getMonth();
-  const totalDaysInMonth = new Date(currentViewYear, currentViewMonth + 1, 0).getDate();
-  const firstDayOfWeek = new Date(currentViewYear, currentViewMonth, 1).getDay();
-
-  // Set category template
-  const applyCategory = (catName: string) => {
-    setBuilderCat(catName);
-    const tmpl = CATEGORY_TEMPLATES.find((c) => c.name === catName);
-    if (tmpl) {
-      setBuilderText(tmpl.sampleText);
-    }
-  };
-
   const handleHeroGo = () => {
     if (heroMedia === 'Newspaper' || !heroMedia) {
-      if (heroCat) applyCategory(heroCat);
-      if (heroPub) setBuilderPub(heroPub);
-      const bookEl = document.getElementById('book');
-      if (bookEl) bookEl.scrollIntoView({ behavior: 'smooth' });
+      if (heroCat) setCategoryTemplate(heroCat);
+      navigate(
+        `/book-ad?media=newspaper${heroPub ? `&pub=${heroPub}` : ''}${
+          heroCat ? `&cat=${encodeURIComponent(heroCat)}` : ''
+        }`
+      );
     } else {
-      setInqMedium(heroMedia === 'Outdoor' ? 'Outdoor / DOOH' : heroMedia);
-      const mediaEl = document.getElementById('inquiry') || document.getElementById('media');
-      if (mediaEl) mediaEl.scrollIntoView({ behavior: 'smooth' });
+      const mediaRouteMap: Record<string, string> = {
+        Radio: '/radio-ads',
+        Cinema: '/cinema-ads',
+        TV: '/tv-ads',
+        Outdoor: '/outdoor-ads',
+        Digital: '/digital-marketing',
+      };
+      navigate(mediaRouteMap[heroMedia] || '/book-ad');
     }
-  };
-
-  const handleContinueCheckout = () => {
-    if (!builderPub) {
-      setCheckoutMsg('⚠️ Please choose a newspaper.');
-      setSimulatedSummary(null);
-      return;
-    }
-    if (!builderEd) {
-      setCheckoutMsg('⚠️ Please choose an edition.');
-      setSimulatedSummary(null);
-      return;
-    }
-    if (!builderCat) {
-      setCheckoutMsg('⚠️ Please choose a category.');
-      setSimulatedSummary(null);
-      return;
-    }
-    if (!builderText.trim()) {
-      setCheckoutMsg('⚠️ Please enter your advertisement content.');
-      setSimulatedSummary(null);
-      return;
-    }
-    if (!builderDate) {
-      setCheckoutMsg('⚠️ Please select an insertion date.');
-      setSimulatedSummary(null);
-      return;
-    }
-
-    setCheckoutMsg('');
-    setSimulatedSummary({
-      pubName: currentPub ? currentPub.n : builderPub,
-      edition: builderEd,
-      category: builderCat,
-      format: AD_FORMATS.find((f) => f.id === builderFormat)?.name || 'Classified Text (ROD)',
-      date: builderDate,
-      words: wordCount,
-      lines: lineCount,
-      total: totalPayable,
-    });
-  };
-
-  const handleInquirySubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inqMedium) {
-      setInqMsg('⚠️ Please select a media channel of interest.');
-      return;
-    }
-    setInqMsg('✔ Thank you! Our senior media planner will contact you within 2 working hours.');
-    setInqName('');
-    setInqPhone('');
-    setInqCityBudget('');
   };
 
   const handleTrack = () => {
@@ -395,8 +176,8 @@ export const HomePage: React.FC = () => {
                 <label htmlFor="hp">Newspaper</label>
                 <select id="hp" value={heroPub} onChange={(e) => setHeroPub(e.target.value)}>
                   <option value="">Select Newspaper</option>
-                  {Object.keys(P).map((k) => (
-                    <option key={k} value={k}>{P[k].n}</option>
+                  {Object.values(PUBLICATIONS_DATA).map((pub) => (
+                    <option key={pub.id} value={pub.id}>{pub.name}</option>
                   ))}
                 </select>
               </div>
@@ -466,493 +247,7 @@ export const HomePage: React.FC = () => {
       {/* ==========================================================================
           INTERACTIVE AD BOOKING BUILDER & LIVE PRINT PROOF
           ========================================================================== */}
-      <section className="book-section" id="book">
-        <div className="wrap">
-          <h2>Write your notice &amp; watch it print</h2>
-          <p className="lead">Your text updates in an actual newspaper column in real time. Accurate character and line counters keep you in control of your budget.</p>
-
-          <div className="builder-grid">
-            {/* Left: Form Controls */}
-            <div className="config-panel">
-              <div className="row">
-                <div className="form-field">
-                  <label htmlFor="pub">Newspaper</label>
-                  <select id="pub" value={builderPub} onChange={(e) => setBuilderPub(e.target.value)}>
-                    <option value="">Select Newspaper</option>
-                    {Object.keys(P).map((k) => (
-                      <option key={k} value={k}>{P[k].n}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-field">
-                  <label htmlFor="ed">Edition / Combo</label>
-                  <select id="ed" value={builderEd} onChange={(e) => setBuilderEd(e.target.value)}>
-                    <option value="">Select Edition / Combo</option>
-                    {Object.keys(E).map((k) => (
-                      <option key={k} value={k}>{k}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* AVAILABLE FORMATS */}
-              <div className="form-field" style={{ marginBottom: '16px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <label style={{ margin: 0 }}>Available Formats</label>
-                  <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--accent)', letterSpacing: '.04em' }}>
-                    INS Approved Formats
-                  </span>
-                </div>
-                <div className="format-options-grid">
-                  {AD_FORMATS.map((fmt) => {
-                    const isActive = builderFormat === fmt.id;
-                    return (
-                      <button
-                        key={fmt.id}
-                        type="button"
-                        className={`format-card ${isActive ? 'active' : ''}`}
-                        onClick={() => {
-                          setBuilderFormat(fmt.id);
-                          if (fmt.id === 'cd') setIsBorder(true);
-                        }}
-                      >
-                        <div className="format-card-top">
-                          <span className="format-card-badge">{fmt.badge}</span>
-                          <span style={{ fontSize: '14px', color: isActive ? 'var(--accent)' : '#A39990' }}>
-                            {isActive ? '●' : '○'}
-                          </span>
-                        </div>
-                        <div className="format-card-title">{fmt.name}</div>
-                        <div className="format-card-desc">{fmt.tagline}</div>
-                        <div className="format-card-rate">{fmt.pricingNote}</div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="form-field">
-                  <label htmlFor="cat">Category</label>
-                  <select id="cat" value={builderCat} onChange={(e) => applyCategory(e.target.value)}>
-                    <option value="">Select Category</option>
-                    {CATEGORY_TEMPLATES.map((c) => (
-                      <option key={c.name} value={c.name}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-field">
-                  <label htmlFor="date">Insertion Date</label>
-                  <div className="custom-datepicker" ref={datePickerRef}>
-                    <button
-                      type="button"
-                      id="date"
-                      className={`datepicker-trigger ${isDatePickerOpen ? 'active' : ''}`}
-                      onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}
-                      aria-haspopup="dialog"
-                      aria-expanded={isDatePickerOpen}
-                    >
-                      <div className="trigger-icon">
-                        <Calendar style={{ width: '16px', height: '16px', color: 'var(--accent)' }} />
-                        <span className={builderDate ? '' : 'placeholder'}>
-                          {builderDate
-                            ? new Date(builderDate + 'T00:00').toLocaleDateString('en-IN', {
-                                weekday: 'short',
-                                day: 'numeric',
-                                month: 'short',
-                                year: 'numeric',
-                              })
-                            : 'Select Insertion Date'}
-                        </span>
-                      </div>
-                      <ChevronDown
-                        style={{
-                          width: '16px',
-                          height: '16px',
-                          color: '#70665E',
-                          transform: isDatePickerOpen ? 'rotate(180deg)' : 'none',
-                          transition: 'transform 0.2s ease',
-                        }}
-                      />
-                    </button>
-
-                    {isDatePickerOpen && (
-                      <div className="datepicker-popover" role="dialog" aria-label="Choose insertion date">
-                        {/* Quick Presets */}
-                        <div className="datepicker-chips">
-                          <button
-                            type="button"
-                            className="datepicker-chip"
-                            onClick={() => {
-                              setBuilderDate(minDateStr);
-                              setIsDatePickerOpen(false);
-                            }}
-                          >
-                            Tomorrow ({minDateDisplay})
-                          </button>
-                          <button
-                            type="button"
-                            className="datepicker-chip"
-                            onClick={() => {
-                              const plus2 = new Date(minAllowedDateObj);
-                              plus2.setDate(plus2.getDate() + 1);
-                              setBuilderDate(plus2.toISOString().slice(0, 10));
-                              setIsDatePickerOpen(false);
-                            }}
-                          >
-                            +2 Days
-                          </button>
-                          <button
-                            type="button"
-                            className="datepicker-chip"
-                            onClick={() => {
-                              setBuilderDate(nextSundayStr);
-                              setIsDatePickerOpen(false);
-                            }}
-                          >
-                            Sunday Print
-                          </button>
-                        </div>
-
-                        {/* Month Nav */}
-                        <div className="datepicker-header">
-                          <button
-                            type="button"
-                            className="datepicker-nav-btn"
-                            onClick={() => {
-                              setPickerMonth(new Date(pickerMonth.getFullYear(), pickerMonth.getMonth() - 1, 1));
-                            }}
-                          >
-                            ‹
-                          </button>
-                          <span className="datepicker-month-title">
-                            {pickerMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-                          </span>
-                          <button
-                            type="button"
-                            className="datepicker-nav-btn"
-                            onClick={() => {
-                              setPickerMonth(new Date(pickerMonth.getFullYear(), pickerMonth.getMonth() + 1, 1));
-                            }}
-                          >
-                            ›
-                          </button>
-                        </div>
-
-                        {/* Weekday headers */}
-                        <div className="datepicker-weekdays">
-                          {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((d) => (
-                            <span key={d}>{d}</span>
-                          ))}
-                        </div>
-
-                        {/* Days Grid */}
-                        <div className="datepicker-grid">
-                          {Array.from({ length: firstDayOfWeek }).map((_, i) => (
-                            <div key={`empty-${i}`} />
-                          ))}
-                          {Array.from({ length: totalDaysInMonth }).map((_, i) => {
-                            const day = i + 1;
-                            const curDateStr = `${pickerMonth.getFullYear()}-${String(pickerMonth.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                            const isPast = curDateStr < minDateStr;
-                            const isSelected = curDateStr === builderDate;
-                            const isToday = curDateStr === new Date().toISOString().slice(0, 10);
-                            return (
-                              <button
-                                key={day}
-                                type="button"
-                                disabled={isPast}
-                                className={`datepicker-day ${isSelected ? 'selected' : ''} ${isToday ? 'today' : ''}`}
-                                onClick={() => {
-                                  setBuilderDate(curDateStr);
-                                  setIsDatePickerOpen(false);
-                                }}
-                              >
-                                {day}
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        {/* Footer */}
-                        <div className="datepicker-footer">
-                          <span>Earliest Print: {minDateDisplay}</span>
-                          {builderDate && (
-                            <button
-                              type="button"
-                              className="datepicker-clear-btn"
-                              onClick={() => setBuilderDate('')}
-                            >
-                              Clear
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="cut-badge">{cutoffMsg}</div>
-
-              <div className="f">
-                <label htmlFor="txt">Your Advertisement Content</label>
-                <textarea
-                  id="txt"
-                  value={builderText}
-                  onChange={(e) => setBuilderText(e.target.value)}
-                  placeholder="Type your advertisement text here..."
-                />
-                <div className="meter-box">
-                  <span className="meta-txt">
-                    {wordCount} words, {lineCount} lines (~35 chars/line)
-                  </span>
-                  <span className="meta-pill">
-                    {currentPub ? `${currentPub.n} charges by ${currentPub.u}` : 'Select a newspaper to view tariff'}
-                  </span>
-                </div>
-              </div>
-
-              <label>Visual Enhancements</label>
-              <div className="tog">
-                <label>
-                  <input type="checkbox" checked={isBold} onChange={(e) => setIsBold(e.target.checked)} /> Bold Text (+₹50)
-                </label>
-                <label>
-                  <input type="checkbox" checked={isColor} onChange={(e) => setIsColor(e.target.checked)} /> Color Highlight (+₹150)
-                </label>
-                <label>
-                  <input type="checkbox" checked={isBorder} onChange={(e) => setIsBorder(e.target.checked)} /> Border &amp; Tick (+₹30)
-                </label>
-              </div>
-
-              {selectedCatObj?.requiredDoc && (
-                <div className="f" style={{ marginTop: '16px' }}>
-                  <label htmlFor="doc">Supporting Legal Document</label>
-                  <input type="file" id="doc" />
-                  <p className="meta-txt" style={{ marginTop: '6px' }}>
-                    Mandatory requirement: {selectedCatObj.requiredDoc}.
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Right: Real-time Newsprint Proof & Itemized Bill */}
-            <div className="proof-stage">
-              <div className="proof-topbar">
-                <span className="proof-tag">Live Broadsheet Simulation</span>
-                <span className="proof-dims">
-                  {builderFormat === 'cd'
-                    ? 'Classified Display Box (3.8 cm)'
-                    : builderFormat === 'display'
-                    ? 'Quarter Broadsheet (16 × 25 cm)'
-                    : 'Single Column (3.8 cm)'}
-                </span>
-              </div>
-
-              {/* The Live Simulated Newsprint Clipping */}
-              <div className="live-paper" aria-live="polite">
-                <div className="paper-header">
-                  <span>{currentPub ? currentPub.n.toUpperCase() : 'SELECT NEWSPAPER'}</span>
-                  <span>
-                    {builderDate
-                      ? new Date(builderDate + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()
-                      : ''}
-                  </span>
-                </div>
-                <div className="paper-cat-banner">{builderCat ? builderCat.toUpperCase() : 'CHOOSE A CATEGORY'}</div>
-                <div className="paper-columns">
-                  <div className="paper-col-side">
-                    <b>TO LET</b><br />2 BHK furnished flat, Sector 15. Family only. Contact 98XXXXXX01.<br /><br />
-                    <b>WANTED</b><br />Tenant for commercial showroom, 500 sq ft, ground floor.
-                  </div>
-
-                  {/* Target User Ad */}
-                  {builderFormat === 'display' ? (
-                    <div
-                      style={{
-                        border: '2px solid #1A1715',
-                        padding: '10px 8px',
-                        background: '#FAF7EE',
-                        textAlign: 'center',
-                        borderRadius: '2px',
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: '9px',
-                          fontWeight: 800,
-                          letterSpacing: '0.12em',
-                          color: 'var(--accent)',
-                          textTransform: 'uppercase',
-                          marginBottom: '3px',
-                        }}
-                      >
-                        Commercial Display
-                      </div>
-                      <div style={{ font: '700 13px var(--news-serif)', color: '#1A1715', marginBottom: '4px' }}>
-                        {builderCat ? builderCat.toUpperCase() : 'DISPLAY CAMPAIGN'}
-                      </div>
-                      <div style={{ fontSize: '11px', color: '#453E38', lineHeight: 1.3, whiteSpace: 'pre-wrap' }}>
-                        {builderText.trim() ? builderText : 'Full commercial creative placement with image & custom layout.'}
-                      </div>
-                      <div style={{ marginTop: '6px', fontSize: '9.5px', color: '#8C827A', borderTop: '1px dashed #D5CEBF', paddingTop: '3px' }}>
-                        Quarter Page (16 × 25 cm)
-                      </div>
-                    </div>
-                  ) : builderFormat === 'cd' ? (
-                    <div
-                      className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''}`}
-                      style={{
-                        border: '2px double #1A1715',
-                        padding: '8px',
-                        background: isColor ? 'var(--highlight-bg)' : '#FFF',
-                        ...(!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}),
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: '9px',
-                          fontWeight: 800,
-                          letterSpacing: '0.1em',
-                          background: '#1A1715',
-                          color: '#FAF7EE',
-                          padding: '2px 4px',
-                          marginBottom: '5px',
-                          textAlign: 'center',
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        Classified Display Box
-                      </div>
-                      {isBorder ? '✓ ' : ''}
-                      {builderText.trim() ? builderText : 'Your ad text will appear here formatted with a prominent display box and custom typography.'}
-                    </div>
-                  ) : (
-                    <div
-                      className={`target-ad-slot ${isBold ? 'b' : ''} ${isColor ? 'c' : ''} ${isBorder ? 't' : ''}`}
-                      style={!builderText.trim() ? { fontStyle: 'italic', opacity: 0.65 } : {}}
-                    >
-                      {isBorder ? '✓ ' : ''}
-                      {builderText.trim() ? builderText : 'Your ad text will appear here formatted exactly as it will be printed in the newspaper column.'}
-                    </div>
-                  )}
-
-                  <div className="paper-col-side">
-                    <b>SITUATIONS VACANT</b><br />Receptionist required for clinic. Graduate, fluent English.<br /><br />
-                    <b>LOST &amp; FOUND</b><br />Brown briefcase in taxi. Reward offered.
-                  </div>
-                </div>
-              </div>
-
-              {/* Itemized Billing Card */}
-              <div className="bill-card">
-                <table className="bill" aria-label="Price breakdown">
-                  <tbody>
-                    <tr>
-                      <td>
-                        {builderFormat === 'display'
-                          ? 'Commercial Display Space (Quarter Page)'
-                          : builderFormat === 'cd'
-                          ? `CD Box Base Rate ${currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}`
-                          : `Base Rate ${currentPub ? `(${currentPub.bu} ${currentPub.u}s)` : ''}`}
-                      </td>
-                      <td>{formatINR(baseRate)}</td>
-                    </tr>
-                    <tr>
-                      <td>Extra Units ({builderFormat === 'display' ? 0 : extraUnits})</td>
-                      <td>{formatINR(extraRate)}</td>
-                    </tr>
-                    <tr>
-                      <td>Visual Enhancements</td>
-                      <td>{formatINR(enhRate)}</td>
-                    </tr>
-                    <tr>
-                      <td>GST (5%)</td>
-                      <td>{formatINR(gst)}</td>
-                    </tr>
-                    <tr className="tot">
-                      <td>Total Payable</td>
-                      <td>{formatINR(totalPayable)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <button
-                className="btn accent"
-                type="button"
-                style={{ width: '100%', padding: '16px', fontSize: '14px' }}
-                onClick={handleContinueCheckout}
-              >
-                Continue to Secure Checkout ➔
-              </button>
-              {checkoutMsg && (
-                <p className="meta-txt" role="status" style={{ marginTop: '10px', textAlign: 'center', color: '#DC2626', fontWeight: 600 }}>
-                  {checkoutMsg}
-                </p>
-              )}
-              {simulatedSummary && (
-                <div
-                  className="simulated-summary-card"
-                  style={{
-                    marginTop: '16px',
-                    background: '#F0FDF4',
-                    border: '1.5px solid #86EFAC',
-                    borderRadius: '14px',
-                    padding: '16px 18px',
-                    textAlign: 'left',
-                    color: '#14532D',
-                    boxShadow: '0 4px 16px rgba(22, 101, 52, 0.08)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexWrap: 'wrap', gap: '6px' }}>
-                    <span style={{ font: '700 11.5px var(--head)', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#166534', background: '#DCFCE7', padding: '3.5px 8.5px', borderRadius: '6px' }}>
-                      ✔ Sample Booking Simulation
-                    </span>
-                    <span style={{ fontSize: '12px', color: '#15803D', fontWeight: 600 }}>Ref: RKM-SAMPLE-2026</span>
-                  </div>
-                  <div style={{ fontSize: '13.5px', lineHeight: 1.65 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Publication:</strong>
-                      <span style={{ fontWeight: 600 }}>{simulatedSummary.pubName}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Edition / Combo:</strong>
-                      <span style={{ fontWeight: 600 }}>{simulatedSummary.edition}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Category:</strong>
-                      <span style={{ fontWeight: 600 }}>{simulatedSummary.category}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Format:</strong>
-                      <span style={{ fontWeight: 600 }}>{simulatedSummary.format}</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Scheduled Print:</strong>
-                      <span style={{ fontWeight: 600 }}>
-                        {new Date(simulatedSummary.date + 'T00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
-                      <strong style={{ color: '#166534' }}>Volume:</strong>
-                      <span>{simulatedSummary.words} words, {simulatedSummary.lines} lines</span>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px solid #BBF7D0', paddingTop: '8px', marginTop: '6px', fontSize: '15px', fontWeight: 700 }}>
-                      <span style={{ color: '#14532D' }}>Estimated Total:</span>
-                      <span style={{ color: 'var(--accent)' }}>{formatINR(simulatedSummary.total)}</span>
-                    </div>
-                  </div>
-                  <p style={{ margin: '10px 0 0', fontSize: '12px', color: '#166534', opacity: 0.9, lineHeight: 1.4 }}>
-                    ℹ️ This is a live simulation for tariff calculation and preview on the landing page (no charge incurred).
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* ==========================================================================
           4-STEP BOOKING FLOW
@@ -978,49 +273,21 @@ export const HomePage: React.FC = () => {
           <h2>Over 150 accredited newspapers</h2>
           <p className="lead">Direct authorized tariff cards with zero hidden markup.</p>
 
-          <div className="pub-badge-grid">
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">TOI</div>
-              <div>
-                <strong>The Times of India</strong>
-                <span>English • 1.45M Daily Readers</span>
-              </div>
-            </Link>
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">HT</div>
-              <div>
-                <strong>Hindustan Times</strong>
-                <span>English • 980K Daily Readers</span>
-              </div>
-            </Link>
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">DJ</div>
-              <div>
-                <strong>Dainik Jagran</strong>
-                <span>Hindi • 3.2M Daily Readers</span>
-              </div>
-            </Link>
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">AU</div>
-              <div>
-                <strong>Amar Ujala</strong>
-                <span>Hindi • 2.6M Daily Readers</span>
-              </div>
-            </Link>
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">TH</div>
-              <div>
-                <strong>The Hindu</strong>
-                <span>English • 850K Daily Readers</span>
-              </div>
-            </Link>
-            <Link className="pub-badge-card" to="/rate-cards">
-              <div className="pub-crest">DB</div>
-              <div>
-                <strong>Dainik Bhaskar</strong>
-                <span>Hindi • 3.8M Daily Readers</span>
-              </div>
-            </Link>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-7">
+            {Object.values(PUBLICATIONS_DATA).map((p) => (
+              <NewspaperCard
+                key={p.id}
+                id={p.id}
+                name={p.name}
+                shortTitle={p.shortTitle}
+                language={p.language}
+                reach={p.reach}
+                copies={p.copies}
+                unit={p.unit}
+                baseRate={p.baseRate}
+                to={`/book-ad?pub=${p.id}`}
+              />
+            ))}
           </div>
 
           <Link className="btn" to="/rate-cards">
@@ -1201,118 +468,179 @@ export const HomePage: React.FC = () => {
       {/* ==========================================================================
           MULTI-MEDIA PLANNING (RADIO, CINEMA, OUTDOOR)
           ========================================================================== */}
-      <section id="media">
-        <div className="wrap">
-          <div className="med">
-            <div>
-              <h2>Radio, cinema, television &amp; outdoor media</h2>
-              <p className="lead">Strategic 360° media planning built around your target cities and campaign budget. Click any medium to view rates.</p>
-
-              <div className="media-cards-grid">
-                <Link className="media-thumb-card" to="/radio-ads">
-                  <div className="media-thumb-img">
-                    <img
-                      src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=400&q=80"
-                      alt="Radio FM Studio"
-                      style={{ objectPosition: 'center 65%' }}
-                    />
-                    <span>Radio FM</span>
-                  </div>
-                  <div className="media-thumb-txt">
-                    <strong>Radio Advertising</strong>
-                    <p>Top FM spots in 100+ cities (Mirchi, Red FM, Big FM).</p>
-                  </div>
-                </Link>
-
-                <Link className="media-thumb-card" to="/cinema-ads">
-                  <div className="media-thumb-img">
-                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=400&q=80" alt="Cinema Multiplex" />
-                    <span>Cinema 70mm</span>
-                  </div>
-                  <div className="media-thumb-txt">
-                    <strong>Cinema Multiplex Ads</strong>
-                    <p>10–30s on-screen commercials across PVR INOX &amp; Cinepolis.</p>
-                  </div>
-                </Link>
-
-                <Link className="media-thumb-card" to="/tv-ads">
-                  <div className="media-thumb-img">
-                    <img src="/images/television-broadcast.png" alt="Television Broadcast" />
-                    <span>Television</span>
-                  </div>
-                  <div className="media-thumb-txt">
-                    <strong>Television Broadcast</strong>
-                    <p>National news &amp; regional entertainment channels.</p>
-                  </div>
-                </Link>
-
-                <Link className="media-thumb-card" to="/outdoor-ads">
-                  <div className="media-thumb-img">
-                    <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=400&q=80" alt="Outdoor City Billboard" />
-                    <span>Outdoor &amp; DOOH</span>
-                  </div>
-                  <div className="media-thumb-txt">
-                    <strong>Billboards &amp; DOOH</strong>
-                    <p>Highway unipoles, metro branding &amp; digital LED screens.</p>
-                  </div>
-                </Link>
-              </div>
+      <section id="media" className="py-8 md:py-16">
+        <div className="w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div>
+            <div className="text-center max-w-3xl mx-auto mb-8 md:mb-12">
+              <h2 className="font-news-serif text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+                Radio, cinema, television &amp; outdoor media
+              </h2>
+              <p className="mt-2.5 text-xs sm:text-sm md:text-base text-slate-600">
+                Strategic 360° media planning built around your target cities and campaign budget. Click any medium to view rates.
+              </p>
             </div>
 
-            <form className="config-panel" onSubmit={handleInquirySubmit}>
-              <h3 style={{ fontSize: '22px', marginBottom: '16px', fontWeight: 600 }}>Request a Free Media Plan</h3>
-              <div className="f">
-                <label htmlFor="iq1">Full Name</label>
-                <input
-                  id="iq1"
-                  required
-                  placeholder="Rahul Sharma"
-                  value={inqName}
-                  onChange={(e) => setInqName(e.target.value)}
-                />
-              </div>
-              <div className="f">
-                <label htmlFor="iq2">Phone Number</label>
-                <input
-                  id="iq2"
-                  type="tel"
-                  required
-                  placeholder="+91 98XXXXXXXX"
-                  value={inqPhone}
-                  onChange={(e) => setInqPhone(e.target.value)}
-                />
-              </div>
-              <div className="f">
-                <label htmlFor="iq3">Medium</label>
-                <select id="iq3" value={inqMedium} onChange={(e) => setInqMedium(e.target.value)}>
-                  <option value="">Select Medium</option>
-                  <option value="Radio FM">Radio FM</option>
-                  <option value="Cinema">Cinema</option>
-                  <option value="Television">Television</option>
-                  <option value="Outdoor / DOOH">Outdoor / DOOH</option>
-                </select>
-              </div>
-              <div className="f">
-                <label htmlFor="iq4">Target City &amp; Estimated Budget</label>
-                <input
-                  id="iq4"
-                  placeholder="Delhi NCR, approx ₹75,000"
-                  value={inqCityBudget}
-                  onChange={(e) => setInqCityBudget(e.target.value)}
-                />
-              </div>
-              <button className="btn accent" type="submit" style={{ width: '100%' }}>
-                Submit Plan Request
-              </button>
-              {inqMsg && (
-                <p className="meta-txt" role="status" style={{ marginTop: '10px', textAlign: 'center', color: 'var(--green)' }}>
-                  {inqMsg}
-                </p>
-              )}
-            </form>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-7">
+              {/* Radio FM */}
+              <Link
+                to="/radio-ads"
+                className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-[#EA580C] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                <div>
+                  <div className="relative h-28 sm:h-36 md:h-48 lg:h-60 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=700&q=80"
+                      alt="Radio FM Studio"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      style={{ objectPosition: 'center 65%' }}
+                    />
+                    <span className="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white font-sans font-bold text-[10px] md:text-xs uppercase tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-sm">
+                      Radio FM
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 md:p-5 lg:p-6 space-y-1.5 md:space-y-2">
+                    <h3 className="font-news-serif font-bold text-base md:text-lg lg:text-xl text-slate-900 group-hover:text-[#EA580C] transition-colors leading-snug">
+                      Radio Advertising
+                    </h3>
+                    <p className="text-xs md:text-sm text-slate-500 leading-relaxed">
+                      Top FM jingles &amp; RJ mentions in 100+ cities across Radio Mirchi, Red FM &amp; Big FM.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 md:p-5 lg:p-6 pt-0 md:pt-0">
+                  <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[11px] md:text-xs font-semibold text-slate-400">
+                      100+ Cities
+                    </span>
+                    <span className="text-[11px] md:text-xs font-bold text-[#EA580C] uppercase tracking-wider group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      View Rates ➔
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Cinema Multiplex */}
+              <Link
+                to="/cinema-ads"
+                className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-[#EA580C] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                <div>
+                  <div className="relative h-28 sm:h-36 md:h-48 lg:h-60 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=700&q=80"
+                      alt="Cinema Multiplex"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white font-sans font-bold text-[10px] md:text-xs uppercase tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-sm">
+                      Cinema 70mm
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 md:p-5 lg:p-6 space-y-1.5 md:space-y-2">
+                    <h3 className="font-news-serif font-bold text-base md:text-lg lg:text-xl text-slate-900 group-hover:text-[#EA580C] transition-colors leading-snug">
+                      Cinema Multiplex Ads
+                    </h3>
+                    <p className="text-xs md:text-sm text-slate-500 leading-relaxed">
+                      10–30s on-screen commercials and foyer branding across PVR INOX &amp; Cinepolis.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 md:p-5 lg:p-6 pt-0 md:pt-0">
+                  <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[11px] md:text-xs font-semibold text-slate-400">
+                      1,500+ Screens
+                    </span>
+                    <span className="text-[11px] md:text-xs font-bold text-[#EA580C] uppercase tracking-wider group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      View Rates ➔
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Television Broadcast */}
+              <Link
+                to="/tv-ads"
+                className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-[#EA580C] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                <div>
+                  <div className="relative h-28 sm:h-36 md:h-48 lg:h-60 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src="/images/television-broadcast.png"
+                      alt="Television Broadcast"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white font-sans font-bold text-[10px] md:text-xs uppercase tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-sm">
+                      Television
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 md:p-5 lg:p-6 space-y-1.5 md:space-y-2">
+                    <h3 className="font-news-serif font-bold text-base md:text-lg lg:text-xl text-slate-900 group-hover:text-[#EA580C] transition-colors leading-snug">
+                      Television Broadcast
+                    </h3>
+                    <p className="text-xs md:text-sm text-slate-500 leading-relaxed">
+                      National news, regional GEC &amp; sports channels with prime-time L-band and tickers.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 md:p-5 lg:p-6 pt-0 md:pt-0">
+                  <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[11px] md:text-xs font-semibold text-slate-400">
+                      80+ Channels
+                    </span>
+                    <span className="text-[11px] md:text-xs font-bold text-[#EA580C] uppercase tracking-wider group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      View Rates ➔
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Billboards & DOOH */}
+              <Link
+                to="/outdoor-ads"
+                className="bg-white rounded-2xl md:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-[#EA580C] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              >
+                <div>
+                  <div className="relative h-28 sm:h-36 md:h-48 lg:h-60 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=700&q=80"
+                      alt="Outdoor City Billboard"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <span className="absolute bottom-3 left-3 bg-slate-900/85 backdrop-blur-md text-white font-sans font-bold text-[10px] md:text-xs uppercase tracking-wider px-2.5 py-1 md:px-3 md:py-1.5 rounded-lg shadow-sm">
+                      Outdoor &amp; DOOH
+                    </span>
+                  </div>
+
+                  <div className="p-3.5 md:p-5 lg:p-6 space-y-1.5 md:space-y-2">
+                    <h3 className="font-news-serif font-bold text-base md:text-lg lg:text-xl text-slate-900 group-hover:text-[#EA580C] transition-colors leading-snug">
+                      Billboards &amp; DOOH
+                    </h3>
+                    <p className="text-xs md:text-sm text-slate-500 leading-relaxed">
+                      Highway unipoles, metro train branding, bus wraps &amp; high-footfall digital LED screens.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 md:p-5 lg:p-6 pt-0 md:pt-0">
+                  <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                    <span className="text-[11px] md:text-xs font-semibold text-slate-400">
+                      High Footfall
+                    </span>
+                    <span className="text-[11px] md:text-xs font-bold text-[#EA580C] uppercase tracking-wider group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      View Rates ➔
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* ==========================================================================
           LIVE AD TRACKER & PROOFS

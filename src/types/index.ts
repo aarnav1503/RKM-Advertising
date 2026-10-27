@@ -25,6 +25,9 @@ export interface PublicationTariff {
   badge?: string;
   language: string;
   circulation: string;
+  shortTitle?: string;
+  reach?: string;
+  copies?: string;
 }
 
 export interface AdCategoryTemplate {

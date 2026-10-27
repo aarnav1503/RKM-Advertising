@@ -17,6 +17,7 @@ import {
   ArrowRight,
   Phone,
   MessageCircle,
+  TrendingUp,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -64,13 +65,13 @@ export const Navbar: React.FC = () => {
       badge: '150+ Dailies',
     },
     {
-      label: 'Official Rate Cards',
-      category: 'print' as const,
-      categoryName: 'Print & Tariffs',
-      path: '/rate-cards',
-      desc: '2026 INS accredited tariff directory',
-      icon: FileSpreadsheet,
-      badge: '2026 Tariffs',
+      label: 'Digital Marketing',
+      category: 'digital' as const,
+      categoryName: 'Digital & Performance',
+      path: '/digital-marketing',
+      desc: 'Performance Ads, SEO, Social Media & ROI Campaigns',
+      icon: TrendingUp,
+      badge: 'Google & Meta',
     },
     {
       label: 'Radio FM Ads',
@@ -112,7 +113,7 @@ export const Navbar: React.FC = () => {
       label: 'Digital PR & News Wire',
       category: 'digital' as const,
       categoryName: 'Digital & PR',
-      path: '/digital-marketing',
+      path: '/digital-pr',
       desc: 'Guaranteed features on 50+ news portals',
       icon: Globe,
       badge: 'Guaranteed PR',
@@ -168,17 +169,17 @@ export const Navbar: React.FC = () => {
   const specializedServices = allServices.slice(7);
 
   const drawerCategories = [
-    { id: 'all' as const, label: 'All Channels', count: 12 },
-    { id: 'print' as const, label: 'Print Media', count: 2 },
-    { id: 'broadcast' as const, label: 'Broadcast', count: 3 },
-    { id: 'ooh' as const, label: 'OOH & Transit', count: 3 },
-    { id: 'digital' as const, label: 'Digital & PR', count: 4 },
+    { id: 'all' as const, label: 'All Channels', count: allServices.length },
+    { id: 'print' as const, label: 'Print Media', count: allServices.filter((s) => s.category === 'print').length },
+    { id: 'broadcast' as const, label: 'Broadcast', count: allServices.filter((s) => s.category === 'broadcast').length },
+    { id: 'ooh' as const, label: 'OOH & Transit', count: allServices.filter((s) => s.category === 'ooh').length },
+    { id: 'digital' as const, label: 'Digital & PR', count: allServices.filter((s) => s.category === 'digital').length },
   ];
 
   const domainGroups = [
     {
       id: 'print' as const,
-      title: 'Print & Tariffs',
+      title: 'Print Media',
       items: allServices.filter((s) => s.category === 'print'),
     },
     {
@@ -236,7 +237,7 @@ export const Navbar: React.FC = () => {
             {isServicesOpen && (
               <div
                 className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 animate-in fade-in zoom-in-95 duration-200"
-                style={{ width: '720px', maxWidth: 'calc(100vw - 32px)' }}
+                style={{ width: '880px', maxWidth: 'calc(100vw - 32px)' }}
               >
                 <div
                   className="rounded-3xl p-6 border border-[#E4DDD0] shadow-[0_28px_60px_-15px_rgba(40,35,31,0.3),0_10px_25px_-5px_rgba(40,35,31,0.12)] overflow-hidden"
@@ -265,12 +266,12 @@ export const Navbar: React.FC = () => {
                   </div>
 
                   {/* Two Columns Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-1.5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
                     {/* Left Column */}
                     <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
+                      <div className="flex items-center justify-between text-[10.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
                         <span>Core Media Channels</span>
-                        <span className="text-[9px] font-sans font-semibold text-ink-muted/60 lowercase">7 channels</span>
+                        <span className="text-[9.5px] font-sans font-semibold text-ink-muted/60 lowercase">7 channels</span>
                       </div>
                       {coreServices.map((item) => {
                         const Icon = item.icon;
@@ -279,7 +280,7 @@ export const Navbar: React.FC = () => {
                           <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex items-center gap-3 p-2 rounded-2xl transition-all duration-200 group border ${
+                            className={`flex items-center gap-3 p-2.5 rounded-2xl transition-all duration-200 group border ${
                               isActive
                                 ? 'bg-white shadow-sm border-brand/40 text-brand'
                                 : 'border-transparent hover:border-paper-line/80 hover:bg-white/80 hover:shadow-xs text-ink'
@@ -289,17 +290,17 @@ export const Navbar: React.FC = () => {
                               <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="font-head font-bold text-[12.5px] uppercase tracking-wider group-hover:text-brand transition-colors truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-head font-bold text-[13px] text-ink group-hover:text-brand transition-colors whitespace-nowrap">
                                   {item.label}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[9px] font-sans font-medium text-ink-muted/70 px-1.5 py-0.2 rounded bg-paper-tint border border-paper-line/50 shrink-0 hidden sm:inline">
+                                  <span className="text-[9.5px] font-sans font-medium text-ink-muted/80 px-2 py-0.5 rounded-md bg-paper-tint border border-paper-line/60 shrink-0 hidden sm:inline">
                                     {item.badge}
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[10.5px] text-ink-muted/90 group-hover:text-ink truncate font-sans">
+                              <div className="text-[11px] text-ink-muted/90 group-hover:text-ink font-sans truncate mt-0.5">
                                 {item.desc}
                               </div>
                             </div>
@@ -311,9 +312,9 @@ export const Navbar: React.FC = () => {
 
                     {/* Right Column */}
                     <div className="space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
+                      <div className="flex items-center justify-between text-[10.5px] font-head font-bold uppercase tracking-[0.14em] text-ink-muted/80 px-2.5 py-1">
                         <span>Digital &amp; Specialized</span>
-                        <span className="text-[9px] font-sans font-semibold text-ink-muted/60 lowercase">5 networks</span>
+                        <span className="text-[9.5px] font-sans font-semibold text-ink-muted/60 lowercase">5 networks</span>
                       </div>
                       {specializedServices.map((item) => {
                         const Icon = item.icon;
@@ -322,7 +323,7 @@ export const Navbar: React.FC = () => {
                           <Link
                             key={item.path}
                             to={item.path}
-                            className={`flex items-center gap-3 p-2 rounded-2xl transition-all duration-200 group border ${
+                            className={`flex items-center gap-3 p-2.5 rounded-2xl transition-all duration-200 group border ${
                               isActive
                                 ? 'bg-white shadow-sm border-brand/40 text-brand'
                                 : 'border-transparent hover:border-paper-line/80 hover:bg-white/80 hover:shadow-xs text-ink'
@@ -332,17 +333,17 @@ export const Navbar: React.FC = () => {
                               <Icon className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="flex items-center justify-between gap-1">
-                                <span className="font-head font-bold text-[12.5px] uppercase tracking-wider group-hover:text-brand transition-colors truncate">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-head font-bold text-[13px] text-ink group-hover:text-brand transition-colors whitespace-nowrap">
                                   {item.label}
                                 </span>
                                 {item.badge && (
-                                  <span className="text-[9px] font-sans font-medium text-ink-muted/70 px-1.5 py-0.2 rounded bg-paper-tint border border-paper-line/50 shrink-0 hidden sm:inline">
+                                  <span className="text-[9.5px] font-sans font-medium text-ink-muted/80 px-2 py-0.5 rounded-md bg-paper-tint border border-paper-line/60 shrink-0 hidden sm:inline">
                                     {item.badge}
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[10.5px] text-ink-muted/90 group-hover:text-ink truncate font-sans">
+                              <div className="text-[11px] text-ink-muted/90 group-hover:text-ink font-sans truncate mt-0.5">
                                 {item.desc}
                               </div>
                             </div>
@@ -534,7 +535,7 @@ export const Navbar: React.FC = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1.5">
-                              <span className="font-head font-bold text-[12px] uppercase tracking-wide group-hover:text-brand transition-colors text-ink">
+                              <span className="font-head font-bold text-[12.5px] group-hover:text-brand transition-colors text-ink">
                                 {item.label}
                               </span>
                               {item.badge && (
@@ -578,7 +579,7 @@ export const Navbar: React.FC = () => {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-1.5">
-                            <span className="font-head font-bold text-[12px] uppercase tracking-wide group-hover:text-brand transition-colors text-ink">
+                            <span className="font-head font-bold text-[12.5px] group-hover:text-brand transition-colors text-ink">
                               {item.label}
                             </span>
                             {item.badge && (

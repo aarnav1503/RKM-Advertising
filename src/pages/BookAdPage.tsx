@@ -6,6 +6,7 @@ import { LiveBroadsheetSimulator } from '../components/booking/LiveBroadsheetSim
 import { TariffBreakdownCard } from '../components/booking/TariffBreakdownCard';
 import { CutoffCountdownBadge } from '../components/booking/CutoffCountdownBadge';
 import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES } from '../data/publicationsData';
+import { NewspaperCard } from '../components/common/NewspaperCard';
 import {
   UploadCloud,
   CheckCircle2,
@@ -31,6 +32,7 @@ export const BookAdPage: React.FC = () => {
     const pubParam = searchParams.get('pub');
     const catParam = searchParams.get('cat');
     const edParam = searchParams.get('edition');
+    const formatParam = searchParams.get('format');
 
     const updates: Partial<typeof booking> = {};
     if (pubParam && PUBLICATIONS_DATA[pubParam]) {
@@ -38,6 +40,9 @@ export const BookAdPage: React.FC = () => {
     }
     if (edParam) {
       updates.edition = edParam;
+    }
+    if (formatParam === 'text' || formatParam === 'cd' || formatParam === 'display') {
+      updates.adFormat = formatParam;
     }
     if (catParam) {
       const match = CATEGORY_TEMPLATES.find(
@@ -210,22 +215,35 @@ export const BookAdPage: React.FC = () => {
                   </div>
 
                   {/* Publication & Edition Selector */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-4">
                     <div>
-                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                        Select Newspaper
-                      </label>
-                      <select
-                        value={booking.publicationId}
-                        onChange={(e) => updateBooking({ publicationId: e.target.value })}
-                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
-                      >
+                      <div className="flex items-center justify-between mb-2">
+                        <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink">
+                          Select Newspaper
+                        </label>
+                        <span className="text-[11px] font-semibold text-brand">
+                          Click to select publication
+                        </span>
+                      </div>
+
+                      {/* Interactive Visual Newspaper Cards */}
+                      <div className="grid grid-cols-1 gap-2.5 mb-2">
                         {Object.values(PUBLICATIONS_DATA).map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.name} ({p.unit === 'line' ? 'Per-Line' : 'Per-Word'})
-                          </option>
+                          <NewspaperCard
+                            key={p.id}
+                            id={p.id}
+                            name={p.name}
+                            shortTitle={p.shortTitle}
+                            language={p.language}
+                            reach={p.reach}
+                            copies={p.copies}
+                            unit={p.unit}
+                            baseRate={p.baseRate}
+                            isSelected={booking.publicationId === p.id}
+                            onClick={() => updateBooking({ publicationId: p.id })}
+                          />
                         ))}
-                      </select>
+                      </div>
                     </div>
 
                     <div>

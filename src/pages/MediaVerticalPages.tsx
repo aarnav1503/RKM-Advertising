@@ -2,35 +2,18 @@ import React from 'react';
 import { MediaVerticalTemplate } from '../components/layout/MediaVerticalTemplate';
 import { MEDIA_VERTICALS } from '../data/mediaData';
 
-export const RadioAdsPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'radio') || MEDIA_VERTICALS[1];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
-
-export const CinemaAdsPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'cinema') || MEDIA_VERTICALS[2];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
-
-export const TvAdsPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'tv') || MEDIA_VERTICALS[3];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
+export { RadioAdsPage } from './RadioAdsPage';
+export { CinemaAdsPage } from './CinemaAdsPage';
+export { TvAdsPage } from './TvAdsPage';
 
 export const OutdoorAdsPage: React.FC = () => {
   const vertical = MEDIA_VERTICALS.find((v) => v.id === 'outdoor') || MEDIA_VERTICALS[4];
   return <MediaVerticalTemplate vertical={vertical} />;
 };
 
-export const DigitalMarketingPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'digital-marketing') || MEDIA_VERTICALS[5];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
-
-export const InfluencerMarketingPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'influencer') || MEDIA_VERTICALS[6];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
+export { DigitalMarketingPage } from './DigitalMarketingPage';
+export { DigitalPrPage } from './DigitalPrPage';
+export { InfluencerMarketingPage } from './InfluencerMarketingPage';
 
 export const TransitMediaPage: React.FC = () => {
   const vertical = MEDIA_VERTICALS.find((v) => v.id === 'transit') || MEDIA_VERTICALS[7];

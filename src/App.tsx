@@ -18,6 +18,7 @@ import {
   TvAdsPage,
   OutdoorAdsPage,
   DigitalMarketingPage,
+  DigitalPrPage,
   InfluencerMarketingPage,
   TransitMediaPage,
   LiftBrandingPage,
@@ -137,6 +138,7 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/tv-ads" element={<TvAdsPage />} />
         <Route path="/outdoor-ads" element={<OutdoorAdsPage />} />
         <Route path="/digital-marketing" element={<DigitalMarketingPage />} />
+        <Route path="/digital-pr" element={<DigitalPrPage />} />
         <Route path="/influencer-marketing" element={<InfluencerMarketingPage />} />
         <Route path="/transit-media" element={<TransitMediaPage />} />
         <Route path="/lift-branding" element={<LiftBrandingPage />} />
