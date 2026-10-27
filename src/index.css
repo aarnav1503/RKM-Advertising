@@ -647,7 +647,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   nav{gap:12px}
   nav a{font-size:12.5px;letter-spacing:.04em}
   .phone-link{font-size:13px}
-  .hero{display:flex;flex-direction:column-reverse;min-height:auto}
+  .hero{display:flex;flex-direction:column;min-height:auto}
   .photo-stage{min-height:auto;padding:36px 20px 48px;display:flex}
   .builder-grid,.med{grid-template-columns:1fr}
   .cats,.trust{grid-template-columns:1fr 1fr}
@@ -661,7 +661,7 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   header#hd nav, nav{display:none !important}
   .phone-link{display:none !important}
   .mobile-toggle{display:flex !important}
-  .hero{display:flex;flex-direction:column-reverse;min-height:auto}
+  .hero{display:flex;flex-direction:column;min-height:auto}
   .photo-stage{padding:28px 16px 36px;display:flex;flex-direction:column;align-items:center}
   .np-broadsheet{max-width:440px;transform:none !important;box-shadow:0 10px 30px rgba(40,35,31,.12);margin:0 auto}
   .stage-pill{position:static;margin-bottom:12px;display:inline-flex}
@@ -682,8 +682,11 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
   .right .btn.outline{display:none !important}
   .right .btn.accent{padding:7px 13px !important;font-size:11.5px !important;letter-spacing:0.04em !important}
   .mobile-toggle{width:36px;height:36px;padding:9px 7px;display:flex !important}
-  .hero{display:block;min-height:auto}
-  .photo-stage{display:none !important}
+  .hero{display:flex !important;flex-direction:column !important;min-height:auto}
+  .photo-stage{display:flex !important;flex-direction:column;align-items:center;padding:24px 12px 28px;width:100%;box-sizing:border-box}
+  .np-broadsheet{max-width:440px;width:100%;transform:none !important;box-shadow:0 10px 30px rgba(40,35,31,.12);margin:0 auto}
+  .stage-pill{position:static;margin-bottom:12px;display:inline-flex}
+  .stage-pill-right{position:static;margin-top:14px;display:inline-flex}
   .omni{grid-template-columns:1fr}
   .cats,.trust,.steps,.row{grid-template-columns:1fr}
   .pub-badge-grid{grid-template-columns:1fr;gap:10px}

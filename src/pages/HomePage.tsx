@@ -30,8 +30,8 @@ export const HomePage: React.FC = () => {
           HERO SECTION WITH RESIZED & REALISTIC NEWSPAPER BROADSHEET
           ========================================================================== */}
       <div className="hero">
-        {/* Left Side: Warm Studio Stage with Floating Authentic Newspaper (Visible on desktop & tablet, hidden on mobile) */}
-        <div className="photo-stage hidden md:flex" aria-hidden="true">
+        {/* Authentic Newspaper Stage: Visible on desktop and phone above 'Say it in print' */}
+        <div className="photo-stage flex" aria-hidden="true">
           <div className="stage-pill">INS Accredited Network</div>
 
           {/* Realistically Scaled Broadsheet Newspaper */}
