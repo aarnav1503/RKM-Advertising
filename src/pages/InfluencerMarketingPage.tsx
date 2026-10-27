@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import {
@@ -8,6 +8,63 @@ import {
   InfluencerCategory,
   UgcVideoCreator,
 } from '../data/influencerMarketingData';
+
+const HERO_CREATOR_SLIDES = [
+  {
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80',
+    alt: 'Lifestyle & Streetwear Creator in Denim',
+    likes: '182K',
+    topBadge: 'f',
+    topBadgeColor: '#1877f2',
+    hashtag: '#',
+    niche: 'Travel & Lifestyle',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
+    alt: 'Beauty & Luxury Influencer',
+    likes: '348K',
+    topBadge: 'f',
+    topBadgeColor: '#1877f2',
+    hashtag: '#glam',
+    niche: 'Beauty & Skincare',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=800&q=80',
+    alt: 'Tech & Lifestyle Creator',
+    likes: '425K',
+    topBadge: '▶',
+    topBadgeColor: '#e11d48',
+    hashtag: '#tech',
+    niche: 'Tech & Gadgets',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
+    alt: 'Fashion & Street Style Creator',
+    likes: '512K',
+    topBadge: 'f',
+    topBadgeColor: '#1877f2',
+    hashtag: '#ootd',
+    niche: 'Fashion & Apparel',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
+    alt: 'Fitness & Health Influencer',
+    likes: '290K',
+    topBadge: 'in',
+    topBadgeColor: '#0a66c2',
+    hashtag: '#fit',
+    niche: 'Health & Fitness',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=800&q=80',
+    alt: 'Food & Culinary Vlogger',
+    likes: '635K',
+    topBadge: 'f',
+    topBadgeColor: '#1877f2',
+    hashtag: '#foodie',
+    niche: 'Food & Dining',
+  },
+];
 
 export const InfluencerMarketingPage: React.FC = () => {
   // Inquiry Form State (Reference Image 1)
@@ -36,8 +93,60 @@ export const InfluencerMarketingPage: React.FC = () => {
   // General "Get In Touch" Modal State (from right-side promo flyer)
   const [isGetInTouchOpen, setIsGetInTouchOpen] = useState(false);
 
-  // Hero carousel index
+  // Hero carousel index & gestures
   const [heroSlide, setHeroSlide] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
+  const wheelLockRef = useRef(false);
+  const touchStartRef = useRef<{ x: number; y: number; touches: number }>({ x: 0, y: 0, touches: 1 });
+
+  // Auto-slide effect for hero creator carousel (every 3.2 seconds)
+  useEffect(() => {
+    if (isHeroPaused) return;
+    const interval = setInterval(() => {
+      setHeroSlide((prev) => (prev + 1) % HERO_CREATOR_SLIDES.length);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, [isHeroPaused]);
+
+  // Two-finger trackpad horizontal wheel sliding
+  const handleHeroWheel = (e: React.WheelEvent) => {
+    if (Math.abs(e.deltaX) > 20) {
+      if (wheelLockRef.current) return;
+      wheelLockRef.current = true;
+      if (e.deltaX > 20) {
+        setHeroSlide((prev) => (prev + 1) % HERO_CREATOR_SLIDES.length);
+      } else {
+        setHeroSlide((prev) => (prev - 1 + HERO_CREATOR_SLIDES.length) % HERO_CREATOR_SLIDES.length);
+      }
+      setTimeout(() => {
+        wheelLockRef.current = false;
+      }, 350);
+    }
+  };
+
+  // Two-finger & touch gesture sliding
+  const handleHeroTouchStart = (e: React.TouchEvent) => {
+    setIsHeroPaused(true);
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      touches: e.touches.length,
+    };
+  };
+
+  const handleHeroTouchEnd = (e: React.TouchEvent) => {
+    setIsHeroPaused(false);
+    if (!e.changedTouches.length) return;
+    const diffX = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const diffY = e.changedTouches[0].clientY - touchStartRef.current.y;
+    if (Math.abs(diffX) > 30 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        setHeroSlide((prev) => (prev + 1) % HERO_CREATOR_SLIDES.length);
+      } else {
+        setHeroSlide((prev) => (prev - 1 + HERO_CREATOR_SLIDES.length) % HERO_CREATOR_SLIDES.length);
+      }
+    }
+  };
 
   // Capabilities promo slide index
   const [promoSlide, setPromoSlide] = useState(0);
@@ -226,8 +335,13 @@ export const InfluencerMarketingPage: React.FC = () => {
                 </span>
               </div>
 
-              {/* Creator Mockup graphic */}
+              {/* Creator Mockup graphic carousel */}
               <div
+                onMouseEnter={() => setIsHeroPaused(true)}
+                onMouseLeave={() => setIsHeroPaused(false)}
+                onWheel={handleHeroWheel}
+                onTouchStart={handleHeroTouchStart}
+                onTouchEnd={handleHeroTouchEnd}
                 style={{
                   position: 'relative',
                   width: '100%',
@@ -238,150 +352,284 @@ export const InfluencerMarketingPage: React.FC = () => {
                   boxShadow: '0 16px 32px rgba(0,0,0,0.25)',
                   border: '3px solid rgba(255,255,255,0.85)',
                   backgroundColor: '#ffffff',
+                  touchAction: 'pan-y',
+                  userSelect: 'none',
                 }}
               >
-                <img
-                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
-                  alt="Creator taking selfie"
+                {/* Sliding Track */}
+                <div
                   style={{
+                    display: 'flex',
                     width: '100%',
-                    height: '340px',
-                    objectFit: 'cover',
-                    display: 'block',
+                    transform: `translateX(-${heroSlide * 100}%)`,
+                    transition: 'transform 0.45s cubic-bezier(0.22, 1, 0.36, 1)',
                   }}
-                />
+                >
+                  {HERO_CREATOR_SLIDES.map((slide, sIdx) => (
+                    <div
+                      key={sIdx}
+                      style={{
+                        position: 'relative',
+                        width: '100%',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <img
+                        src={slide.image}
+                        alt={slide.alt}
+                        loading={sIdx === 0 ? 'eager' : 'lazy'}
+                        style={{
+                          width: '100%',
+                          height: '350px',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
 
-                {/* Floating Social Icons (matching reference) */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '14px',
-                    left: '14px',
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '8px',
-                    backgroundColor: '#1877f2',
-                    color: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontWeight: 900,
-                    fontSize: '1.2rem',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
-                  }}
-                >
-                  f
-                </div>
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '14px',
-                    right: '14px',
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '8px',
-                    background: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1rem',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
-                  }}
-                >
-                  📷
-                </div>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '16px',
-                    left: '14px',
-                    width: '34px',
-                    height: '34px',
-                    borderRadius: '50%',
-                    backgroundColor: '#000000',
-                    color: '#ffffff',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.9rem',
-                    fontWeight: 900,
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
-                  }}
-                >
-                  ♪
+                      {/* Top floating pill: niche / badge */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '14px',
+                          left: '56px',
+                          backgroundColor: 'rgba(0,0,0,0.48)',
+                          backdropFilter: 'blur(8px)',
+                          color: '#ffffff',
+                          padding: '4px 11px',
+                          borderRadius: '14px',
+                          fontSize: '0.72rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.02em',
+                        }}
+                      >
+                        {slide.niche}
+                      </div>
+
+                      {/* Floating Social Icon (Top Left) */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '14px',
+                          left: '14px',
+                          width: '34px',
+                          height: '34px',
+                          borderRadius: '8px',
+                          backgroundColor: slide.topBadgeColor,
+                          color: '#ffffff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontWeight: 900,
+                          fontSize: '1.1rem',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                        }}
+                      >
+                        {slide.topBadge}
+                      </div>
+
+                      {/* Floating Camera / Instagram (Top Right) */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '14px',
+                          right: '14px',
+                          width: '34px',
+                          height: '34px',
+                          borderRadius: '8px',
+                          background:
+                            'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '1rem',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                        }}
+                      >
+                        📷
+                      </div>
+
+                      {/* Floating Music Note (Bottom Left) */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: '16px',
+                          left: '14px',
+                          width: '34px',
+                          height: '34px',
+                          borderRadius: '50%',
+                          backgroundColor: '#000000',
+                          color: '#ffffff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.9rem',
+                          fontWeight: 900,
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.3)',
+                        }}
+                      >
+                        ♪
+                      </div>
+
+                      {/* Floating Hashtag Badge (Middle Right) */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '48%',
+                          right: '14px',
+                          minWidth: '32px',
+                          height: '32px',
+                          padding: '0 8px',
+                          borderRadius: '16px',
+                          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                          color: '#e11d48',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontWeight: 900,
+                          fontSize: '0.85rem',
+                          boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                        }}
+                      >
+                        {slide.hashtag}
+                      </div>
+
+                      {/* Floating Likes Badge (Bottom Right) */}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: '16px',
+                          right: '16px',
+                          backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                          color: '#0f172a',
+                          padding: '5px 12px',
+                          borderRadius: '20px',
+                          fontSize: '0.78rem',
+                          fontWeight: 800,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '5px',
+                          boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        <span style={{ color: '#ef4444' }}>❤️</span> {slide.likes}
+                      </div>
+                    </div>
+                  ))}
                 </div>
 
-                {/* Floating hashtag */}
-                <div
+                {/* Left & Right arrow navigation buttons */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setHeroSlide((prev) => (prev - 1 + HERO_CREATOR_SLIDES.length) % HERO_CREATOR_SLIDES.length);
+                  }}
+                  aria-label="Previous Creator"
                   style={{
                     position: 'absolute',
-                    top: '48%',
-                    right: '14px',
+                    top: '50%',
+                    left: '8px',
+                    transform: 'translateY(-50%)',
                     width: '30px',
                     height: '30px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                    color: '#e11d48',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#ffffff',
+                    border: 'none',
+                    cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: 900,
-                    fontSize: '1rem',
-                    boxShadow: '0 4px 8px rgba(0,0,0,0.15)',
+                    fontSize: '18px',
+                    lineHeight: '1',
+                    zIndex: 2,
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  #
-                </div>
-
-                {/* Floating likes badge */}
-                <div
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setHeroSlide((prev) => (prev + 1) % HERO_CREATOR_SLIDES.length);
+                  }}
+                  aria-label="Next Creator"
                   style={{
                     position: 'absolute',
-                    bottom: '16px',
-                    right: '16px',
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                    color: '#0f172a',
-                    padding: '5px 12px',
-                    borderRadius: '20px',
-                    fontSize: '0.78rem',
-                    fontWeight: 800,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '5px',
-                    boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
-                  }}
-                >
-                  <span style={{ color: '#ef4444' }}>❤️</span> 182K
-                </div>
-              </div>
-            </div>
-
-            {/* Carousel indicator dots */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '6px',
-                marginTop: '10px',
-              }}
-            >
-              {[0, 1, 2].map((idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setHeroSlide(idx)}
-                  aria-label={`Slide ${idx + 1}`}
-                  style={{
-                    width: heroSlide === idx ? '22px' : '8px',
-                    height: '8px',
-                    borderRadius: '4px',
-                    backgroundColor: heroSlide === idx ? '#ffffff' : 'rgba(255,255,255,0.4)',
+                    top: '50%',
+                    right: '8px',
+                    transform: 'translateY(-50%)',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backdropFilter: 'blur(4px)',
+                    color: '#ffffff',
                     border: 'none',
                     cursor: 'pointer',
-                    transition: 'all 0.25s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '18px',
+                    lineHeight: '1',
+                    zIndex: 2,
+                    boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                    transition: 'all 0.2s ease',
                   }}
-                />
-              ))}
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* Indicator Dots & Gesture Hint */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginTop: '6px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  {HERO_CREATOR_SLIDES.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setHeroSlide(idx)}
+                      aria-label={`Slide ${idx + 1}`}
+                      style={{
+                        width: heroSlide === idx ? '22px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        backgroundColor: heroSlide === idx ? '#ffffff' : 'rgba(255,255,255,0.4)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'all 0.25s ease',
+                      }}
+                    />
+                  ))}
+                </div>
+                <div
+                  style={{
+                    fontSize: '0.7rem',
+                    color: 'rgba(255, 255, 255, 0.85)',
+                    letterSpacing: '0.03em',
+                    fontWeight: 600,
+                  }}
+                >
+                  Auto-sliding • Swipe with 2 fingers or trackpad
+                </div>
+              </div>
             </div>
           </div>
 

@@ -103,7 +103,7 @@
 </header>
 
 <div class="stepper-bar">
-  <div class="step-item active"><span class="step-num">1</span> Newspaper &amp; Edition</div>
+  <div class="step-item active"><span class="step-num">1</span> Edition &amp; Coverage</div>
   <div class="step-item"><span class="step-num">2</span> Category &amp; Date</div>
   <div class="step-item"><span class="step-num">3</span> Compose &amp; Preview</div>
   <div class="step-item"><span class="step-num">4</span> Checkout</div>
@@ -116,15 +116,26 @@
       <div class="card" style="padding:32px">
         <h2 style="font-size:26px;margin-bottom:20px">Configure Your Advertisement</h2>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
-          <div>
-            <label>Select Newspaper</label>
-            <select id="pub"></select>
+        <!-- Confirmed Selected Publication Banner -->
+        <div style="background:#FAF7EE;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="min-width:44px;height:40px;padding:0 8px;background:var(--ink);color:#FFF;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 13px var(--head);white-space:nowrap" id="pubShort">TOI</div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <strong style="font-size:15px;color:var(--ink)" id="pubName">The Times of India</strong>
+                <span style="background:#ECFDF5;color:#065F46;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #A7F3D0;text-transform:uppercase">Selected</span>
+              </div>
+              <div style="font-size:11.5px;color:var(--ink-muted);margin-top:2px" id="pubDetails">INS Accredited Network • English Daily • 1.45M copies daily</div>
+            </div>
           </div>
-          <div>
-            <label>Edition / Combo Deal</label>
-            <select id="ed"></select>
-          </div>
+          <a href="newspaper-ads.html" style="font-size:12px;font-weight:600;color:var(--accent);text-decoration:none">Change Newspaper ➔</a>
+        </div>
+
+        <select id="pub" style="display:none"></select>
+
+        <div style="margin-bottom:16px">
+          <label>Target Edition / Multi-City Combo Deal</label>
+          <select id="ed"></select>
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
@@ -274,7 +285,13 @@ const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
 fill($('pub'),Object.keys(P),k=>`<option value="${k}">${P[k].n}</option>`);
 fill($('cat'),C,c=>`<option>${c[0]}</option>`);
 fill($('ed'),Object.keys(E),k=>`<option>${k}</option>`);
-const urlParams=new URLSearchParams(window.location.search),catParam=urlParams.get('cat');
+const urlParams=new URLSearchParams(window.location.search),catParam=urlParams.get('cat'),pubParam=urlParams.get('pub');
+if(pubParam && P[pubParam]){
+  $('pub').value = pubParam;
+  if($('pubShort')) $('pubShort').textContent = pubParam.toUpperCase();
+  if($('pubName')) $('pubName').textContent = P[pubParam].n;
+  if($('pubDetails')) $('pubDetails').textContent = `INS Accredited Network • ${P[pubParam].l} • ${P[pubParam].r} reach`;
+}
 if(catParam){const f=C.find(x=>x[0].toLowerCase()===catParam.toLowerCase());if(f)$('cat').value=f[0];}
 
 function useTemplate(){

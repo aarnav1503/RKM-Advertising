@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { BookingProvider } from './context/BookingContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
@@ -138,6 +138,8 @@ const AnimatedRoutes: React.FC = () => {
         <Route path="/tv-ads" element={<TvAdsPage />} />
         <Route path="/outdoor-ads" element={<OutdoorAdsPage />} />
         <Route path="/digital-marketing" element={<DigitalMarketingPage />} />
+        <Route path="/digital marketing" element={<Navigate to="/digital-marketing" replace />} />
+        <Route path="/digital%20marketing" element={<Navigate to="/digital-marketing" replace />} />
         <Route path="/digital-pr" element={<DigitalPrPage />} />
         <Route path="/influencer-marketing" element={<InfluencerMarketingPage />} />
         <Route path="/transit-media" element={<TransitMediaPage />} />

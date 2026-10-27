@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 import { PageHeader } from '../components/layout/PageHeader';
 import { LiveBroadsheetSimulator } from '../components/booking/LiveBroadsheetSimulator';
 import { TariffBreakdownCard } from '../components/booking/TariffBreakdownCard';
 import { CutoffCountdownBadge } from '../components/booking/CutoffCountdownBadge';
 import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES } from '../data/publicationsData';
-import { NewspaperCard } from '../components/common/NewspaperCard';
+import { NewspaperLogo } from '../components/common/NewspaperCard';
 import {
   UploadCloud,
   CheckCircle2,
@@ -16,6 +16,7 @@ import {
   Newspaper,
   Calendar,
   FileText,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const BookAdPage: React.FC = () => {
@@ -122,7 +123,7 @@ export const BookAdPage: React.FC = () => {
             >
               {currentStep > 1 ? '✓' : '1'}
             </span>
-            <span className="hidden sm:inline">Newspaper &amp; Edition</span>
+            <span className="hidden sm:inline">Edition &amp; Coverage</span>
           </button>
           <div className="h-0.5 w-8 bg-paper-line hidden sm:block" />
 
@@ -196,68 +197,124 @@ export const BookAdPage: React.FC = () => {
           <div className="lg:col-span-7 space-y-6">
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-paper-line shadow-press space-y-6">
               
-              {/* STEP 1: NEWSPAPER & EDITION */}
+              {/* STEP 1: EDITION & COVERAGE (NEWSPAPER LOCKED & CONFIRMED) */}
               {currentStep === 1 && (
                 <div className="space-y-6">
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-line">
                     <div>
                       <div className="text-[11px] font-head font-bold uppercase tracking-wider text-brand mb-1 flex items-center gap-1.5">
-                        <Newspaper className="w-3.5 h-3.5" /> Step 1 of 4: Newspaper &amp; Edition
+                        <Newspaper className="w-3.5 h-3.5" /> Step 1 of 4: Publication &amp; Edition Coverage
                       </div>
                       <h2 className="font-news-serif text-2xl font-bold text-ink">
-                        Choose Newspaper &amp; City Edition
+                        Target City Edition &amp; Print Coverage
                       </h2>
                       <p className="text-xs text-ink-muted font-sans mt-0.5">
-                        Select your preferred accredited publication network and target regional print edition.
+                        Your selected newspaper is confirmed below. Choose your target regional edition or multi-city combo package.
                       </p>
                     </div>
                     <CutoffCountdownBadge cutoffHour={pub.cutoffHour} />
                   </div>
 
-                  {/* Publication & Edition Selector */}
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink">
-                          Select Newspaper
-                        </label>
-                        <span className="text-[11px] font-semibold text-brand">
-                          Click to select publication
-                        </span>
+                  {/* Confirmed Selected Publication Banner */}
+                  <div className="bg-gradient-to-r from-paper-tint to-white border border-paper-line rounded-2xl p-4 sm:p-5 shadow-sm">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="h-14 px-3.5 rounded-2xl bg-white border border-paper-line flex items-center justify-center shadow-sm shrink-0 min-w-[105px] overflow-hidden">
+                          <NewspaperLogo id={pub.id} className="h-7 sm:h-8 w-auto max-w-[110px] object-contain" />
+                        </div>
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-news-serif text-xl font-bold text-ink">{pub.name}</h3>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-head font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                              Selected Publication
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted mt-1 font-sans">
+                            <span>Language: <strong className="text-ink font-semibold">{pub.language}</strong></span>
+                            <span>•</span>
+                            <span>Circulation: <strong className="text-ink font-semibold">{pub.circulation}</strong></span>
+                            <span>•</span>
+                            <span>Format: <strong className="text-brand font-semibold">{booking.adFormat === 'cd' ? 'Classified Display (CD)' : booking.adFormat === 'display' ? 'Commercial Display' : 'Classified Text (ROD)'}</strong></span>
+                          </div>
+                        </div>
                       </div>
 
-                      {/* Interactive Visual Newspaper Cards */}
-                      <div className="grid grid-cols-1 gap-2.5 mb-2">
-                        {Object.values(PUBLICATIONS_DATA).map((p) => (
-                          <NewspaperCard
-                            key={p.id}
-                            id={p.id}
-                            name={p.name}
-                            shortTitle={p.shortTitle}
-                            language={p.language}
-                            reach={p.reach}
-                            copies={p.copies}
-                            unit={p.unit}
-                            baseRate={p.baseRate}
-                            isSelected={booking.publicationId === p.id}
-                            onClick={() => updateBooking({ publicationId: p.id })}
-                          />
-                        ))}
+                      <div className="flex sm:flex-col items-center sm:items-end justify-between border-t sm:border-t-0 pt-3 sm:pt-0 border-paper-line">
+                        <div className="text-left sm:text-right">
+                          <div className="text-[10px] font-head uppercase tracking-wider text-ink-muted">Base Tariff</div>
+                          <div className="text-sm font-bold text-ink">₹ {pub.baseRate} <span className="text-[11px] font-normal text-ink-muted">/ {pub.unit}</span></div>
+                        </div>
+                        <Link
+                          to="/newspaper-ads"
+                          className="mt-1 text-xs font-head font-bold text-brand hover:underline inline-flex items-center gap-1"
+                        >
+                          Change Newspaper ➔
+                        </Link>
                       </div>
                     </div>
+                  </div>
 
-                    <div>
-                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                        Edition / Multi-City Combo
+                  {/* Edition / Multi-City Combo Selection */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink">
+                        Target Edition / Multi-City Combo
                       </label>
+                      <span className="text-[11px] font-semibold text-brand">
+                        {Object.keys(pub.editions).length} Available Editions
+                      </span>
+                    </div>
+
+                    {/* Quick Edition Cards Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {Object.keys(pub.editions).map((ed) => {
+                        const multiplier = pub.editions[ed];
+                        const isSelected = booking.edition === ed;
+                        return (
+                          <button
+                            key={ed}
+                            type="button"
+                            onClick={() => updateBooking({ edition: ed })}
+                            className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                              isSelected
+                                ? 'bg-white border-brand shadow-sm ring-1 ring-brand'
+                                : 'bg-paper-tint border-paper-line hover:border-brand/40 hover:bg-white'
+                            }`}
+                          >
+                            <div className="space-y-0.5">
+                              <div className="text-xs font-head font-bold text-ink flex items-center gap-1.5">
+                                <span className={`w-2 h-2 rounded-full ${isSelected ? 'bg-brand' : 'bg-paper-line'}`} />
+                                {ed}
+                              </div>
+                              <div className="text-[10.5px] text-ink-muted">
+                                {multiplier === 1 ? 'Primary City Edition' : multiplier > 1.3 ? 'Multi-State Combo Package' : 'Regional Edition'}
+                              </div>
+                            </div>
+                            <span
+                              className={`text-[11px] font-head font-bold px-2 py-0.5 rounded-full ${
+                                isSelected
+                                  ? 'bg-brand/10 text-brand'
+                                  : 'bg-paper-soft text-ink-muted'
+                              }`}
+                            >
+                              {multiplier}x Rate
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Fallback Select dropdown for comprehensive list */}
+                    <div className="pt-1">
                       <select
                         value={booking.edition}
                         onChange={(e) => updateBooking({ edition: e.target.value })}
-                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
+                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-2.5 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
                       >
                         {Object.keys(pub.editions).map((ed) => (
                           <option key={ed} value={ed}>
-                            {ed} ({pub.editions[ed]}x rate)
+                            {ed} ({pub.editions[ed]}x rate multiplier)
                           </option>
                         ))}
                       </select>
@@ -267,13 +324,14 @@ export const BookAdPage: React.FC = () => {
                   {/* Publication Specs & Details Badge */}
                   <div className="bg-paper-tint border border-paper-line rounded-2xl p-4 space-y-2">
                     <div className="flex items-center justify-between text-xs font-sans">
-                      <span className="font-head font-bold uppercase tracking-wider text-ink">
+                      <span className="font-head font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                        <ShieldCheck className="w-4 h-4 text-emerald-700" />
                         {pub.name} Verified Coverage
                       </span>
                       <span className="text-emerald-700 font-semibold">{pub.circulation}</span>
                     </div>
-                    <p className="text-xs text-ink-muted">
-                      Language: <strong>{pub.language}</strong> • Tariff Rule: <strong>Billed by {pub.unit}</strong> (Includes {pub.baseUnits} base {pub.unit}s)
+                    <p className="text-xs text-ink-muted leading-relaxed">
+                      Language: <strong>{pub.language}</strong> • Tariff Rule: <strong>Billed by {pub.unit}</strong> (Includes {pub.baseUnits} base {pub.unit}s). Extra {pub.unit}s charged incrementally. Certified digital e-tearsheet delivered upon release.
                     </p>
                   </div>
 
@@ -282,7 +340,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCurrentStep(2)}
-                      className="btn accent w-full py-4 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm"
+                      className="btn accent w-full py-4 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                     >
                       <span>Continue to Step 2: Category &amp; Date</span>
                       <ArrowRight className="w-4 h-4" />

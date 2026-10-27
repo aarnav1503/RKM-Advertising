@@ -1,27 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { PageHeader } from '../components/layout/PageHeader';
 import {
-  ChevronLeft,
-  ChevronRight,
-  Home,
-  Newspaper,
-  Radio,
-  Film,
-  Monitor,
   CheckCircle2,
-  ArrowRight,
   Search,
   Sparkles,
   Phone,
   MessageCircle,
-  BarChart3,
-  Globe,
-  Share2,
   X,
-  FileText,
   TrendingUp,
   Target,
   ShieldCheck,
+  ChevronRight,
 } from 'lucide-react';
 
 export const DigitalMarketingPage: React.FC = () => {
@@ -133,84 +123,19 @@ export const DigitalMarketingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#07244C] pb-24 text-slate-800">
-      {/* =========================================================================
-          TOP HORIZONTAL MEDIA CHANNEL TABS (Matching User Reference)
-          ========================================================================= */}
-      <div className="bg-[#051C3C] border-b border-[#0D305F] overflow-x-auto no-scrollbar shadow-inner">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 flex items-center">
-          {/* Left Arrow Button */}
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="w-8 h-10 flex items-center justify-center text-rose-300 hover:text-white shrink-0"
-            title="Go Home"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          {/* Nav Items */}
-          <div className="flex items-center gap-1 sm:gap-2 flex-1 overflow-x-auto no-scrollbar py-2">
-            <Link
-              to="/"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-t-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>Home</span>
-            </Link>
-
-            <Link
-              to="/newspaper-ads"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-t-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-            >
-              <Newspaper className="w-3.5 h-3.5" />
-              <span>Newspaper Advertising</span>
-            </Link>
-
-            {/* Active Tab: Digital Marketing (with downward caret as in reference) */}
-            <div className="relative shrink-0">
-              <div className="flex items-center gap-1.5 px-5 py-2.5 bg-white text-slate-900 rounded-t-lg text-xs font-bold shadow-md cursor-default">
-                <Monitor className="w-3.5 h-3.5 text-blue-600" />
-                <span>Digital Marketing</span>
-              </div>
-              {/* Caret pointing down */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white z-10"></div>
-            </div>
-
-            <Link
-              to="/radio-ads"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-t-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-            >
-              <Radio className="w-3.5 h-3.5" />
-              <span>Radio Advertising</span>
-            </Link>
-
-            <Link
-              to="/cinema-ads"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-t-lg text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors shrink-0"
-            >
-              <Film className="w-3.5 h-3.5" />
-              <span>Cinema Advertising</span>
-            </Link>
-          </div>
-
-          {/* Right Arrow Button */}
-          <button
-            type="button"
-            onClick={() => navigate('/tv-ads')}
-            className="w-8 h-10 flex items-center justify-center bg-red-600 text-white hover:bg-red-700 shrink-0 rounded"
-            title="Next Channel"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-paper pb-24 text-slate-800">
+      <PageHeader
+        title="360° Digital Marketing & Performance Growth"
+        subtitle="Data-driven SEO campaigns, Google Ads, Meta performance engines, and full-funnel digital brand strategies."
+        badge="Omnichannel Performance Growth"
+        breadcrumbs={[{ label: 'Media Channels' }, { label: 'Digital Marketing' }]}
+      />
 
       {/* =========================================================================
-          MAIN DIGITAL PROPOSAL CARD CONTAINER (Direct Reference Matching)
+          MAIN DIGITAL PROPOSAL CARD CONTAINER
           ========================================================================= */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14">
-        <div className="bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-10 shadow-2xl border border-slate-100 relative">
+        <div className="bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-10 shadow-press border border-paper-line relative">
           {/* Top Right: SEO Audit Tool Button */}
           <div className="flex justify-end mb-2">
             <button

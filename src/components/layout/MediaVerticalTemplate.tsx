@@ -5,6 +5,13 @@ import { PageHeader } from './PageHeader';
 import { FaqAccordion } from '../home/FaqAccordion';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 
+import { OutdoorConsultationCard } from '../outdoor/OutdoorConsultationCard';
+import { TransitConsultationCard } from '../transit/TransitConsultationCard';
+import { LiftConsultationCard } from '../lift/LiftConsultationCard';
+import { OttConsultationCard } from '../ott/OttConsultationCard';
+import { ProgrammaticConsultationCard } from '../programmatic/ProgrammaticConsultationCard';
+import { GenericConsultationCard } from '../common/GenericConsultationCard';
+
 interface MediaVerticalTemplateProps {
   vertical: MediaVerticalInfo;
 }
@@ -39,13 +46,13 @@ export const MediaVerticalTemplate: React.FC<MediaVerticalTemplateProps> = ({ ve
             </div>
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
-              <Link
-                to={`/book-ad?media=${vertical.id}`}
-                className="px-6 py-3 rounded-full bg-brand text-white font-head font-bold text-xs uppercase tracking-wider shadow-accent hover:bg-brand-hover transition-all flex items-center gap-2"
+              <a
+                href={`#${vertical.id}-consult-planner`}
+                className="px-6 py-3 rounded-full bg-red-600 text-white font-head font-bold text-xs uppercase tracking-wider shadow-md hover:bg-red-700 transition-all flex items-center gap-2"
               >
-                <span>Book Campaign Now</span>
+                <span>Consult Media Planner</span>
                 <ArrowRight className="w-4 h-4" />
-              </Link>
+              </a>
               <Link
                 to="/rate-cards"
                 className="px-6 py-3 rounded-full border border-paper-line bg-paper-tint text-ink hover:bg-white font-head font-bold text-xs uppercase tracking-wider transition-all"
@@ -76,7 +83,7 @@ export const MediaVerticalTemplate: React.FC<MediaVerticalTemplateProps> = ({ ve
           </div>
         </div>
 
-        {/* Ad Formats & Package Pricing Cards */}
+        {/* Ad Formats & Package Pricing Cards (Above Consult Section as requested) */}
         <div>
           <div className="text-center max-w-2xl mx-auto mb-10">
             <h3 className="font-news-serif text-3xl font-bold text-ink tracking-tight mb-2">
@@ -128,16 +135,33 @@ export const MediaVerticalTemplate: React.FC<MediaVerticalTemplateProps> = ({ ve
                       {fmt.rate}
                     </span>
                   </div>
-                  <Link
-                    to="/book-ad"
-                    className="px-4 py-2 rounded-full bg-ink text-paper-soft hover:bg-brand hover:text-white text-xs font-head font-bold uppercase tracking-wider transition-colors"
+                  <a
+                    href={`#${vertical.id}-consult-planner`}
+                    className="px-4 py-2 rounded-full bg-ink text-paper-soft hover:bg-red-600 hover:text-white text-xs font-head font-bold uppercase tracking-wider transition-colors"
                   >
-                    Select
-                  </Link>
+                    Inquire
+                  </a>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Media Consultation Planner Cards */}
+        <div className="pt-2">
+          {vertical.id === 'outdoor' ? (
+            <OutdoorConsultationCard />
+          ) : vertical.id === 'transit' ? (
+            <TransitConsultationCard />
+          ) : vertical.id === 'lift' ? (
+            <LiftConsultationCard />
+          ) : vertical.id === 'ott' ? (
+            <OttConsultationCard />
+          ) : vertical.id === 'programmatic' ? (
+            <ProgrammaticConsultationCard />
+          ) : (
+            <GenericConsultationCard vertical={vertical} />
+          )}
         </div>
 
         {/* Partner Networks Strip */}

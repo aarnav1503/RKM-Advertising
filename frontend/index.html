@@ -837,34 +837,11 @@ footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:7
     </div>
   </div>
 
-  <!-- Right Side: Fast Selection & Hero CTA -->
+  <!-- Right Side: Hero Pitch -->
   <div class="side">
     <div class="h">
       <h1>Say it in print. Reach the entire city.</h1>
       <p class="sub">Book verified classified and display notices in India's leading dailies with live column preview and upfront rates.</p>
-    </div>
-    <div class="sage-box">
-      <form class="omni" id="omni">
-        <div class="form-field">
-          <label for="hm">Media Channel</label>
-          <select id="hm">
-            <option value="" selected disabled>Select Channel</option>
-            <option value="Newspaper">Newspaper</option>
-            <option>Radio FM</option>
-            <option>Cinema</option>
-            <option>Outdoor</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="hc">Notice Category</label>
-          <select id="hc"></select>
-        </div>
-        <div class="form-field">
-          <label for="hp">Newspaper</label>
-          <select id="hp"></select>
-        </div>
-      </form>
-      <button class="btn accent" id="go" type="button">Check Rates &amp; Book Now</button>
     </div>
   </div>
 </div>
@@ -1490,14 +1467,12 @@ const C=[
 const $=i=>document.getElementById(i), inr=n=>'\u20B9 '+Math.round(n).toLocaleString('en-IN');
 const fill=(el,arr,f)=>{el.innerHTML=arr.map(f).join('')};
 
-$('hp').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
 $('pub').innerHTML = '<option value="" selected disabled>Select Newspaper</option>' + Object.keys(P).map(k=>`<option value="${k}">${P[k].n}</option>`).join('');
-$('hc').innerHTML = '<option value="" selected disabled>Select Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
 $('cat').innerHTML = '<option value="" selected disabled>Select Category</option>' + C.map(c=>`<option value="${c[0]}">${c[0]}</option>`).join('');
 $('ed').innerHTML = '<option value="" selected disabled>Select Edition / Combo</option>' + Object.keys(E).map(k=>`<option value="${k}">${k}</option>`).join('');
 
 $('catgrid').innerHTML=C.map(c=>`
-  <a class="cat" href="book-ad.html?cat=${encodeURIComponent(c[0])}" data-c="${c[0]}">
+  <a class="cat" href="newspaper-ads.html" data-c="${c[0]}">
     <div class="cat-thumb">
       <img src="${c[5]}" alt="${c[0]}" loading="lazy">
       <span class="cat-tag">${c[0]}</span>
@@ -1793,23 +1768,6 @@ $('catgrid').addEventListener('click',e=>{
   /* Navigates directly to book-ad.html */
 });
 
-$('go').onclick=()=>{
-  if($('hm').value=='Newspaper'){
-    if($('hc').value) $('cat').value=$('hc').value;
-    if($('hp').value) $('pub').value=$('hp').value;
-    if($('hc').value) useTemplate();
-    $('book').scrollIntoView({behavior:'smooth'});
-  } else if($('hm').value) {
-    $('iq3').value=$('hm').value=='Outdoor'?'Outdoor / DOOH':$('hm').value;
-    $('media').scrollIntoView({behavior:'smooth'});
-  } else {
-    $('book').scrollIntoView({behavior:'smooth'});
-  }
-};
-
-$('hm').onchange=()=>{
-  $('go').textContent=$('hm').value=='Newspaper'?'Check Rates & Book Now':'Request a Media Plan';
-};
 
 $('pay').onclick=()=>{
   if(!$('pub').value){

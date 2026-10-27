@@ -115,68 +115,397 @@
           <h3 style="font-size:20px;margin-bottom:8px">Polygon Geofencing &amp; Footfall</h3>
           <p style="color:var(--ink-muted);font-size:14px;line-height:1.5;margin-bottom:14px">Pinpoint polygon GPS boundaries around airports, luxury malls, competitor outlets, and corporate tech parks.</p>
           <div style="font:700 16px var(--head);color:var(--accent);margin-bottom:14px">From ₹60 CPM</div>
-          <a class="btn sm" href="#prog-form">Book Geofencing Plan ➔</a>
+          <a class="btn sm" style="background:#1B1917;color:#FFF;border-radius:999px;padding:6px 16px;font-size:12px;display:inline-block;margin-top:10px" href="#prog-form">Inquire ➔</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FORM & SPECIFICATIONS -->
-  <section style="margin-top:20px">
-    <div class="med" style="display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:start">
-      <div>
-        <h2 style="font-size:28px;margin-bottom:14px">Supported Demand-Side Platforms (DSP)</h2>
-        <p style="color:var(--ink-muted);line-height:1.6;margin-bottom:20px">RKM Advertising holds certified partner seats on premier programmatic DSPs, delivering lower take-rates and direct SSP pipes.</p>
-        
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
-          <div class="card" style="padding:16px;border-radius:12px">
-            <h4 style="font-size:16px;margin-bottom:4px">🎯 Google Display &amp; Video 360 (DV360)</h4>
-            <p style="font-size:13px;color:var(--ink-muted);margin:0">Google's premium enterprise programmatic platform.</p>
-          </div>
-          <div class="card" style="padding:16px;border-radius:12px">
-            <h4 style="font-size:16px;margin-bottom:4px">🌐 The Trade Desk (TTD)</h4>
-            <p style="font-size:13px;color:var(--ink-muted);margin:0">Open web omnichannel buying with Unified ID 2.0.</p>
-          </div>
-          <div class="card" style="padding:16px;border-radius:12px">
-            <h4 style="font-size:16px;margin-bottom:4px">📊 Xandr (Microsoft Monetize)</h4>
-            <p style="font-size:13px;color:var(--ink-muted);margin:0">Custom algorithmic bidding and curated marketplace deals.</p>
-          </div>
-          <div class="card" style="padding:16px;border-radius:12px">
-            <h4 style="font-size:16px;margin-bottom:4px">🛡️ IAS &amp; DoubleVerify Verified</h4>
-            <p style="font-size:13px;color:var(--ink-muted);margin:0">Brand safety, IVT bot protection, and 100% viewability guarantee.</p>
-          </div>
-        </div>
+  <!-- 1. MAIN CONSULTATION FORM: Matching BookMyAd Reference Form -->
+  <section style="margin-top:36px;margin-bottom:20px" id="prog-form">
+    <div class="card" style="border-radius:56px 14px 56px 14px;box-shadow:0 10px 30px rgba(0,0,0,0.06);padding:40px 36px;max-width:960px;margin:0 auto">
+      <div style="text-align:center;margin-bottom:24px">
+        <h2 style="font-size:28px;font-weight:800;margin-bottom:6px;color:var(--ink)">Confused about programmatic ADS?</h2>
+        <p style="color:var(--ink-muted);font-size:15px;margin-bottom:6px">Talk to our performance marketing expert now!</p>
+        <div style="color:#DC2626;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase">Please fill out this form</div>
       </div>
 
-      <div class="card" id="prog-form" style="padding:28px;border-radius:16px">
-        <h3 style="font-size:22px;margin-bottom:14px">Request Programmatic DSP Media Plan</h3>
-        <form onsubmit="event.preventDefault(); alert('Media proposal sent! A certified programmatic trader will connect with your target CPM projection.');">
-          <div class="form-group" style="margin-bottom:14px">
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Company / Agency Name</label>
-            <input type="text" required placeholder="Brand / Organization" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px">
+      <form onsubmit="event.preventDefault();alert('Thank you! Your programmatic trading brief has been submitted. Our performance marketing desk will contact you within 2 hours.');this.reset();">
+        <!-- Row 1: Radio Groups (Segment & Budget) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:20px;border-radius:18px;border:1px solid var(--line);margin-bottom:20px">
+          <div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">
+              In Which Segment Do You Require Performance *
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="require_performance" value="App Eco-System" required checked style="accent-color:#DC2626">
+                <span>App Eco-System (Installs &amp; Events)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="require_performance" value="Conversion leads" style="accent-color:#DC2626">
+                <span>Conversion Leads (B2B &amp; High-Intent)</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="require_performance" value="Ecommerce Conversions" style="accent-color:#DC2626">
+                <span>Ecommerce Conversions (ROAS &amp; Sales)</span>
+              </label>
+            </div>
           </div>
-          <div class="form-group" style="margin-bottom:14px">
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Mobile Number</label>
-            <input type="tel" required placeholder="+91 98XXXXXXXX" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px">
+
+          <div>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">
+              Tentative Budget *
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="budget" value="Under 1 Lakh" required style="accent-color:#DC2626">
+                <span>Under 1 Lakh</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="budget" value="Under 5 Lakh" checked style="accent-color:#DC2626">
+                <span>Under 5 Lakh</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="budget" value="Under 50 Lakh" style="accent-color:#DC2626">
+                <span>Under 50 Lakh</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:10px;background:#FFF;padding:10px 14px;border-radius:10px;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600">
+                <input type="radio" name="budget" value="50 Lakh - 1 CR+" style="accent-color:#DC2626">
+                <span>₹50 Lakh - ₹1 CR+</span>
+              </label>
+            </div>
           </div>
-          <div class="form-group" style="margin-bottom:14px">
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Ad Inventory Type</label>
-            <select style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px">
-              <option>Rich Media &amp; High Impact Display</option>
-              <option>Programmatic Video (In-Stream OLV)</option>
-              <option>Location &amp; Geofencing Campaigns</option>
-              <option>PMP Private Marketplace Deals</option>
-            </select>
+        </div>
+
+        <!-- Row 2: 4 Inputs (Name, Email, Phone, Company) -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:14px">
+          <div>
+            <input required type="text" name="name" placeholder="Your Name *" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;box-sizing:border-box">
           </div>
-          <div class="form-group" style="margin-bottom:18px">
-            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Estimated Monthly Budget (₹)</label>
-            <input type="text" placeholder="e.g. ₹1,00,000 – ₹5,00,000" style="width:100%;padding:10px 14px;border:1px solid var(--line);border-radius:8px">
+          <div>
+            <input required type="email" name="email" placeholder="Email Address *" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;box-sizing:border-box">
           </div>
-          <button type="submit" class="btn accent" style="width:100%;padding:13px">Get Custom DSP Plan &amp; Forecast ➔</button>
-        </form>
+          <div>
+            <input required type="tel" name="phone" placeholder="Phone Number *" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;box-sizing:border-box">
+          </div>
+          <div>
+            <input required type="text" name="company" placeholder="Company Name *" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;box-sizing:border-box">
+          </div>
+        </div>
+
+        <!-- Row 3: App/Website Link & Submit Button -->
+        <div style="display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center">
+          <div>
+            <input required type="text" name="website" placeholder="( App, Website Link ) *" style="width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:8px;font-size:14px;box-sizing:border-box">
+          </div>
+          <div>
+            <button type="submit" style="padding:12px 36px;background:#000;color:#FFF;border:none;border-radius:8px;font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15)">
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 2. WHY PROGRAMMATIC MEDIA: 5 Pillars (from Reference) -->
+  <section style="margin-top:40px;margin-bottom:30px">
+    <div style="text-align:center;margin-bottom:28px">
+      <h2 style="font-size:26px;font-weight:800;color:var(--ink);margin-bottom:6px">Why Programmatic Media</h2>
+      <p style="color:var(--ink-muted);font-size:14px;max-width:600px;margin:0 auto">Harness automated machine-learning bid strategies, omnichannel reach, and real-time audience data to maximize your return on ad spend.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px">
+      <div class="card" style="padding:22px;border-radius:18px;text-align:center;background:#FFF;border:1px solid var(--line)">
+        <div style="font-size:28px;margin-bottom:8px">📈</div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)">Transparency &amp; Real Time Bidding</h4>
+        <p style="font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0">Automated auctioning with 100% bidstream logs and direct SSP pipes.</p>
+      </div>
+      <div class="card" style="padding:22px;border-radius:18px;text-align:center;background:#FFF;border:1px solid var(--line)">
+        <div style="font-size:28px;margin-bottom:8px">🎯</div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)">Advanced Targeting</h4>
+        <p style="font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0">Target by GPS polygon boundaries, device price bands, and lookalikes.</p>
+      </div>
+      <div class="card" style="padding:22px;border-radius:18px;text-align:center;background:#FFF;border:1px solid var(--line)">
+        <div style="font-size:28px;margin-bottom:8px">💰</div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)">Saved Advertising Budgets</h4>
+        <p style="font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0">Machine-learning bid shading and frequency capping prevent wasted spend.</p>
+      </div>
+      <div class="card" style="padding:22px;border-radius:18px;text-align:center;background:#FFF;border:1px solid var(--line)">
+        <div style="font-size:28px;margin-bottom:8px">👁️</div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)">More Impression, Lower CPM</h4>
+        <p style="font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0">Wholesale publisher rates via certified partner seats on DV360 and TTD.</p>
+      </div>
+      <div class="card" style="padding:22px;border-radius:18px;text-align:center;background:#FFF;border:1px solid var(--line)">
+        <div style="font-size:28px;margin-bottom:8px">⚡</div>
+        <h4 style="font-size:15px;font-weight:800;margin-bottom:6px;color:var(--ink)">Maximize Return on Ad Spend</h4>
+        <p style="font-size:12px;color:var(--ink-muted);line-height:1.5;margin:0">Multi-touch attribution and algorithmic budget shifting towards top domains.</p>
       </div>
     </div>
   </section>
+
+  <!-- 3. PROGRAMMATIC ADVERTISING PLATFORMS & AD FORMAT TYPES (Tabs matching BookMyAd) -->
+  <section style="margin-top:40px;margin-bottom:30px">
+    <div class="card" style="padding:36px;border-radius:24px;border:1px solid var(--line);background:#FFF">
+      <div style="text-align:center;margin-bottom:24px">
+        <h2 style="font-size:26px;font-weight:800;color:var(--ink);margin-bottom:6px">Programmatic Advertising Platforms &amp; Ad Format Types</h2>
+        <p style="color:var(--ink-muted);font-size:14px;max-width:650px;margin:0 auto">Programmatic is much more than just display banners. Deliver your advertising message across every consumer digital touchpoint.</p>
+      </div>
+
+      <!-- Tab Buttons -->
+      <div id="prog-tabs-nav" style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:24px;border-bottom:1px solid var(--line);padding-bottom:16px">
+        <button class="prog-tab-btn active" data-tab="tab-banner" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:#000;color:#FFF">Banner</button>
+        <button class="prog-tab-btn" data-tab="tab-video" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--paper-tint,#F4F0E8);color:var(--ink)">Video</button>
+        <button class="prog-tab-btn" data-tab="tab-native" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--paper-tint,#F4F0E8);color:var(--ink)">Native</button>
+        <button class="prog-tab-btn" data-tab="tab-rich" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--paper-tint,#F4F0E8);color:var(--ink)">Rich Media</button>
+        <button class="prog-tab-btn" data-tab="tab-audio" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--paper-tint,#F4F0E8);color:var(--ink)">Push &amp; Audio</button>
+        <button class="prog-tab-btn" data-tab="tab-dooh" style="padding:8px 20px;border-radius:999px;border:none;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;background:var(--paper-tint,#F4F0E8);color:var(--ink)">Popup &amp; DOOH</button>
+      </div>
+
+      <!-- Tab Panels -->
+      <div id="prog-tabs-content">
+        <!-- 1. Banner -->
+        <div id="tab-banner" class="prog-tab-pane" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">IAB Standard &amp; Sticky Banners</span>
+            <div style="font-size:44px;margin:16px 0">🖼️</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Banner Formats</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹35 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">Leaderboard (728×90), Half Page (300×600), Billboard (970×250), MPU (300×250)</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">High-Impact Display &amp; Standard Banners</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Provides programmatic access to premium display inventory across 100,000+ publishers. Serves banner ads in industry-standard IAB sizes with 100% viewability guarantee.</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">💻 Desktop</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📱 Mobile Web</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📲 In-App</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Video -->
+        <div id="tab-video" class="prog-tab-pane" style="display:none;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">Pre-Roll, Mid-Roll &amp; Rewarded</span>
+            <div style="font-size:44px;margin:16px 0">🎬</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Video OLV Formats</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹110 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">VAST 4.2 / VPAID compliant • 1080p Full HD • 15s to 30s non-skippable</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Programmatic Online Video (OLV)</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Wrap your brand narrative in immersive pre-roll, mid-roll, and rewarded video ads with verified >90% Video Completion Rate (VCR) across YouTube, OTT platforms, and premium gaming apps.</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">💻 Desktop</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📱 Mobile Web</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📲 In-App Video</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Native -->
+        <div id="tab-native" class="prog-tab-pane" style="display:none;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">In-Feed &amp; Discovery Widgets</span>
+            <div style="font-size:44px;margin:16px 0">📰</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Native Content Ads</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹45 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">Dynamic 1200×628 creative + contextual headline matching editorial design</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">In-Feed Native Ads &amp; Recommendation Widgets</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Utilize DSP seats for native advertising that blends seamlessly into the editorial feed of top publishers like Taboola, Outbrain, MSN, and Times Internet with 3X higher engagement.</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">💻 Desktop</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📱 Mobile Web</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📲 In-App Feeds</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Rich Media -->
+        <div id="tab-rich" class="prog-tab-pane" style="display:none;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">Interactive Canvas &amp; Parallax</span>
+            <div style="font-size:44px;margin:16px 0">✨</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Rich Media Formats</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹75 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">Custom JS tags, MRAID 3.0 • Dynamic Creative Optimization (DCO)</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Interactive 3D Parallax &amp; Expandables</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Includes rich media formats with interactive elements designed to float, expand, and react to touch or hover. Choose from scratch cards, 3D product rotators, and expandable pushdowns.</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">💻 Desktop</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📱 Mobile Web</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📲 In-App Canvas</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Push & Audio -->
+        <div id="tab-audio" class="prog-tab-pane" style="display:none;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">Spotify &amp; Push Notifications</span>
+            <div style="font-size:44px;margin:16px 0">🎧</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Audio &amp; Push Ads</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹60 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">15s/30s Audio (MP3) + 300×300 companion banner + instant push notifications</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Programmatic Audio &amp; Direct Push Ads</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Target engaged listeners with companion display banners on Spotify, JioSaavn, and Wynk Music, paired with real-time web &amp; mobile push notifications reaching opted-in subscribers with high CTR (>4.5%).</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">💻 Desktop</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📱 Mobile Web</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">📲 Audio Streaming</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. DOOH -->
+        <div id="tab-dooh" class="prog-tab-pane" style="display:none;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;background:var(--paper-tint,#F4F0E8);padding:24px;border-radius:18px;border:1px solid var(--line)">
+          <div style="background:#FFF;padding:24px;border-radius:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,0.04)">
+            <span style="background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:999px;font-size:10px;font-weight:800;text-transform:uppercase">Programmatic DOOH &amp; Full Screen</span>
+            <div style="font-size:44px;margin:16px 0">🏢</div>
+            <h4 style="font-size:18px;font-weight:800;margin-bottom:6px">Digital OOH Screens</h4>
+            <div style="font-size:16px;font-weight:800;color:#DC2626;margin-bottom:8px">From ₹95 CPM</div>
+            <p style="font-size:12px;color:var(--ink-muted);margin:0">High-res LED &amp; LCD digital billboards in corporate hubs &amp; airports</p>
+          </div>
+          <div>
+            <h3 style="font-size:20px;font-weight:800;margin-bottom:8px">Digital Out-Of-Home &amp; Public Screens</h3>
+            <p style="color:var(--ink-muted);font-size:14px;line-height:1.6;margin-bottom:18px">Broadcast programmatic ads onto connected digital screens in high-footfall public venues: premium corporate tech parks, luxury malls, metro hubs, and private airports powered by real-time footfall triggers.</p>
+            <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:10px">Channel Delivery Devices</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">🏢 Office Screens</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">🚆 Transit Screens</div>
+              <div style="background:#FFF;padding:12px;border-radius:10px;text-align:center;border:1px solid var(--line);font-size:12px;font-weight:700">🛍️ Mall Video Walls</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TARGETING OPTIONS IN PROGRAMMATIC ADVERTISING (from Reference) -->
+  <section style="margin-top:40px;margin-bottom:30px">
+    <div class="card" style="padding:36px;border-radius:24px;border:1px solid var(--line);background:#FFF">
+      <div style="text-align:center;margin-bottom:24px">
+        <h2 style="font-size:26px;font-weight:800;color:var(--ink);margin-bottom:6px">Targeting Options In Programmatic Advertising</h2>
+        <p style="color:var(--ink-muted);font-size:14px;max-width:650px;margin:0 auto">When it comes to purchasing ad space, precision audience data ensures zero budget waste. Combine real-time technical parameters with rich consumer affinity cohorts.</p>
+      </div>
+
+      <!-- Technical Dimensions -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:24px">
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Geolocation</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">GPS &amp; IP Clusters</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Browser Type</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">Chrome, Safari, Edge</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Device Brand</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">Apple, Samsung &amp; Tier</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Language</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">English &amp; Regional</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">IAB Categories</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">Tier-1 &amp; Tier-2 Context</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Operating System</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">iOS (SKAN), Android</div>
+        </div>
+        <div style="background:var(--paper-tint,#F4F0E8);padding:12px;border-radius:10px;border:1px solid var(--line);text-align:center">
+          <div style="font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase">Connection Type</div>
+          <div style="font-size:10px;color:var(--ink-muted);margin-top:2px">5G, 4G LTE, Wi-Fi</div>
+        </div>
+      </div>
+
+      <!-- Audience Affinity Badges -->
+      <div style="text-align:center">
+        <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--ink-muted);margin-bottom:12px">Audience Affinity &amp; Demographic Segments</div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px">
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Animal Lovers</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Arts &amp; Entertainment</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Technophiles</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Fashionistas</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ School &amp; Education</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Fitness Enthusiasts</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Travel Buffs</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Sports Fans</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Food &amp; Beverage (FnB)</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Shopaholics</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Mobile &amp; PC Gamers</span>
+          <span style="padding:6px 16px;border-radius:999px;background:var(--paper-tint,#F4F0E8);border:1px solid var(--line);font-size:12px;font-weight:600;color:var(--ink)">✦ Movie &amp; OTT Lovers</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. TRUST, FRAUD PROTECTION & GUARANTEES -->
+  <section style="margin-top:30px;margin-bottom:40px">
+    <div style="background:#1B1917;color:#FFF;border-radius:24px;padding:32px 36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span style="font-size:24px">🛡️</span>
+        <div>
+          <h4 style="font-size:15px;font-weight:800;color:#FFF;margin-bottom:4px">Trustworthy SSPs Only</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;margin:0">Direct ads.txt verified publisher integrations through Magnite, PubMatic, OpenX, and Google Ad Manager.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span style="font-size:24px">🎖️</span>
+        <div>
+          <h4 style="font-size:15px;font-weight:800;color:#FFF;margin-bottom:4px">IAS &amp; DoubleVerify Verified</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;margin:0">Zero non-human invalid bot traffic (IVT &lt; 0.5%) and 100% brand safety guaranteed across all domains.</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <span style="font-size:24px">⏱️</span>
+        <div>
+          <h4 style="font-size:15px;font-weight:800;color:#FFF;margin-bottom:4px">Fast 2-Hour Trading Setup</h4>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;margin:0">Campaign setup, custom audience pixel implementation, and algorithmic real-time optimization.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Script for Format Tabs Switcher -->
+  <script>
+    document.querySelectorAll('.prog-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.prog-tab-btn').forEach(b => {
+          b.style.background = 'var(--paper-tint, #F4F0E8)';
+          b.style.color = 'var(--ink)';
+          b.classList.remove('active');
+        });
+        this.style.background = '#000';
+        this.style.color = '#FFF';
+        this.classList.add('active');
+
+        const tabId = this.getAttribute('data-tab');
+        document.querySelectorAll('.prog-tab-pane').forEach(pane => {
+          pane.style.display = 'none';
+        });
+        const activePane = document.getElementById(tabId);
+        if (activePane) {
+          activePane.style.display = 'grid';
+        }
+      });
+    });
+  </script>
 </main>
 
 <footer>

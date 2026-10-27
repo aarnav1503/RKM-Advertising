@@ -1,42 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES, formatINR } from '../data/publicationsData';
 import { NewspaperCard } from '../components/common/NewspaperCard';
 
 export const HomePage: React.FC = () => {
-  const navigate = useNavigate();
   const { setCategoryTemplate } = useBooking();
-
-  // Hero Omni State
-  const [heroMedia, setHeroMedia] = useState('');
-  const [heroCat, setHeroCat] = useState('');
-  const [heroPub, setHeroPub] = useState('');
 
   // Track status section state
   const [trackId, setTrackId] = useState('');
   const [trackStep, setTrackStep] = useState(0);
   const [trackMsg, setTrackMsg] = useState('Enter your booking ID to track publishing milestones.');
-
-  const handleHeroGo = () => {
-    if (heroMedia === 'Newspaper' || !heroMedia) {
-      if (heroCat) setCategoryTemplate(heroCat);
-      navigate(
-        `/book-ad?media=newspaper${heroPub ? `&pub=${heroPub}` : ''}${
-          heroCat ? `&cat=${encodeURIComponent(heroCat)}` : ''
-        }`
-      );
-    } else {
-      const mediaRouteMap: Record<string, string> = {
-        Radio: '/radio-ads',
-        Cinema: '/cinema-ads',
-        TV: '/tv-ads',
-        Outdoor: '/outdoor-ads',
-        Digital: '/digital-marketing',
-      };
-      navigate(mediaRouteMap[heroMedia] || '/book-ad');
-    }
-  };
 
   const handleTrack = () => {
     const v = trackId.trim();
@@ -145,46 +119,11 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Side: Fast Selection & Hero CTA */}
+        {/* Right Side: Hero Pitch */}
         <div className="side">
           <div className="h">
             <h1>Say it in print. Reach the entire city.</h1>
             <p className="sub">Book verified classified and display notices in India's leading dailies with live column preview and upfront rates.</p>
-          </div>
-          <div className="sage-box">
-            <form className="omni" onSubmit={(e) => { e.preventDefault(); handleHeroGo(); }}>
-              <div className="form-field">
-                <label htmlFor="hm">Media Channel</label>
-                <select id="hm" value={heroMedia} onChange={(e) => setHeroMedia(e.target.value)}>
-                  <option value="">Select Channel</option>
-                  <option value="Newspaper">Newspaper</option>
-                  <option value="Radio FM">Radio FM</option>
-                  <option value="Cinema">Cinema</option>
-                  <option value="Outdoor">Outdoor</option>
-                </select>
-              </div>
-              <div className="form-field">
-                <label htmlFor="hc">Notice Category</label>
-                <select id="hc" value={heroCat} onChange={(e) => setHeroCat(e.target.value)}>
-                  <option value="">Select Category</option>
-                  {CATEGORY_TEMPLATES.map((c) => (
-                    <option key={c.name} value={c.name}>{c.name}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="form-field">
-                <label htmlFor="hp">Newspaper</label>
-                <select id="hp" value={heroPub} onChange={(e) => setHeroPub(e.target.value)}>
-                  <option value="">Select Newspaper</option>
-                  {Object.values(PUBLICATIONS_DATA).map((pub) => (
-                    <option key={pub.id} value={pub.id}>{pub.name}</option>
-                  ))}
-                </select>
-              </div>
-            </form>
-            <button className="btn accent" type="button" onClick={handleHeroGo}>
-              {heroMedia && heroMedia !== 'Newspaper' ? 'Request a Media Plan' : 'Check Rates & Book Now'}
-            </button>
           </div>
         </div>
       </div>
@@ -223,7 +162,7 @@ export const HomePage: React.FC = () => {
                 <Link
                   key={cat.name}
                   className="cat"
-                  to={`/book-ad?cat=${encodeURIComponent(cat.name)}`}
+                  to="/newspaper-ads"
                   onClick={() => {
                     setCategoryTemplate(cat.name);
                   }}
@@ -364,7 +303,7 @@ export const HomePage: React.FC = () => {
               <div className="service-feature-info">
                 <span className="start-tag">Start Your</span>
                 <h3>Digital PR</h3>
-                <Link className="book-btn" to="/digital-marketing">Book Now</Link>
+                <Link className="book-btn" to="/digital-pr">Book Now</Link>
               </div>
             </div>
 

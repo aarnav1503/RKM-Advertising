@@ -395,7 +395,7 @@ export const MEDIA_VERTICALS: MediaVerticalInfo[] = [
     badge: '100+ High-Rise Societies • Captive Audience',
     startingPrice: '₹ 1,200 / lift / month',
     reach: '4.2M+ Daily Captive Elevator Trips',
-    heroImage: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80',
+    heroImage: '/images/lift-elevator-branding.jpg',
     benefits: [
       'Gated residential high-rises in Gurgaon, Noida, Whitefield, BKC, and Powai',
       'Captive audience with average elevator wait + ride time of 75 seconds',

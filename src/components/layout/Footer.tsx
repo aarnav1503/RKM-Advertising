@@ -44,7 +44,7 @@ export const Footer: React.FC = () => {
               Services
             </h4>
             <div className="flex flex-col space-y-1">
-              <Link to="/digital-marketing" className="footer-link">Digital PR</Link>
+              <Link to="/digital-pr" className="footer-link">Digital PR</Link>
               <Link to="/digital-marketing" className="footer-link">Google Ads</Link>
               <Link to="/track-ad" className="footer-link">Track Booking</Link>
               <Link to="/book-ad" className="footer-link">Book Online</Link>
