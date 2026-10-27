@@ -6,10 +6,7 @@ export { RadioAdsPage } from './RadioAdsPage';
 export { CinemaAdsPage } from './CinemaAdsPage';
 export { TvAdsPage } from './TvAdsPage';
 
-export const OutdoorAdsPage: React.FC = () => {
-  const vertical = MEDIA_VERTICALS.find((v) => v.id === 'outdoor') || MEDIA_VERTICALS[4];
-  return <MediaVerticalTemplate vertical={vertical} />;
-};
+export { OutdoorAdsPage } from './OutdoorAdsPage';
 
 export { DigitalMarketingPage } from './DigitalMarketingPage';
 export { DigitalPrPage } from './DigitalPrPage';
