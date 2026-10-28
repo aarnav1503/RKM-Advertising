@@ -18,6 +18,7 @@ import {
   FileText,
   ShieldCheck,
   Sparkles,
+  Clock,
 } from 'lucide-react';
 
 export const BookAdPage: React.FC = () => {
@@ -93,6 +94,20 @@ export const BookAdPage: React.FC = () => {
       now.setDate(now.getDate() + 1);
     }
     return now.toISOString().slice(0, 10);
+  };
+
+  const getTomorrowDate = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().slice(0, 10);
+  };
+
+  const getUpcomingSundayDate = () => {
+    const d = new Date();
+    const day = d.getDay();
+    const diff = (7 - day) % 7 || 7;
+    d.setDate(d.getDate() + diff);
+    return d.toISOString().slice(0, 10);
   };
 
   return (
@@ -367,84 +382,170 @@ export const BookAdPage: React.FC = () => {
               {/* STEP 2: CATEGORY & DATE */}
               {currentStep === 2 && (
                 <div key="step-2" className="space-y-6 step-transition">
+                  {/* Step 2 Header */}
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-line">
                     <div>
                       <div className="text-[11px] font-head font-bold uppercase tracking-wider text-brand mb-1 flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5" /> Step 2 of 4: Category &amp; Date
                       </div>
                       <h2 className="font-news-serif text-2xl font-bold text-ink">
-                        Select Notice Category &amp; Publish Date
+                        Select Notice Classification &amp; Scheduled Print Date
                       </h2>
                       <p className="text-xs text-ink-muted font-sans mt-0.5">
-                        Choose the classification for your advertisement and pick the scheduled print insertion date.
+                        Choose the official classified category under which your notice will be indexed, and specify your preferred print publication schedule.
                       </p>
                     </div>
                     <CutoffCountdownBadge cutoffHour={pub.cutoffHour} />
                   </div>
 
-                  {/* Category & Date Selector */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                        Ad Category
+                  {/* Section 1: Choose Notice Category (Visual Grid) */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-head font-bold uppercase tracking-wider text-ink flex items-center gap-2">
+                        <span>1. Choose Notice Classification</span>
+                        <span className="text-[10px] text-brand font-semibold font-sans bg-brand-light/50 px-2 py-0.5 rounded-full">
+                          {CATEGORY_TEMPLATES.length} Formats Available
+                        </span>
                       </label>
-                      <select
-                        value={booking.category}
-                        onChange={(e) => setCategoryTemplate(e.target.value)}
-                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
+                      <span className="text-[11px] text-ink-muted hidden sm:inline">
+                        Click any card to select &amp; load legal template
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {CATEGORY_TEMPLATES.map((tmpl) => {
+                        const isSelected = booking.category.toLowerCase() === tmpl.name.toLowerCase();
+                        return (
+                          <button
+                            key={tmpl.name}
+                            type="button"
+                            onClick={() => setCategoryTemplate(tmpl.name)}
+                            className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-2.5 relative ${
+                              isSelected
+                                ? 'bg-white border-brand shadow-sm ring-1 ring-brand'
+                                : 'bg-paper-tint border-paper-line hover:border-brand/40 hover:bg-white'
+                            }`}
+                          >
+                            <div>
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-head text-xs sm:text-[13px] font-bold text-ink flex items-center gap-2">
+                                  <span className={`w-2.5 h-2.5 rounded-full ${isSelected ? 'bg-brand' : 'bg-paper-line'}`} />
+                                  {tmpl.name}
+                                </span>
+                                <span className={`text-[10px] font-head font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shrink-0 ${
+                                  isSelected ? 'bg-brand/10 text-brand' : 'bg-paper-soft text-ink-muted'
+                                }`}>
+                                  From ₹{tmpl.baseMinRate}
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-ink-muted font-sans mt-1 line-clamp-2 leading-relaxed">
+                                {tmpl.description}
+                              </p>
+                            </div>
+
+                            {tmpl.requiredDoc ? (
+                              <div className="text-[10px] font-head font-medium text-amber-800 bg-amber-50 border border-amber-200/70 px-2 py-1 rounded-lg flex items-center gap-1.5 truncate">
+                                <AlertCircle className="w-3 h-3 text-amber-600 shrink-0" />
+                                <span className="truncate">Affidavit / Authority Document Required</span>
+                              </div>
+                            ) : (
+                              <div className="text-[10px] font-head font-medium text-emerald-800 bg-emerald-50/70 border border-emerald-200/50 px-2 py-1 rounded-lg flex items-center gap-1.5">
+                                <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                                <span>Direct Editorial Insertion (No Doc Needed)</span>
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Section 2: Publishing Date & Schedule */}
+                  <div className="space-y-3 pt-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-head font-bold uppercase tracking-wider text-ink flex items-center gap-2">
+                        <span>2. Scheduled Print Insertion Date</span>
+                        <span className="text-brand text-xs">*</span>
+                      </label>
+                      <span className="text-[11px] text-brand font-head font-semibold flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" /> Next Day Morning Press
+                      </span>
+                    </div>
+
+                    {/* Quick Date Chips & Date Input */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                      <button
+                        type="button"
+                        onClick={() => updateBooking({ publishDate: getTomorrowDate() })}
+                        className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                          booking.publishDate === getTomorrowDate()
+                            ? 'border-brand bg-brand-light/30 ring-1 ring-brand font-medium'
+                            : 'border-paper-line bg-paper-tint hover:bg-white'
+                        }`}
                       >
-                        {CATEGORY_TEMPLATES.map((c) => (
-                          <option key={c.name} value={c.name}>
-                            {c.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                        <div className="text-[10px] font-head uppercase tracking-wider text-brand font-bold">Fastest Insertion</div>
+                        <div className="text-xs font-head font-bold text-ink mt-0.5">Tomorrow Morning</div>
+                        <div className="text-[10.5px] text-ink-muted font-mono mt-0.5">{getTomorrowDate()}</div>
+                      </button>
 
-                    <div>
-                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5 flex items-center justify-between">
-                        <span>Publish Release Date</span>
-                        <span className="text-[10px] text-brand font-normal">Next Day Press</span>
-                      </label>
-                      <input
-                        type="date"
-                        min={getMinDate()}
-                        value={booking.publishDate}
-                        onChange={(e) => updateBooking({ publishDate: e.target.value })}
-                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-2.5 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer max-w-full appearance-none"
-                      />
+                      <button
+                        type="button"
+                        onClick={() => updateBooking({ publishDate: getUpcomingSundayDate() })}
+                        className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                          booking.publishDate === getUpcomingSundayDate()
+                            ? 'border-brand bg-brand-light/30 ring-1 ring-brand font-medium'
+                            : 'border-paper-line bg-paper-tint hover:bg-white'
+                        }`}
+                      >
+                        <div className="text-[10px] font-head uppercase tracking-wider text-amber-800 font-bold">Peak Readership</div>
+                        <div className="text-xs font-head font-bold text-ink mt-0.5">Sunday Special Issue</div>
+                        <div className="text-[10.5px] text-ink-muted font-mono mt-0.5">{getUpcomingSundayDate()}</div>
+                      </button>
+
+                      <div className="p-2.5 rounded-xl border border-paper-line bg-paper-tint flex flex-col justify-between">
+                        <div className="text-[10px] font-head uppercase tracking-wider text-ink-muted font-bold mb-1">Pick Exact Date</div>
+                        <input
+                          type="date"
+                          min={getMinDate()}
+                          value={booking.publishDate}
+                          onChange={(e) => updateBooking({ publishDate: e.target.value })}
+                          className="w-full bg-white border border-paper-line rounded-lg px-2.5 py-1.5 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Quick Template Fill Buttons */}
-                  <div>
-                    <label className="block text-[11px] font-head font-bold uppercase tracking-wider text-ink-muted mb-2">
-                      Sample Legal &amp; Classified Formats (Click to Fill)
-                    </label>
-                    <div className="flex flex-wrap gap-1.5">
-                      {CATEGORY_TEMPLATES.map((tmpl) => (
-                        <button
-                          key={tmpl.name}
-                          type="button"
-                          onClick={() => setCategoryTemplate(tmpl.name)}
-                          className={`px-3 py-1.5 rounded-full text-[11px] font-head font-semibold tracking-wide border transition-all cursor-pointer ${
-                            booking.category.toLowerCase() === tmpl.name.toLowerCase()
-                              ? 'bg-ink text-paper-soft border-ink shadow-sm'
-                              : 'bg-paper-tint text-ink border-paper-line hover:border-brand/40'
-                          }`}
-                        >
-                          {tmpl.name}
-                        </button>
-                      ))}
+                  {/* Section 3: Selected Category Advisory & Guidelines Box */}
+                  {currentCategoryObj && (
+                    <div className="p-4 rounded-2xl bg-paper-tint border border-paper-line space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="font-head font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                          <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                          {currentCategoryObj.name} • Official Editorial Guidelines
+                        </span>
+                        <span className="text-[10px] text-ink-muted font-head uppercase">Pre-Loaded in Step 3</span>
+                      </div>
+                      <p className="text-xs text-ink-muted leading-relaxed font-sans">
+                        Your ad will appear in the dedicated <strong>{currentCategoryObj.name}</strong> column of {pub.name} ({booking.edition} Edition).
+                        {currentCategoryObj.requiredDoc ? (
+                          <span className="text-amber-900 block mt-1 font-medium">
+                            Notice: Please have your {currentCategoryObj.requiredDoc.toLowerCase()} ready to attach in Step 3.
+                          </span>
+                        ) : (
+                          <span className="text-emerald-800 block mt-1 font-medium">
+                            Standard commercial classified ad. No notary affidavit required for publishing.
+                          </span>
+                        )}
+                      </p>
                     </div>
-                  </div>
+                  )}
 
                   {/* Step 2 Navigation Buttons */}
-                  <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                  <div className="pt-3 border-t border-paper-line flex flex-col sm:flex-row gap-2.5 sm:gap-3 items-stretch sm:items-center">
                     <button
                       type="button"
                       onClick={() => goToStep(1)}
-                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
+                      className="btn outline py-3.5 px-5 text-xs font-head uppercase tracking-wider font-bold shrink-0 flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 1</span>
@@ -452,10 +553,10 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => goToStep(3)}
-                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer order-1 sm:order-2"
+                      className="btn accent flex-1 min-w-0 py-3.5 px-5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-accent hover:-translate-y-0.5 transition-all cursor-pointer order-1 sm:order-2"
                     >
                       <span>Continue to Step 3: Compose Text</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 shrink-0" />
                     </button>
                   </div>
                 </div>
@@ -709,11 +810,11 @@ export const BookAdPage: React.FC = () => {
                   )}
 
                   {/* Step 3 Navigation Buttons */}
-                  <div className="pt-4 border-t border-paper-line flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                  <div className="pt-4 border-t border-paper-line flex flex-col sm:flex-row gap-2.5 sm:gap-3 items-stretch sm:items-center">
                     <button
                       type="button"
                       onClick={() => goToStep(2)}
-                      className="btn outline py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
+                      className="btn outline py-3.5 px-5 text-xs font-head uppercase tracking-wider font-bold shrink-0 flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 2</span>
@@ -721,10 +822,10 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleProceed}
-                      className="btn accent flex-1 py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-accent hover:-translate-y-0.5 transition-all cursor-pointer order-1 sm:order-2"
+                      className="btn accent flex-1 min-w-0 py-3.5 px-5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-accent hover:-translate-y-0.5 transition-all cursor-pointer order-1 sm:order-2"
                     >
                       <span>Proceed to Checkout (Step 4)</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 shrink-0" />
                     </button>
                   </div>
                 </div>
