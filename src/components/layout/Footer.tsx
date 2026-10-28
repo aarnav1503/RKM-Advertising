@@ -70,9 +70,25 @@ export const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '20px', fontSize: '13px', opacity: 0.65, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-          <span>© 2026 RKM Ads. INS Accredited Agency. Sector 58, Noida, UP, India.</span>
-          <span>Mon–Sat: 10:00 AM – 7:00 PM IST</span>
+        <div className="w-full" style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '20px' }}>
+          <div style={{ fontSize: '13px', opacity: 0.7, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+            <span>© 2026 RKM Ads. INS Accredited Agency. Sector 58, Noida, UP, India.</span>
+            <span>Mon–Sat: 10:00 AM – 7:00 PM IST</span>
+          </div>
+          <div className="footer-credit-bar">
+            <span className="footer-credit-text">
+              Designed with <span className="footer-credit-heart" aria-label="love">❤️</span> by{' '}
+              <a
+                href="https://pocketsitestudio.in/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-credit-link"
+                title="PocketSite Studio — Handcrafted Websites"
+              >
+                PocketSite Studio
+              </a>
+            </span>
+          </div>
         </div>
       </div>
     </footer>

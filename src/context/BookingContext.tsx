@@ -15,11 +15,51 @@ interface BookingContextType {
   getOrder: (orderId: string) => OrderRecord | null;
 }
 
+export const calculatePricing = (b: BookingState): BookingState['calculatedPrice'] => {
+  const pub = PUBLICATIONS_DATA[b.publicationId] || PUBLICATIONS_DATA.toi;
+  const editionMultiplier = pub.editions[b.edition] || 1.0;
+  
+  const text = b.adText || '';
+  const trimmed = text.trim();
+  const words = trimmed ? trimmed.split(/\s+/).length : 0;
+  const lines = trimmed ? calculateLines(trimmed, pub.charsPerLine || 35) : 0;
+
+  const usedUnits = pub.unit === 'line' ? lines : words;
+  const extraUnits = Math.max(0, usedUnits - pub.baseUnits);
+
+  const baseAmount = Math.round(pub.baseRate * editionMultiplier);
+  const extraAmount = Math.round(extraUnits * pub.extraRate * editionMultiplier);
+  
+  let enhancementsAmount = 0;
+  if (b.enhancements.bold) enhancementsAmount += 50;
+  if (b.enhancements.colorBg) enhancementsAmount += 150;
+  if (b.enhancements.borderTick) enhancementsAmount += 30;
+
+  const subtotal = baseAmount + extraAmount + enhancementsAmount;
+  const gstAmount = Math.round(subtotal * 0.05 * 100) / 100;
+  const totalPayable = Math.round((subtotal + gstAmount) * 100) / 100;
+
+  return {
+    words,
+    lines,
+    usedUnits,
+    baseUnits: pub.baseUnits,
+    extraUnits,
+    unitType: pub.unit,
+    baseAmount,
+    extraAmount,
+    enhancementsAmount,
+    subtotal,
+    gstAmount,
+    totalPayable,
+  };
+};
+
 const defaultBooking: BookingState = {
-  publicationId: '',
-  publicationName: '',
-  edition: '',
-  category: '',
+  publicationId: 'toi',
+  publicationName: 'The Times of India',
+  edition: 'Delhi NCR',
+  category: 'Matrimonial',
   publishDate: '',
   adText: '',
   enhancements: {
@@ -33,15 +73,15 @@ const defaultBooking: BookingState = {
     words: 0,
     lines: 0,
     usedUnits: 0,
-    baseUnits: 0,
+    baseUnits: 5,
     extraUnits: 0,
     unitType: 'line',
-    baseAmount: 0,
+    baseAmount: 1850,
     extraAmount: 0,
     enhancementsAmount: 0,
-    subtotal: 0,
-    gstAmount: 0,
-    totalPayable: 0,
+    subtotal: 1850,
+    gstAmount: 92.5,
+    totalPayable: 1942.5,
   },
 };
 
@@ -54,6 +94,8 @@ const defaultCustomer: CustomerBillingDetails = {
   city: '',
   paymentMethod: 'upi',
 };
+// NOTE: Customer contact fields (name, phone, email, address) intentionally stay empty
+// so the user fills them in fresh at checkout.
 
 // Seed sample orders for instant testing of tracker
 const SAMPLE_ORDER: OrderRecord = {
@@ -95,7 +137,9 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
     const saved = localStorage.getItem('rkm_current_booking');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        parsed.calculatedPrice = calculatePricing(parsed);
+        return parsed;
       } catch {
         // ignore
       }
@@ -120,45 +164,7 @@ export const BookingProvider: React.FC<{ children: React.ReactNode }> = ({ child
   });
 
   // Calculate pricing whenever core attributes change
-  const recalculatePrice = (b: BookingState): BookingState['calculatedPrice'] => {
-    const pub = PUBLICATIONS_DATA[b.publicationId] || PUBLICATIONS_DATA.toi;
-    const editionMultiplier = pub.editions[b.edition] || 1.0;
-    
-    const text = b.adText || '';
-    const trimmed = text.trim();
-    const words = trimmed ? trimmed.split(/\s+/).length : 0;
-    const lines = trimmed ? calculateLines(trimmed, pub.charsPerLine || 35) : 0;
-
-    const usedUnits = pub.unit === 'line' ? lines : words;
-    const extraUnits = Math.max(0, usedUnits - pub.baseUnits);
-
-    const baseAmount = Math.round(pub.baseRate * editionMultiplier);
-    const extraAmount = Math.round(extraUnits * pub.extraRate * editionMultiplier);
-    
-    let enhancementsAmount = 0;
-    if (b.enhancements.bold) enhancementsAmount += 50;
-    if (b.enhancements.colorBg) enhancementsAmount += 150;
-    if (b.enhancements.borderTick) enhancementsAmount += 30;
-
-    const subtotal = baseAmount + extraAmount + enhancementsAmount;
-    const gstAmount = Math.round(subtotal * 0.05 * 100) / 100;
-    const totalPayable = Math.round((subtotal + gstAmount) * 100) / 100;
-
-    return {
-      words,
-      lines,
-      usedUnits,
-      baseUnits: pub.baseUnits,
-      extraUnits,
-      unitType: pub.unit,
-      baseAmount,
-      extraAmount,
-      enhancementsAmount,
-      subtotal,
-      gstAmount,
-      totalPayable,
-    };
-  };
+  const recalculatePrice = (b: BookingState): BookingState['calculatedPrice'] => calculatePricing(b);
 
   const updateBooking = (updates: Partial<BookingState>) => {
     setBooking(prev => {

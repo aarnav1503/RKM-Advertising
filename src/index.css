@@ -602,6 +602,74 @@ footer a.footer-link:hover::before{
 }
 footer small{display:block;margin-top:32px;opacity:.6;font-size:13px;max-width:70ch}
 
+/* Footer Studio Credit Attribution */
+.footer-credit-bar {
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 18px;
+  padding-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.footer-credit-text {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.footer-credit-heart {
+  display: inline-block;
+  font-size: 13.5px;
+  line-height: 1;
+  transform-origin: center;
+  user-select: none;
+  animation: heartPulse 2.4s ease-in-out infinite;
+}
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.22); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+footer .footer-credit-bar a.footer-credit-link {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #FF8A3D !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(255, 138, 61, 0.75) !important;
+  text-underline-offset: 3.5px !important;
+  text-decoration-thickness: 1.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.015em;
+  position: relative;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform: none !important;
+  width: auto !important;
+}
+footer .footer-credit-bar a.footer-credit-link::before {
+  display: none !important;
+  content: none !important;
+  width: 0 !important;
+}
+footer .footer-credit-bar a.footer-credit-link:hover {
+  color: #FFA76B !important;
+  text-decoration-color: #FFA76B !important;
+  text-shadow: 0 0 16px rgba(255, 138, 61, 0.6) !important;
+  transform: translateY(-1px) !important;
+  opacity: 1 !important;
+}
+
 /* ==========================================================================
    FLOATING ACTION BUTTONS (MOBILE-CONSTRAINED & VIEWPORT-SAFE)
    ========================================================================== */

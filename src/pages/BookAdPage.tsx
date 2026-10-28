@@ -52,7 +52,7 @@ export const BookAdPage: React.FC = () => {
         (c) => c.name.toLowerCase() === catParam.toLowerCase()
       );
       if (match) {
-        setCategoryTemplate(match.name);
+        updates.category = match.name;
       } else {
         updates.category = catParam;
       }

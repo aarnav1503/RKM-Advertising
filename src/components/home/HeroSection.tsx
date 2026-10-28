@@ -7,9 +7,9 @@ import { PUBLICATIONS_DATA, CATEGORY_TEMPLATES } from '../../data/publicationsDa
 export const HeroSection: React.FC = () => {
   const navigate = useNavigate();
   const { booking, updateBooking, setCategoryTemplate } = useBooking();
-  const [selectedPub, setSelectedPub] = useState(booking.publicationId);
-  const [selectedCat, setSelectedCat] = useState(booking.category);
-  const [selectedCity, setSelectedCity] = useState(booking.edition);
+  const [selectedPub, setSelectedPub] = useState(booking.publicationId || 'toi');
+  const [selectedCat, setSelectedCat] = useState(booking.category || 'Matrimonial');
+  const [selectedCity, setSelectedCity] = useState(booking.edition || 'Delhi NCR');
 
   const pub = PUBLICATIONS_DATA[selectedPub] || PUBLICATIONS_DATA.toi;
 
@@ -20,7 +20,6 @@ export const HeroSection: React.FC = () => {
       edition: selectedCity,
       category: selectedCat,
     });
-    setCategoryTemplate(selectedCat);
     navigate('/book-ad');
   };
 
