@@ -53,14 +53,14 @@ export const CutoffCountdownBadge: React.FC<CutoffCountdownBadgeProps> = ({ cuto
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-head font-semibold tracking-wide border transition-colors ${
+      className={`inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-full text-[11px] sm:text-xs font-head font-semibold tracking-wide border transition-colors max-w-full leading-snug ${
         isPast
           ? 'bg-amber-50 text-amber-900 border-amber-200'
           : 'bg-emerald-50 text-emerald-900 border-emerald-200'
       }`}
     >
-      <Clock className={`w-3.5 h-3.5 ${isPast ? 'text-amber-600' : 'text-emerald-600 animate-pulse'}`} />
-      <span>{statusText}</span>
+      <Clock className={`w-3.5 h-3.5 shrink-0 ${isPast ? 'text-amber-600' : 'text-emerald-600 animate-pulse'}`} />
+      <span className="break-words">{statusText}</span>
     </div>
   );
 };

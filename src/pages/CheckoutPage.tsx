@@ -51,15 +51,15 @@ export const CheckoutPage: React.FC = () => {
         breadcrumbs={[{ label: 'Book Ad', path: '/book-ad' }, { label: 'Checkout' }]}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-20 sm:pb-12">
         <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
             {/* Left: Billing Form & Payment Options */}
-            <div className="lg:col-span-7 space-y-6">
+            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
               {/* Customer Contact Details */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-paper-line shadow-press space-y-5">
-                <div className="flex items-center justify-between pb-3 border-b border-paper-line">
-                  <h2 className="font-head text-base font-bold text-ink uppercase tracking-wider">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-4 sm:space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-paper-line">
+                  <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
                     1. Advertiser &amp; Billing Details
                   </h2>
                   <span className="text-xs text-ink-muted font-sans flex items-center gap-1">
@@ -142,9 +142,9 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Payment Methods */}
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-paper-line shadow-press space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-paper-line">
-                  <h2 className="font-head text-base font-bold text-ink uppercase tracking-wider">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-paper-line">
+                  <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
                     2. Select Payment Method
                   </h2>
                   <span className="text-xs text-emerald-700 font-head font-semibold">
@@ -154,7 +154,7 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* Option 1: Instant UPI QR */}
                 <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
                     customer.paymentMethod === 'upi'
                       ? 'border-brand bg-brand-light/30 shadow-sm'
                       : 'border-paper-line bg-paper-tint hover:bg-white'
@@ -165,21 +165,21 @@ export const CheckoutPage: React.FC = () => {
                     name="payMethod"
                     checked={customer.paymentMethod === 'upi'}
                     onChange={() => updateCustomer({ paymentMethod: 'upi' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 cursor-pointer"
+                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
                   />
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <strong className="text-sm font-head font-bold text-ink">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center justify-between gap-1.5">
+                      <strong className="text-xs sm:text-sm font-head font-bold text-ink">
                         Instant UPI QR Code (Recommended)
                       </strong>
-                      <span className="text-[10.5px] font-head font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">
+                      <span className="text-[9.5px] sm:text-[10.5px] font-head font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full shrink-0">
                         Fastest Approval
                       </span>
                     </div>
                     <p className="text-xs text-ink-muted font-sans mt-0.5">
                       Scan via Google Pay, PhonePe, Paytm, or BHIM. Zero convenience fees.
                     </p>
-                    <div className="flex items-center gap-2 mt-2 text-[11px] text-ink-muted">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2 text-[10.5px] sm:text-[11px] text-ink-muted">
                       <span className="px-2 py-0.5 rounded bg-white border border-paper-line">Google Pay</span>
                       <span className="px-2 py-0.5 rounded bg-white border border-paper-line">PhonePe</span>
                       <span className="px-2 py-0.5 rounded bg-white border border-paper-line">Paytm</span>
@@ -190,7 +190,7 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* Option 2: Card */}
                 <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
                     customer.paymentMethod === 'card'
                       ? 'border-brand bg-brand-light/30 shadow-sm'
                       : 'border-paper-line bg-paper-tint hover:bg-white'
@@ -201,10 +201,10 @@ export const CheckoutPage: React.FC = () => {
                     name="payMethod"
                     checked={customer.paymentMethod === 'card'}
                     onChange={() => updateCustomer({ paymentMethod: 'card' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 cursor-pointer"
+                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
                   />
-                  <div className="flex-1">
-                    <strong className="text-sm font-head font-bold text-ink block">
+                  <div className="flex-1 min-w-0">
+                    <strong className="text-xs sm:text-sm font-head font-bold text-ink block">
                       Credit / Debit Card
                     </strong>
                     <p className="text-xs text-ink-muted font-sans mt-0.5">
@@ -215,7 +215,7 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* Option 3: Netbanking */}
                 <label
-                  className={`flex items-start gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
                     customer.paymentMethod === 'netbanking'
                       ? 'border-brand bg-brand-light/30 shadow-sm'
                       : 'border-paper-line bg-paper-tint hover:bg-white'
@@ -226,10 +226,10 @@ export const CheckoutPage: React.FC = () => {
                     name="payMethod"
                     checked={customer.paymentMethod === 'netbanking'}
                     onChange={() => updateCustomer({ paymentMethod: 'netbanking' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 cursor-pointer"
+                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
                   />
-                  <div className="flex-1">
-                    <strong className="text-sm font-head font-bold text-ink block">
+                  <div className="flex-1 min-w-0">
+                    <strong className="text-xs sm:text-sm font-head font-bold text-ink block">
                       Net Banking &amp; NEFT / RTGS
                     </strong>
                     <p className="text-xs text-ink-muted font-sans mt-0.5">
@@ -240,25 +240,25 @@ export const CheckoutPage: React.FC = () => {
 
                 <button
                   type="submit"
-                  className="w-full mt-4 py-4 px-6 rounded-full bg-brand text-white font-head font-bold text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                  className="w-full mt-4 py-3.5 sm:py-4 px-4 sm:px-6 rounded-full bg-brand text-white font-head font-bold text-xs sm:text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
                 >
-                  <Lock className="w-4 h-4" />
-                  <span>
+                  <Lock className="w-4 h-4 shrink-0" />
+                  <span className="text-center">
                     Pay {formatINR(totalAmount)} &amp; Release to Editorial Desk
                   </span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 shrink-0" />
                 </button>
               </div>
             </div>
 
             {/* Right: Order Review & Itemized Summary */}
             <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-              <div className="bg-white rounded-3xl p-6 sm:p-7 border border-paper-line shadow-press space-y-5">
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-paper-line shadow-press space-y-4 sm:space-y-5">
                 <div className="flex items-center justify-between pb-3 border-b border-paper-line">
-                  <h3 className="font-head text-base font-bold text-ink uppercase tracking-wider">
+                  <h3 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
                     Order Summary
                   </h3>
-                  <span className="text-[11px] font-head font-semibold px-2.5 py-0.5 rounded-full bg-paper-tint border border-paper-line text-ink">
+                  <span className="text-[10.5px] sm:text-[11px] font-head font-semibold px-2.5 py-0.5 rounded-full bg-paper-tint border border-paper-line text-ink">
                     Itemized Receipt
                   </span>
                 </div>

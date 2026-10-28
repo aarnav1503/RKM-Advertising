@@ -98,7 +98,7 @@ export const BookAdPage: React.FC = () => {
       />
 
       {/* 4-Step Visual Progress Stepper */}
-      <div className="bg-white border-b border-paper-line py-3.5 px-4 sticky top-16 z-30 shadow-sm">
+      <div className="bg-white border-b border-paper-line py-3 px-3.5 sticky top-[48px] sm:top-16 z-30 shadow-xs">
         <div className="max-w-5xl mx-auto flex items-center justify-between text-xs font-head uppercase tracking-wider">
           {/* Step 1 */}
           <button
@@ -173,7 +173,7 @@ export const BookAdPage: React.FC = () => {
             >
               3
             </span>
-            <span>Compose &amp; Preview</span>
+            <span className="hidden sm:inline">Compose &amp; Preview</span>
           </button>
           <div className="h-0.5 w-8 bg-paper-line hidden sm:block" />
 
@@ -191,11 +191,11 @@ export const BookAdPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-20 sm:pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* LEFT: Composer Controls & Configuration */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-paper-line shadow-press space-y-6">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-5 sm:space-y-6">
               
               {/* STEP 1: EDITION & COVERAGE (NEWSPAPER LOCKED & CONFIRMED) */}
               {currentStep === 1 && (
@@ -396,7 +396,7 @@ export const BookAdPage: React.FC = () => {
                         min={getMinDate()}
                         value={booking.publishDate}
                         onChange={(e) => updateBooking({ publishDate: e.target.value })}
-                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-2.5 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer"
+                        className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-2.5 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium cursor-pointer max-w-full appearance-none"
                       />
                     </div>
                   </div>
@@ -425,11 +425,11 @@ export const BookAdPage: React.FC = () => {
                   </div>
 
                   {/* Step 2 Navigation Buttons */}
-                  <div className="pt-2 flex gap-3">
+                  <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
                     <button
                       type="button"
                       onClick={() => setCurrentStep(1)}
-                      className="btn outline py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center gap-2 cursor-pointer"
+                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 1</span>
@@ -437,7 +437,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setCurrentStep(3)}
-                      className="btn accent flex-1 py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                     >
                       <span>Continue to Step 3: Compose Text</span>
                       <ArrowRight className="w-4 h-4" />
@@ -501,8 +501,8 @@ export const BookAdPage: React.FC = () => {
                     <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-2">
                       Visual Enhancements (Boost Visibility)
                     </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      <label className="flex items-center gap-2.5 p-3 rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
                         <input
                           type="checkbox"
                           checked={booking.enhancements.bold}
@@ -511,7 +511,7 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, bold: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 cursor-pointer"
+                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
                         <div>
                           <div className="text-xs font-head font-bold text-ink">Bold First Line</div>
@@ -519,7 +519,7 @@ export const BookAdPage: React.FC = () => {
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2.5 p-3 rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
                         <input
                           type="checkbox"
                           checked={booking.enhancements.colorBg}
@@ -528,7 +528,7 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, colorBg: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 cursor-pointer"
+                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
                         <div>
                           <div className="text-xs font-head font-bold text-ink">Color Highlight</div>
@@ -536,7 +536,7 @@ export const BookAdPage: React.FC = () => {
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2.5 p-3 rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
                         <input
                           type="checkbox"
                           checked={booking.enhancements.borderTick}
@@ -545,7 +545,7 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, borderTick: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 cursor-pointer"
+                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
                         <div>
                           <div className="text-xs font-head font-bold text-ink">Border &amp; Tick</div>
@@ -591,11 +591,11 @@ export const BookAdPage: React.FC = () => {
                   )}
 
                   {/* Step 3 Navigation Buttons */}
-                  <div className="pt-2 flex gap-3">
+                  <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
                     <button
                       type="button"
                       onClick={() => setCurrentStep(2)}
-                      className="btn outline py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center gap-2 cursor-pointer"
+                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 2</span>
@@ -603,7 +603,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleProceed}
-                      className="btn accent flex-1 py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                     >
                       <span>Proceed to Checkout (Step 4)</span>
                       <ArrowRight className="w-4 h-4" />

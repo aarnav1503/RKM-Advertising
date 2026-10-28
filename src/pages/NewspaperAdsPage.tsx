@@ -416,14 +416,14 @@ export const NewspaperAdsPage: React.FC = () => {
 
             {/* FORMAT 1: CLASSIFIED TEXT (ROD) SIMULATOR */}
             {selectedFormat === 'text' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200/80">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 bg-slate-50 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80">
                 {/* Notice text composer */}
                 <div className="lg:col-span-7 space-y-4">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-xs font-sans font-bold text-slate-700">
                       Notice Category
                     </span>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {['Change of Name', 'Lost & Found', 'Property Sale', 'Matrimonial'].map(
                         (cat) => (
                           <button
@@ -466,39 +466,39 @@ export const NewspaperAdsPage: React.FC = () => {
                     rows={4}
                     value={sampleNoticeText}
                     onChange={(e) => setSampleNoticeText(e.target.value)}
-                    className="w-full bg-white border border-slate-300 rounded-2xl p-4 text-xs sm:text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#EA580C] focus:border-[#EA580C]"
+                    className="w-full bg-white border border-slate-300 rounded-2xl p-3.5 sm:p-4 text-xs sm:text-sm font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#EA580C] focus:border-[#EA580C]"
                     placeholder="Enter notice text..."
                   />
 
                   {/* Formatting Toggles */}
-                  <div className="flex flex-wrap items-center gap-4 text-xs text-slate-700">
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-slate-700">
+                    <label className="inline-flex items-center gap-2 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked={isBold}
                         onChange={(e) => setIsBold(e.target.checked)}
-                        className="rounded border-slate-300 text-[#EA580C] focus:ring-[#EA580C]"
+                        className="rounded border-slate-300 text-[#EA580C] focus:ring-[#EA580C] w-4 h-4 shrink-0"
                       />
-                      <span className="font-semibold">Bold First Line (+15%)</span>
+                      <span className="font-semibold text-xs whitespace-nowrap">Bold First Line (+15%)</span>
                     </label>
-                    <label className="flex items-center gap-2 cursor-pointer select-none">
+                    <label className="inline-flex items-center gap-2 cursor-pointer select-none">
                       <input
                         type="checkbox"
                         checked={isBorder}
                         onChange={(e) => setIsBorder(e.target.checked)}
-                        className="rounded border-slate-300 text-[#EA580C] focus:ring-[#EA580C]"
+                        className="rounded border-slate-300 text-[#EA580C] focus:ring-[#EA580C] w-4 h-4 shrink-0"
                       />
-                      <span className="font-semibold">Framed Border (+20%)</span>
+                      <span className="font-semibold text-xs whitespace-nowrap">Framed Border (+20%)</span>
                     </label>
                   </div>
                 </div>
 
                 {/* Live Newspaper Simulation Box */}
                 <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-                  <div className="bg-[#FAF7F0] p-5 rounded-2xl border border-stone-300 shadow-inner">
+                  <div className="bg-[#FAF7F0] p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-stone-300 shadow-inner">
                     <div className="text-[10px] font-mono uppercase text-stone-500 border-b border-stone-200 pb-1 mb-3 flex items-center justify-between">
-                      <span>{selectedPub.name} • CLASSIFIEDS</span>
-                      <span>PAGE 14</span>
+                      <span className="truncate pr-2">{selectedPub.name} • CLASSIFIEDS</span>
+                      <span className="shrink-0">PAGE 14</span>
                     </div>
 
                     <div
@@ -523,7 +523,7 @@ export const NewspaperAdsPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between bg-white p-4 rounded-2xl border border-slate-200">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200">
                     <div>
                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
                         Estimated Tariff
@@ -535,7 +535,7 @@ export const NewspaperAdsPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleProceedBooking}
-                      className="px-5 py-2.5 rounded-full bg-[#EA580C] text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:bg-orange-700 transition-all flex items-center gap-1.5"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#EA580C] text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:bg-orange-700 transition-all flex items-center justify-center gap-1.5"
                     >
                       <span>Proceed to Book</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -547,7 +547,7 @@ export const NewspaperAdsPage: React.FC = () => {
 
             {/* FORMAT 2: CLASSIFIED DISPLAY (CD) SIMULATOR */}
             {selectedFormat === 'cd' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200/80">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 bg-slate-50 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80">
                 <div className="lg:col-span-7 space-y-5">
                   <div className="space-y-2">
                     <label className="text-xs font-sans font-bold text-slate-700 block">
@@ -699,7 +699,7 @@ export const NewspaperAdsPage: React.FC = () => {
 
             {/* FORMAT 3: COMMERCIAL DISPLAY SIMULATOR */}
             {selectedFormat === 'display' && (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200/80">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 bg-slate-50 p-4 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80">
                 <div className="lg:col-span-7 space-y-4">
                   <span className="text-xs font-sans font-bold text-slate-700 block">
                     Select Commercial Broadsheet Position
