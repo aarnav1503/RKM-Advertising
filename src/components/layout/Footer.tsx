@@ -7,9 +7,17 @@ export const Footer: React.FC = () => {
       <div className="wrap">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mb-9 text-left">
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="logo" style={{ marginBottom: '12px', color: '#FFF' }}>
-              RKM Ads<span>.</span>
-            </div>
+            <Link to="/" className="logo" style={{ marginBottom: '12px', color: '#FFF', textDecoration: 'none' }}>
+              <img
+                src="/rkm-logo.png"
+                alt="RKM Advertising Logo"
+                className="logo-img"
+                style={{ height: '36px', width: 'auto' }}
+              />
+              <span className="logo-text">
+                RKM Ads<span className="logo-dot">.</span>
+              </span>
+            </Link>
             <p style={{ fontSize: '14px', opacity: 0.75, lineHeight: 1.6 }}>
               INS Accredited online advertisement agency for newspapers, radio, television, cinema and out-of-home media across India.
             </p>

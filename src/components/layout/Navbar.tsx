@@ -204,8 +204,15 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <header id="hd" className={`sticky top-0 z-50 ${isScrolled ? 's scrolled' : ''}`}>
-        <Link className="logo" to="/">
-          RKM Ads<span>.</span>
+        <Link className="logo" to="/" aria-label="RKM Advertising">
+          <img
+            src="/rkm-logo.png"
+            alt="RKM Advertising Logo"
+            className="logo-img"
+          />
+          <span className="logo-text">
+            RKM Ads<span className="logo-dot">.</span>
+          </span>
         </Link>
 
         {/* Clean Desktop Navigation with Services Menu */}
@@ -429,9 +436,18 @@ export const Navbar: React.FC = () => {
                 className="logo"
                 to="/"
                 onClick={() => setIsDrawerOpen(false)}
-                style={{ fontSize: '25px', lineHeight: 1 }}
+                style={{ fontSize: '23px', lineHeight: 1 }}
+                aria-label="RKM Advertising"
               >
-                RKM Ads<span>.</span>
+                <img
+                  src="/rkm-logo.png"
+                  alt="RKM Advertising Logo"
+                  className="logo-img"
+                  style={{ height: '32px', width: 'auto' }}
+                />
+                <span className="logo-text">
+                  RKM Ads<span className="logo-dot">.</span>
+                </span>
               </Link>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="inline-flex items-center gap-1 text-[9px] font-head font-bold uppercase tracking-[0.14em] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/70">
