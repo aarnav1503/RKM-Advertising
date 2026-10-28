@@ -134,14 +134,14 @@ export const DigitalMarketingPage: React.FC = () => {
       {/* =========================================================================
           MAIN DIGITAL PROPOSAL CARD CONTAINER
           ========================================================================= */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14">
-        <div className="bg-white rounded-3xl sm:rounded-4xl p-6 sm:p-10 shadow-press border border-paper-line relative">
+      <div className="max-w-6xl mx-auto px-3 sm:px-6 pt-6 sm:pt-14 pb-20 sm:pb-24">
+        <div className="bg-white rounded-2xl sm:rounded-4xl p-4 sm:p-10 shadow-press border border-paper-line relative">
           {/* Top Right: SEO Audit Tool Button */}
-          <div className="flex justify-end mb-2">
+          <div className="flex justify-end mb-3 sm:mb-2">
             <button
               type="button"
               onClick={() => setIsSeoModalOpen(true)}
-              className="px-4 py-2 bg-black hover:bg-neutral-800 text-white rounded-lg text-xs font-head font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+              className="px-3.5 py-1.5 sm:px-4 sm:py-2 bg-black hover:bg-neutral-800 text-white rounded-lg text-[11px] sm:text-xs font-head font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-1.5 sm:gap-2 cursor-pointer"
             >
               <Search className="w-3.5 h-3.5 text-amber-400" />
               <span>Seo Audit Tool</span>
@@ -150,10 +150,10 @@ export const DigitalMarketingPage: React.FC = () => {
 
           {/* Main Headings */}
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="font-sans text-2xl sm:text-3xl md:text-[34px] font-bold text-slate-900 tracking-tight leading-snug">
+            <h1 className="font-sans text-xl sm:text-3xl md:text-[34px] font-bold text-slate-900 tracking-tight leading-snug">
               Get more traffic, leads, and sales or any specific need.
             </h1>
-            <p className="font-sans font-bold text-base sm:text-lg text-red-600 mt-2.5">
+            <p className="font-sans font-bold text-sm sm:text-lg text-red-600 mt-2 sm:mt-2.5">
               Need details &amp; Get a custom proposal just for you in just a few minutes !
             </p>
           </div>
@@ -167,9 +167,9 @@ export const DigitalMarketingPage: React.FC = () => {
 
           {/* Interactive Proposal Form */}
           {!proposalGenerated ? (
-            <form onSubmit={handleSubmit} className="mt-8 sm:mt-10 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-6 sm:mt-10 space-y-3.5 sm:space-y-4">
               {/* Row 1: 4 Dropdowns */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {/* 1. Select Business */}
                 <div>
                   <label className="sr-only">Select Business</label>
@@ -248,7 +248,7 @@ export const DigitalMarketingPage: React.FC = () => {
               </div>
 
               {/* Row 2: 4 Inputs */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-1">
                 {/* Name */}
                 <div>
                   <label className="sr-only">Your name</label>
@@ -298,49 +298,51 @@ export const DigitalMarketingPage: React.FC = () => {
                       noWebsite ? 'opacity-70 bg-slate-100 italic' : ''
                     }`}
                   />
-                  <div className="flex items-center gap-2 mt-2 px-1">
-                    <input
-                      type="checkbox"
-                      id="nowebsite"
-                      checked={noWebsite}
-                      onChange={(e) => {
-                        setNoWebsite(e.target.checked);
-                        if (e.target.checked) setWebsite('Need New Website');
-                        else setWebsite('');
-                      }}
-                      className="rounded border-slate-300 text-red-600 focus:ring-red-500 cursor-pointer"
-                    />
+                  <div className="mt-2.5 px-0.5">
                     <label
                       htmlFor="nowebsite"
-                      className="text-[11px] text-slate-600 select-none cursor-pointer"
+                      className="inline-flex items-center gap-2 cursor-pointer select-none text-left"
                     >
-                      Don't have a website (Need Website)
+                      <input
+                        type="checkbox"
+                        id="nowebsite"
+                        checked={noWebsite}
+                        onChange={(e) => {
+                          setNoWebsite(e.target.checked);
+                          if (e.target.checked) setWebsite('Need New Website');
+                          else setWebsite('');
+                        }}
+                        className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500 cursor-pointer shrink-0 accent-red-600"
+                      />
+                      <span className="text-xs text-slate-600 font-medium leading-snug">
+                        Don't have a website (Need Website)
+                      </span>
                     </label>
                   </div>
                 </div>
               </div>
 
               {/* Row 3: Actions */}
-              <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                {/* Back Button */}
-                <button
-                  type="button"
-                  onClick={() => navigate('/')}
-                  className="px-6 py-2.5 bg-black hover:bg-neutral-800 text-white rounded-lg text-xs font-head font-bold uppercase tracking-wider transition-colors"
-                >
-                  Back
-                </button>
-
-                {/* Submit: Make Your Proposal */}
+              <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+                {/* Submit: Make Your Proposal (Top on mobile, right on desktop) */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:w-auto px-8 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-sans font-bold text-sm sm:text-base tracking-wide shadow-lg hover:shadow-red-600/30 transition-all flex items-center justify-center gap-3 cursor-pointer group"
+                  className="w-full sm:w-auto px-8 py-3.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-sans font-bold text-sm sm:text-base tracking-wide shadow-lg hover:shadow-red-600/30 transition-all flex items-center justify-center gap-3 cursor-pointer group sm:order-2"
                 >
                   <span>{isSubmitting ? 'Analyzing & Crafting Strategy...' : 'Make Your Proposal'}</span>
-                  <div className="w-5 h-5 rounded-full border border-white flex items-center justify-center transition-transform group-hover:translate-x-1">
+                  <div className="w-5 h-5 rounded-full border border-white flex items-center justify-center transition-transform group-hover:translate-x-1 shrink-0">
                     <ChevronRight className="w-3.5 h-3.5 text-white" />
                   </div>
+                </button>
+
+                {/* Back Button (Bottom on mobile, left on desktop) */}
+                <button
+                  type="button"
+                  onClick={() => navigate('/')}
+                  className="w-full sm:w-auto px-6 py-3 sm:py-2.5 bg-black hover:bg-neutral-800 text-white rounded-xl sm:rounded-lg text-xs font-head font-bold uppercase tracking-wider transition-colors text-center cursor-pointer sm:order-1"
+                >
+                  Back
                 </button>
               </div>
             </form>
@@ -433,24 +435,24 @@ export const DigitalMarketingPage: React.FC = () => {
               </div>
 
               {/* Consultation & Execution CTAs */}
-              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-5 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6">
                 <div>
-                  <h3 className="font-news-serif text-xl sm:text-2xl font-bold text-red-950">
+                  <h3 className="font-news-serif text-xl sm:text-2xl font-bold text-red-950 text-center sm:text-left">
                     Ready to execute your growth campaign?
                   </h3>
-                  <p className="text-xs sm:text-sm text-red-800 mt-1">
+                  <p className="text-xs sm:text-sm text-red-800 mt-1 text-center sm:text-left">
                     Connect directly with our media planning director to finalize your campaign rollout in 24 hours.
                   </p>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 shrink-0">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto shrink-0">
                   <a
                     href={`https://wa.me/919878339302?text=${encodeURIComponent(
                       `Hi RKM Ads, I generated a Digital Marketing proposal for ${name} (${business}) focused on ${objective}. Please share final deployment schedules!`
                     )}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition-all"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-sans font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>WhatsApp Proposal</span>
@@ -458,7 +460,7 @@ export const DigitalMarketingPage: React.FC = () => {
 
                   <a
                     href="tel:+919878339302"
-                    className="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-sans font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-sm transition-all"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-sans font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all"
                   >
                     <Phone className="w-4 h-4" />
                     <span>Call +91-9878339302</span>
