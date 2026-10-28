@@ -17,6 +17,7 @@ import {
   Calendar,
   FileText,
   ShieldCheck,
+  Sparkles,
 } from 'lucide-react';
 
 export const BookAdPage: React.FC = () => {
@@ -79,14 +80,8 @@ export const BookAdPage: React.FC = () => {
 
   const goToStep = (step: number) => {
     setCurrentStep(step);
-    // Smooth scroll to top of composer card so user never lands in the middle or bottom of the page
-    const composerEl = document.getElementById('composer-card');
-    if (composerEl) {
-      const topOffset = composerEl.getBoundingClientRect().top + window.scrollY - 110;
-      window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
-    } else {
-      window.scrollTo({ top: 160, behavior: 'smooth' });
-    }
+    // Smoothly scroll to the very top so the user always sees the step header, stepper, and form inputs
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Earliest allowable date calculation
@@ -485,100 +480,105 @@ export const BookAdPage: React.FC = () => {
                   </div>
 
                   {/* Advertisement Copy Textarea with Formatting Bar */}
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
                       <label className="text-xs font-head font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
-                        <span>Advertisement Content (Text)</span>
-                        <span className="text-red-500">*</span>
+                        <span>Advertisement Notice Content</span>
+                        <span className="text-brand">*</span>
                       </label>
-                      <span className="text-[11.5px] font-head font-semibold text-brand">
-                        {pub.name} bills by {pub.unit} ({pub.baseUnits} {pub.unit}s included)
+                      <span className="text-[11.5px] font-head font-semibold text-brand bg-brand-light/40 px-2.5 py-0.5 rounded-full">
+                        {pub.name} bills by {pub.unit} ({pub.baseUnits} base {pub.unit}s included)
                       </span>
                     </div>
 
-                    {/* Quick Format Tools */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 bg-paper-soft/80 border border-paper-line rounded-t-xl px-3 py-1.5 text-xs text-ink-muted">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-head font-bold uppercase tracking-wider text-ink-muted">Quick Case:</span>
-                        <button
-                          type="button"
-                          onClick={() => updateBooking({ adText: booking.adText.toUpperCase() })}
-                          className="px-2 py-0.5 rounded bg-white border border-paper-line text-[10.5px] font-head font-semibold hover:border-brand hover:text-brand transition-colors cursor-pointer"
-                        >
-                          ALL CAPS
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateBooking({
-                              adText: booking.adText.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
-                            })
-                          }
-                          className="px-2 py-0.5 rounded bg-white border border-paper-line text-[10.5px] font-head font-semibold hover:border-brand hover:text-brand transition-colors cursor-pointer"
-                        >
-                          Title Case
-                        </button>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {currentCategoryObj?.sampleText && (
-                          <button
-                            type="button"
-                            onClick={() => updateBooking({ adText: currentCategoryObj.sampleText })}
-                            className="text-[10.5px] font-head font-semibold text-brand hover:underline cursor-pointer"
-                          >
-                            Sample Template
-                          </button>
-                        )}
-                        {booking.adText && (
-                          <button
-                            type="button"
-                            onClick={() => updateBooking({ adText: '' })}
-                            className="text-[10.5px] font-head font-semibold text-ink-muted hover:text-red-600 cursor-pointer"
-                          >
-                            Clear
-                          </button>
-                        )}
-                      </div>
-                    </div>
-
-                    <textarea
-                      rows={5}
-                      value={booking.adText}
-                      onChange={(e) => updateBooking({ adText: e.target.value })}
-                      placeholder="Type your advertisement text here... e.g. PUBLIC NOTICE: Notice is hereby given..."
-                      className="w-full bg-paper-tint border border-paper-line border-t-0 rounded-b-xl p-3.5 sm:p-4 text-xs sm:text-[13px] font-sans text-ink focus:outline-none focus:border-brand leading-relaxed resize-y"
-                    />
-
-                    {/* Word / Line Calculation Status Card */}
-                    <div className="bg-paper-tint border border-paper-line rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans">
-                      <div className="flex items-center gap-3">
+                    {/* Unified Cohesive Editor Container */}
+                    <div className="border border-paper-line rounded-2xl bg-paper-tint/40 focus-within:bg-white focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/10 transition-all overflow-hidden shadow-xs">
+                      {/* Editor Top Toolbar */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 bg-paper-soft/90 px-3.5 py-2 border-b border-paper-line text-xs">
                         <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-brand" />
-                          <span>
-                            Words: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.words}</strong>
-                          </span>
+                          <span className="text-[10px] font-head font-bold uppercase tracking-wider text-ink-muted">Quick Case:</span>
+                          <button
+                            type="button"
+                            onClick={() => updateBooking({ adText: booking.adText.toUpperCase() })}
+                            className="px-2.5 py-1 rounded-md bg-white border border-paper-line text-[10.5px] font-head font-semibold text-ink hover:border-brand hover:text-brand shadow-2xs transition-colors cursor-pointer"
+                          >
+                            ALL CAPS
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateBooking({
+                                adText: booking.adText.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
+                              })
+                            }
+                            className="px-2.5 py-1 rounded-md bg-white border border-paper-line text-[10.5px] font-head font-semibold text-ink hover:border-brand hover:text-brand shadow-2xs transition-colors cursor-pointer"
+                          >
+                            Title Case
+                          </button>
                         </div>
-                        <span className="text-paper-line">•</span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-emerald-600" />
-                          <span>
-                            Lines: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.lines}</strong>
-                            <span className="text-[11px] text-ink-muted ml-1">(~35 chars/line)</span>
-                          </span>
+
+                        <div className="flex items-center gap-2">
+                          {currentCategoryObj?.sampleText && (
+                            <button
+                              type="button"
+                              onClick={() => updateBooking({ adText: currentCategoryObj.sampleText })}
+                              className="text-[11px] font-head font-bold text-brand hover:underline cursor-pointer flex items-center gap-1"
+                            >
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>Fill Sample Notice</span>
+                            </button>
+                          )}
+                          {booking.adText && (
+                            <button
+                              type="button"
+                              onClick={() => updateBooking({ adText: '' })}
+                              className="text-[10.5px] font-head font-semibold text-ink-muted hover:text-red-600 cursor-pointer ml-1"
+                            >
+                              Clear
+                            </button>
+                          )}
                         </div>
                       </div>
 
-                      <div className="text-right">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-head font-bold uppercase tracking-wider ${
-                          booking.calculatedPrice.extraUnits > 0
-                            ? 'bg-amber-100 text-amber-900 border border-amber-200'
-                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                        }`}>
-                          {booking.calculatedPrice.extraUnits > 0
-                            ? `+${booking.calculatedPrice.extraUnits} Extra ${pub.unit}s Billed`
-                            : `Within Base ${pub.baseUnits} ${pub.unit}s Limit`}
-                        </span>
+                      {/* Textarea Input */}
+                      <textarea
+                        rows={6}
+                        value={booking.adText}
+                        onChange={(e) => updateBooking({ adText: e.target.value })}
+                        placeholder="Type or paste your advertisement notice text here..."
+                        className="w-full p-4 text-xs sm:text-[13.5px] font-sans text-ink bg-transparent focus:outline-none leading-relaxed resize-y min-h-[140px]"
+                      />
+
+                      {/* Editor Bottom Meter Bar */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-3.5 py-2.5 bg-paper-soft/50 border-t border-paper-line text-xs font-sans">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-brand" />
+                            <span>
+                              Words: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.words}</strong>
+                            </span>
+                          </div>
+                          <span className="text-paper-line">•</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                            <span>
+                              Lines: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.lines}</strong>
+                              <span className="text-[11px] text-ink-muted ml-1">(~35 chars/line)</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="text-right">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10.5px] font-head font-bold uppercase tracking-wider ${
+                            booking.calculatedPrice.extraUnits > 0
+                              ? 'bg-amber-100 text-amber-900 border border-amber-200'
+                              : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                          }`}>
+                            {booking.calculatedPrice.extraUnits > 0
+                              ? `+${booking.calculatedPrice.extraUnits} Extra ${pub.unit}s Billed`
+                              : `Within Base ${pub.baseUnits} ${pub.unit}s Limit`}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -589,15 +589,15 @@ export const BookAdPage: React.FC = () => {
                       <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink">
                         Visual Enhancements (Boost Visibility)
                       </label>
-                      <span className="text-[11px] text-ink-muted font-sans">Optional print formatting</span>
+                      <span className="text-[11px] text-ink-muted font-sans">Optional broadsheet styling</span>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {/* Bold First Line */}
                       <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
                         booking.enhancements.bold
-                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
-                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                          ? 'border-brand bg-brand-light/30 ring-1 ring-brand shadow-xs'
+                          : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
                       }`}>
                         <input
                           type="checkbox"
@@ -612,15 +612,15 @@ export const BookAdPage: React.FC = () => {
                         <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Bold First Line</div>
                           <div className="text-[11px] text-ink-muted mt-0.5">Headline emphasis</div>
-                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 50 flat</div>
+                          <div className="text-[11px] font-mono font-bold text-brand mt-1.5">+₹50 flat</div>
                         </div>
                       </label>
 
                       {/* Color Highlight */}
                       <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
                         booking.enhancements.colorBg
-                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
-                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                          ? 'border-brand bg-brand-light/30 ring-1 ring-brand shadow-xs'
+                          : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
                       }`}>
                         <input
                           type="checkbox"
@@ -634,16 +634,16 @@ export const BookAdPage: React.FC = () => {
                         />
                         <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Color Highlight</div>
-                          <div className="text-[11px] text-ink-muted mt-0.5">Tinted background</div>
-                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 150 flat</div>
+                          <div className="text-[11px] text-ink-muted mt-0.5">Yellow broadsheet tint</div>
+                          <div className="text-[11px] font-mono font-bold text-brand mt-1.5">+₹150 flat</div>
                         </div>
                       </label>
 
                       {/* Border & Tick */}
                       <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
                         booking.enhancements.borderTick
-                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
-                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                          ? 'border-brand bg-brand-light/30 ring-1 ring-brand shadow-xs'
+                          : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
                       }`}>
                         <input
                           type="checkbox"
@@ -657,8 +657,8 @@ export const BookAdPage: React.FC = () => {
                         />
                         <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Border &amp; Tick</div>
-                          <div className="text-[11px] text-ink-muted mt-0.5">Surrounding box outline</div>
-                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 30 flat</div>
+                          <div className="text-[11px] text-ink-muted mt-0.5">Surrounding box border</div>
+                          <div className="text-[11px] font-mono font-bold text-brand mt-1.5">+₹30 flat</div>
                         </div>
                       </label>
                     </div>
@@ -666,15 +666,15 @@ export const BookAdPage: React.FC = () => {
 
                   {/* Legal Document Upload if Required */}
                   {currentCategoryObj?.requiredDoc && (
-                    <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 space-y-3">
+                    <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/60 border border-amber-200/80 space-y-3">
                       <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-amber-200/80 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
-                          <AlertCircle className="w-4 h-4" />
+                        <div className="w-8 h-8 rounded-xl bg-amber-200/80 text-amber-900 flex items-center justify-center shrink-0 mt-0.5">
+                          <AlertCircle className="w-4 h-4 text-brand" />
                         </div>
                         <div>
-                          <div className="text-xs font-head font-bold uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
+                          <div className="text-xs font-head font-bold uppercase tracking-wider text-amber-950 flex items-center gap-2">
                             <span>Mandatory Statutory Document</span>
-                            <span className="text-[9.5px] px-1.5 py-0.2 bg-amber-200 text-amber-900 rounded font-semibold">INS Requirement</span>
+                            <span className="text-[9.5px] px-2 py-0.5 bg-amber-200 text-amber-900 rounded-full font-bold uppercase tracking-wider">INS Requirement</span>
                           </div>
                           <p className="text-xs text-amber-900/90 font-sans mt-1 leading-relaxed">
                             {currentCategoryObj.requiredDoc}
@@ -683,7 +683,7 @@ export const BookAdPage: React.FC = () => {
                       </div>
 
                       <div className="pt-2 border-t border-amber-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-amber-300 text-xs font-head font-bold uppercase tracking-wider text-amber-900 hover:bg-amber-100/60 cursor-pointer shadow-sm transition-all hover:border-amber-400">
+                        <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-amber-300 text-xs font-head font-bold uppercase tracking-wider text-amber-900 hover:bg-amber-100/60 cursor-pointer shadow-xs transition-all hover:border-amber-400">
                           <UploadCloud className="w-4 h-4 text-brand" />
                           <span>{uploadedFile ? 'Change Attached Document' : 'Upload Affidavit / Supporting PDF'}</span>
                           <input
@@ -694,7 +694,7 @@ export const BookAdPage: React.FC = () => {
                           />
                         </label>
                         {uploadedFile ? (
-                          <div className="text-xs text-emerald-800 font-medium inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl truncate max-w-full">
+                          <div className="text-xs text-emerald-800 font-medium inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl truncate max-w-full shadow-2xs">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                             <span className="truncate">{uploadedFile}</span>
                             <span className="text-[10px] text-emerald-600 shrink-0 font-bold ml-1">• Ready</span>
@@ -713,7 +713,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => goToStep(2)}
-                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
+                      className="btn outline py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 2</span>
@@ -721,7 +721,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleProceed}
-                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer order-1 sm:order-2"
+                      className="btn accent flex-1 py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-accent hover:-translate-y-0.5 transition-all cursor-pointer order-1 sm:order-2"
                     >
                       <span>Proceed to Checkout (Step 4)</span>
                       <ArrowRight className="w-4 h-4" />

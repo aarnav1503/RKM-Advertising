@@ -37,47 +37,42 @@ export const LiveBroadsheetSimulator: React.FC<LiveBroadsheetSimulatorProps> = (
       </div>
 
       {/* The Physical Newspaper Column Simulator */}
-      <div className="bg-paper-tint text-ink p-5 sm:p-6 font-serif border border-ink/20 rounded-md shadow-newsprint paper-pattern select-none">
+      <div className="bg-[#FAF7F2] text-ink p-4 sm:p-6 font-serif border-2 border-stone-300 rounded-2xl shadow-press paper-pattern select-none">
         {/* Newspaper Masthead Mini-Bar */}
-        <div className="border-t-2 border-b border-ink py-1.5 flex items-baseline justify-between mb-2 text-xs">
+        <div className="border-t-2 border-b-2 border-stone-800 py-1.5 flex items-baseline justify-between mb-2">
           <span className="font-news-serif font-black tracking-tight text-ink uppercase text-sm sm:text-base">
             {pub.name}
           </span>
-          <span className="font-head text-[11px] font-semibold tracking-wider text-ink/80">
+          <span className="font-head text-[10px] font-bold tracking-wider text-stone-600">
             {formattedDate}
           </span>
         </div>
 
-        {/* Edition Subtitle */}
-        <div className="flex items-center justify-between text-[10px] text-ink-muted uppercase tracking-widest font-head pb-2 border-b border-ink/15 mb-3">
+        {/* Edition & Section Subtitle */}
+        <div className="flex items-center justify-between text-[9.5px] text-stone-500 uppercase tracking-widest font-head pb-2 border-b border-stone-300 mb-3">
           <span>{booking.edition} EDITION</span>
           <span>CLASSIFIED NOTICES • PAGE 14</span>
         </div>
 
         {/* Category Header Strip */}
-        <div className="bg-ink text-paper-soft text-center py-1 font-head text-[11px] font-bold tracking-widest uppercase mb-3">
+        <div className="bg-stone-900 text-stone-100 text-center py-1 font-head text-[11px] font-bold tracking-widest uppercase mb-3 shadow-xs">
           {booking.category}
         </div>
 
-        {/* 3-Column Newspaper Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-3 text-xs leading-snug">
-          {/* Left Dummy Column */}
-          <div className="hidden md:block md:col-span-3 text-[11px] text-ink-muted leading-tight border-r border-paper-line pr-2 text-justify space-y-2">
-            <div>
-              <span className="font-bold text-ink">TO LET:</span> 2 BHK furnished flat, Sector 15. Family only. Covered parking, 24 hr water. Contact 98XXXXXX01.
-            </div>
-            <div>
-              <span className="font-bold text-ink">WANTED:</span> Commercial office space, 500-800 sq ft, ground floor, near metro station. Immediate lease.
-            </div>
+        {/* Authentic Broadsheet Column Simulation */}
+        <div className="space-y-3">
+          {/* Preceding Classified Notice (Context) */}
+          <div className="text-[11px] text-stone-500 leading-snug border-b border-stone-200 pb-2">
+            <span className="font-bold text-stone-700">TO LET:</span> 2 BHK luxuriously furnished flat, Sector 15. Covered parking, 100% power backup. Family only. Ph: 9811XXXXXX.
           </div>
 
           {/* Center Target Live Ad Column */}
-          <div className="md:col-span-6 flex flex-col justify-start">
+          <div className="relative">
             <div
-              className={`transition-all duration-200 p-2.5 rounded text-[12.5px] leading-relaxed break-words whitespace-pre-wrap ${
-                isBold ? 'font-bold text-ink-deep' : 'font-normal text-ink'
-              } ${isColorBg ? 'bg-highlight-bg border border-amber-300' : 'bg-transparent'} ${
-                isBorderTick ? 'border-2 border-dashed border-ink ring-1 ring-ink/20 shadow-sm' : ''
+              className={`transition-all duration-200 p-3 sm:p-3.5 rounded-lg text-xs sm:text-[13px] leading-relaxed break-words whitespace-pre-wrap ${
+                isBold ? 'font-bold text-stone-950' : 'font-normal text-stone-800'
+              } ${isColorBg ? 'bg-amber-100/90 border border-amber-300' : 'bg-stone-100/70 border border-stone-200'} ${
+                isBorderTick ? 'border-2 border-dashed border-stone-800 ring-1 ring-stone-900/10 shadow-xs' : ''
               }`}
             >
               {isBorderTick && (
@@ -86,31 +81,26 @@ export const LiveBroadsheetSimulator: React.FC<LiveBroadsheetSimulatorProps> = (
               {booking.adText.trim() ? (
                 <span>{booking.adText}</span>
               ) : (
-                <span className="italic text-ink-muted">
+                <span className="italic text-stone-400">
                   Type your advertisement text on the left to see the live tactile broadsheet preview here...
                 </span>
               )}
             </div>
 
             {/* Simulated editorial note */}
-            <div className="mt-3 text-[10px] text-ink-muted font-sans border-t border-dashed border-paper-line-dark/20 pt-1.5 flex items-center justify-between">
-              <span>Chars: {booking.adText.length}</span>
-              <span className="text-brand font-semibold">
+            <div className="mt-2 text-[10px] text-stone-500 font-sans flex items-center justify-between px-1">
+              <span>Characters: <strong className="font-mono text-stone-700">{booking.adText.length}</strong></span>
+              <span className="font-head font-bold text-brand uppercase">
                 {pub.unit === 'line'
-                  ? `${booking.calculatedPrice.lines} Lines (~35 chars/line)`
-                  : `${booking.calculatedPrice.words} Words counted`}
+                  ? `${booking.calculatedPrice.lines} Lines Billed`
+                  : `${booking.calculatedPrice.words} Words Billed`}
               </span>
             </div>
           </div>
 
-          {/* Right Dummy Column */}
-          <div className="hidden md:block md:col-span-3 text-[11px] text-ink-muted leading-tight border-l border-paper-line pl-2 text-justify space-y-2">
-            <div>
-              <span className="font-bold text-ink">SITUATIONS VACANT:</span> Female receptionist required for corporate dental clinic. Fluent English. Walk-in.
-            </div>
-            <div>
-              <span className="font-bold text-ink">LOST & FOUND:</span> Brown leather briefcase in airport taxi. Important documents. High reward. Contact 9811XXXXXX.
-            </div>
+          {/* Succeeding Classified Notice (Context) */}
+          <div className="text-[11px] text-stone-500 leading-snug border-t border-stone-200 pt-2">
+            <span className="font-bold text-stone-700">LOST &amp; FOUND:</span> Original Title Deed document of Flat No. 204 lost near Metro Station. Finder please contact: 9878XXXXXX.
           </div>
         </div>
       </div>

@@ -88,14 +88,28 @@ export const TariffBreakdownCard: React.FC<TariffBreakdownCardProps> = ({
       </div>
 
       {showProceedButton ? (
-        <button
-          type="button"
-          onClick={handleCheckout}
-          className="w-full py-3.5 px-6 rounded-full bg-brand text-white font-head font-bold text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group cursor-pointer"
-        >
-          <span>Proceed to Checkout</span>
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-        </button>
+        <div className="space-y-2">
+          {/* Mobile view checkout button (since tariff card is at bottom of page on mobile) */}
+          <button
+            type="button"
+            onClick={handleCheckout}
+            className="lg:hidden w-full py-3.5 px-6 rounded-full bg-brand text-white font-head font-bold text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+          >
+            <span>Proceed to Checkout</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </button>
+          
+          {/* Desktop view live status badge (harmonizes with Step 3 Proceed button in left column) */}
+          <div className="hidden lg:flex py-3 px-4 rounded-xl bg-emerald-50 border border-emerald-200 items-center justify-between text-xs text-emerald-800">
+            <span className="font-head font-bold uppercase tracking-wider text-[11px] flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse shrink-0" />
+              Live Tariff Calculated
+            </span>
+            <span className="text-[11px] font-sans font-semibold text-emerald-700">
+              Ready for Step 4
+            </span>
+          </div>
+        </div>
       ) : (
         <div className="py-2.5 px-3.5 rounded-xl bg-paper-tint border border-paper-line/80 flex items-center justify-between text-xs text-ink-muted">
           <span className="font-head font-bold uppercase tracking-wider text-[10.5px] sm:text-[11px] text-ink flex items-center gap-1.5">
