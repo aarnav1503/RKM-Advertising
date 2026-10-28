@@ -136,7 +136,7 @@ export const HomePage: React.FC = () => {
           <h2>Over 150 accredited newspapers</h2>
           <p className="lead">Direct authorized tariff cards with zero hidden markup.</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 my-6 sm:my-7">
             {Object.values(PUBLICATIONS_DATA).map((p) => (
               <NewspaperCard
                 key={p.id}
@@ -148,7 +148,6 @@ export const HomePage: React.FC = () => {
                 copies={p.copies}
                 unit={p.unit}
                 baseRate={p.baseRate}
-                to={`/book-ad?pub=${p.id}`}
               />
             ))}
           </div>

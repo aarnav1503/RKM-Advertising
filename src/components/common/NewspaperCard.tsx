@@ -231,10 +231,10 @@ export const NewspaperCard: React.FC<NewspaperCardProps> = ({
 
   const content = (
     <div
-      className={`relative bg-white rounded-2xl border transition-all duration-200 select-none overflow-hidden ${
+      className={`relative bg-white rounded-2xl border transition-all duration-300 select-none overflow-hidden ${
         isSelected
           ? 'border-slate-900 ring-2 ring-slate-900/15 shadow-md bg-slate-50/60'
-          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-md'
+          : 'border-slate-200/90 hover:border-brand/40 hover:shadow-lg hover:-translate-y-1'
       } ${className}`}
     >
       {/* Main Single-Row Horizontal Layout (Direct Reference Matching) */}
