@@ -312,11 +312,11 @@ export const CheckoutPage: React.FC = () => {
                       {formatINR(booking.calculatedPrice.gstAmount)}
                     </span>
                   </div>
-                  <div className="flex items-baseline justify-between pt-3 border-t border-dashed border-paper-line">
+                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-dashed border-paper-line">
                     <span className="font-head font-bold text-sm uppercase text-ink">
                       Total Payable
                     </span>
-                    <span className="font-news-serif text-2xl font-bold text-brand font-mono">
+                    <span className="font-news-serif text-2xl font-bold text-brand font-mono whitespace-nowrap shrink-0">
                       {formatINR(totalAmount)}
                     </span>
                   </div>

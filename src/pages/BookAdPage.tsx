@@ -180,10 +180,18 @@ export const BookAdPage: React.FC = () => {
           {/* Step 4 */}
           <button
             type="button"
-            onClick={handleProceed}
-            className="flex items-center gap-2 text-ink-muted hover:text-brand transition-colors cursor-pointer"
+            onClick={currentStep === 3 ? handleProceed : undefined}
+            disabled={currentStep < 3}
+            title={currentStep < 3 ? 'Complete steps 1, 2, and 3 first' : 'Proceed to Checkout'}
+            className={`flex items-center gap-2 transition-colors ${
+              currentStep === 3
+                ? 'text-ink-muted hover:text-brand cursor-pointer'
+                : 'text-ink-muted/40 cursor-not-allowed'
+            }`}
           >
-            <span className="w-5 h-5 rounded-full bg-paper-soft text-ink-muted flex items-center justify-center font-bold text-[10px]">
+            <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-[10px] ${
+              currentStep === 3 ? 'bg-paper-soft text-ink-muted' : 'bg-paper-soft/60 text-ink-muted/50'
+            }`}>
               4
             </span>
             <span className="hidden sm:inline">Checkout</span>
@@ -617,7 +625,12 @@ export const BookAdPage: React.FC = () => {
           {/* RIGHT: Live Broadsheet Simulator & Real-Time Bill */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
             <LiveBroadsheetSimulator booking={booking} />
-            <TariffBreakdownCard booking={booking} onProceed={handleProceed} />
+            <TariffBreakdownCard
+              booking={booking}
+              onProceed={handleProceed}
+              showProceedButton={currentStep === 3}
+              currentStep={currentStep}
+            />
           </div>
         </div>
       </div>
