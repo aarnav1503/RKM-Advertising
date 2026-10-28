@@ -77,6 +77,18 @@ export const BookAdPage: React.FC = () => {
     navigate('/checkout');
   };
 
+  const goToStep = (step: number) => {
+    setCurrentStep(step);
+    // Smooth scroll to top of composer card so user never lands in the middle or bottom of the page
+    const composerEl = document.getElementById('composer-card');
+    if (composerEl) {
+      const topOffset = composerEl.getBoundingClientRect().top + window.scrollY - 110;
+      window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 160, behavior: 'smooth' });
+    }
+  };
+
   // Earliest allowable date calculation
   const getMinDate = () => {
     const now = new Date();
@@ -103,7 +115,7 @@ export const BookAdPage: React.FC = () => {
           {/* Step 1 */}
           <button
             type="button"
-            onClick={() => setCurrentStep(1)}
+            onClick={() => goToStep(1)}
             className={`flex items-center gap-2 transition-colors cursor-pointer ${
               currentStep === 1
                 ? 'text-brand font-bold'
@@ -130,7 +142,7 @@ export const BookAdPage: React.FC = () => {
           {/* Step 2 */}
           <button
             type="button"
-            onClick={() => setCurrentStep(2)}
+            onClick={() => goToStep(2)}
             className={`flex items-center gap-2 transition-colors cursor-pointer ${
               currentStep === 2
                 ? 'text-brand font-bold'
@@ -157,7 +169,7 @@ export const BookAdPage: React.FC = () => {
           {/* Step 3 */}
           <button
             type="button"
-            onClick={() => setCurrentStep(3)}
+            onClick={() => goToStep(3)}
             className={`flex items-center gap-2 transition-colors cursor-pointer ${
               currentStep === 3
                 ? 'text-brand font-bold'
@@ -203,11 +215,11 @@ export const BookAdPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* LEFT: Composer Controls & Configuration */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-5 sm:space-y-6">
+            <div id="composer-card" className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-5 sm:space-y-6">
               
               {/* STEP 1: EDITION & COVERAGE (NEWSPAPER LOCKED & CONFIRMED) */}
               {currentStep === 1 && (
-                <div className="space-y-6">
+                <div key="step-1" className="space-y-6 step-transition">
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-line">
                     <div>
                       <div className="text-[11px] font-head font-bold uppercase tracking-wider text-brand mb-1 flex items-center gap-1.5">
@@ -347,7 +359,7 @@ export const BookAdPage: React.FC = () => {
                   <div className="pt-2">
                     <button
                       type="button"
-                      onClick={() => setCurrentStep(2)}
+                      onClick={() => goToStep(2)}
                       className="btn accent w-full py-4 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                     >
                       <span>Continue to Step 2: Category &amp; Date</span>
@@ -359,7 +371,7 @@ export const BookAdPage: React.FC = () => {
 
               {/* STEP 2: CATEGORY & DATE */}
               {currentStep === 2 && (
-                <div className="space-y-6">
+                <div key="step-2" className="space-y-6 step-transition">
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-line">
                     <div>
                       <div className="text-[11px] font-head font-bold uppercase tracking-wider text-brand mb-1 flex items-center gap-1.5">
@@ -436,16 +448,16 @@ export const BookAdPage: React.FC = () => {
                   <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
                     <button
                       type="button"
-                      onClick={() => setCurrentStep(1)}
-                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer"
+                      onClick={() => goToStep(1)}
+                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 1</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => setCurrentStep(3)}
-                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                      onClick={() => goToStep(3)}
+                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer order-1 sm:order-2"
                     >
                       <span>Continue to Step 3: Compose Text</span>
                       <ArrowRight className="w-4 h-4" />
@@ -456,7 +468,7 @@ export const BookAdPage: React.FC = () => {
 
               {/* STEP 3: COMPOSE & PREVIEW */}
               {currentStep === 3 && (
-                <div className="space-y-6">
+                <div key="step-3" className="space-y-6 step-transition">
                   <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-paper-line">
                     <div>
                       <div className="text-[11px] font-head font-bold uppercase tracking-wider text-brand mb-1 flex items-center gap-1.5">
@@ -472,45 +484,121 @@ export const BookAdPage: React.FC = () => {
                     <CutoffCountdownBadge cutoffHour={pub.cutoffHour} />
                   </div>
 
-                  {/* Advertisement Copy Textarea */}
+                  {/* Advertisement Copy Textarea with Formatting Bar */}
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-head font-bold uppercase tracking-wider text-ink">
-                        Advertisement Content (Text)
+                      <label className="text-xs font-head font-bold uppercase tracking-wider text-ink flex items-center gap-1.5">
+                        <span>Advertisement Content (Text)</span>
+                        <span className="text-red-500">*</span>
                       </label>
                       <span className="text-[11.5px] font-head font-semibold text-brand">
                         {pub.name} bills by {pub.unit} ({pub.baseUnits} {pub.unit}s included)
                       </span>
                     </div>
 
+                    {/* Quick Format Tools */}
+                    <div className="flex flex-wrap items-center justify-between gap-2 bg-paper-soft/80 border border-paper-line rounded-t-xl px-3 py-1.5 text-xs text-ink-muted">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-head font-bold uppercase tracking-wider text-ink-muted">Quick Case:</span>
+                        <button
+                          type="button"
+                          onClick={() => updateBooking({ adText: booking.adText.toUpperCase() })}
+                          className="px-2 py-0.5 rounded bg-white border border-paper-line text-[10.5px] font-head font-semibold hover:border-brand hover:text-brand transition-colors cursor-pointer"
+                        >
+                          ALL CAPS
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateBooking({
+                              adText: booking.adText.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()),
+                            })
+                          }
+                          className="px-2 py-0.5 rounded bg-white border border-paper-line text-[10.5px] font-head font-semibold hover:border-brand hover:text-brand transition-colors cursor-pointer"
+                        >
+                          Title Case
+                        </button>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        {currentCategoryObj?.sampleText && (
+                          <button
+                            type="button"
+                            onClick={() => updateBooking({ adText: currentCategoryObj.sampleText })}
+                            className="text-[10.5px] font-head font-semibold text-brand hover:underline cursor-pointer"
+                          >
+                            Sample Template
+                          </button>
+                        )}
+                        {booking.adText && (
+                          <button
+                            type="button"
+                            onClick={() => updateBooking({ adText: '' })}
+                            className="text-[10.5px] font-head font-semibold text-ink-muted hover:text-red-600 cursor-pointer"
+                          >
+                            Clear
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
                     <textarea
                       rows={5}
                       value={booking.adText}
                       onChange={(e) => updateBooking({ adText: e.target.value })}
-                      placeholder="Type your advertisement text here..."
-                      className="w-full bg-paper-tint border border-paper-line rounded-2xl p-4 text-xs font-sans text-ink focus:outline-none focus:border-brand leading-relaxed resize-y"
+                      placeholder="Type your advertisement text here... e.g. PUBLIC NOTICE: Notice is hereby given..."
+                      className="w-full bg-paper-tint border border-paper-line border-t-0 rounded-b-xl p-3.5 sm:p-4 text-xs sm:text-[13px] font-sans text-ink focus:outline-none focus:border-brand leading-relaxed resize-y"
                     />
 
-                    <div className="bg-paper-tint border border-paper-line rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-sans text-ink-muted">
-                      <span>
-                        Count: <strong className="text-ink">{booking.calculatedPrice.words} words</strong>,{' '}
-                        <strong className="text-ink">{booking.calculatedPrice.lines} lines</strong> (~35 chars/line)
-                      </span>
-                      <span className="text-emerald-700 font-head font-bold text-[11px] uppercase tracking-wider">
-                        {booking.calculatedPrice.extraUnits > 0
-                          ? `${booking.calculatedPrice.extraUnits} extra ${pub.unit}s added`
-                          : 'Within base units limit'}
-                      </span>
+                    {/* Word / Line Calculation Status Card */}
+                    <div className="bg-paper-tint border border-paper-line rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-sans">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-brand" />
+                          <span>
+                            Words: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.words}</strong>
+                          </span>
+                        </div>
+                        <span className="text-paper-line">•</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-2 h-2 rounded-full bg-emerald-600" />
+                          <span>
+                            Lines: <strong className="text-ink font-mono font-bold">{booking.calculatedPrice.lines}</strong>
+                            <span className="text-[11px] text-ink-muted ml-1">(~35 chars/line)</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="text-right">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-head font-bold uppercase tracking-wider ${
+                          booking.calculatedPrice.extraUnits > 0
+                            ? 'bg-amber-100 text-amber-900 border border-amber-200'
+                            : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        }`}>
+                          {booking.calculatedPrice.extraUnits > 0
+                            ? `+${booking.calculatedPrice.extraUnits} Extra ${pub.unit}s Billed`
+                            : `Within Base ${pub.baseUnits} ${pub.unit}s Limit`}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Visual Enhancements Toggles */}
-                  <div>
-                    <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-2">
-                      Visual Enhancements (Boost Visibility)
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink">
+                        Visual Enhancements (Boost Visibility)
+                      </label>
+                      <span className="text-[11px] text-ink-muted font-sans">Optional print formatting</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {/* Bold First Line */}
+                      <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
+                        booking.enhancements.bold
+                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
+                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                      }`}>
                         <input
                           type="checkbox"
                           checked={booking.enhancements.bold}
@@ -519,15 +607,21 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, bold: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
+                          className="mt-0.5 rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Bold First Line</div>
-                          <div className="text-[10.5px] text-ink-muted">+₹ 50 flat</div>
+                          <div className="text-[11px] text-ink-muted mt-0.5">Headline emphasis</div>
+                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 50 flat</div>
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                      {/* Color Highlight */}
+                      <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
+                        booking.enhancements.colorBg
+                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
+                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                      }`}>
                         <input
                           type="checkbox"
                           checked={booking.enhancements.colorBg}
@@ -536,15 +630,21 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, colorBg: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
+                          className="mt-0.5 rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Color Highlight</div>
-                          <div className="text-[10.5px] text-ink-muted">+₹ 150 flat</div>
+                          <div className="text-[11px] text-ink-muted mt-0.5">Tinted background</div>
+                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 150 flat</div>
                         </div>
                       </label>
 
-                      <label className="flex items-center gap-2.5 p-3 rounded-xl sm:rounded-2xl border border-paper-line bg-paper-tint hover:bg-white cursor-pointer transition-colors">
+                      {/* Border & Tick */}
+                      <label className={`flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer select-none ${
+                        booking.enhancements.borderTick
+                          ? 'border-brand bg-brand-light/40 ring-1 ring-brand shadow-sm'
+                          : 'border-paper-line bg-paper-tint hover:bg-white'
+                      }`}>
                         <input
                           type="checkbox"
                           checked={booking.enhancements.borderTick}
@@ -553,11 +653,12 @@ export const BookAdPage: React.FC = () => {
                               enhancements: { ...booking.enhancements, borderTick: e.target.checked },
                             })
                           }
-                          className="rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
+                          className="mt-0.5 rounded text-brand focus:ring-brand accent-brand w-4 h-4 shrink-0 cursor-pointer"
                         />
-                        <div>
+                        <div className="min-w-0">
                           <div className="text-xs font-head font-bold text-ink">Border &amp; Tick</div>
-                          <div className="text-[10.5px] text-ink-muted">+₹ 30 flat</div>
+                          <div className="text-[11px] text-ink-muted mt-0.5">Surrounding box outline</div>
+                          <div className="text-[11px] font-mono font-semibold text-brand mt-1">+₹ 30 flat</div>
                         </div>
                       </label>
                     </div>
@@ -565,23 +666,26 @@ export const BookAdPage: React.FC = () => {
 
                   {/* Legal Document Upload if Required */}
                   {currentCategoryObj?.requiredDoc && (
-                    <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-2">
-                      <div className="flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+                    <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 space-y-3">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-xl bg-amber-200/80 text-amber-800 flex items-center justify-center shrink-0 mt-0.5">
+                          <AlertCircle className="w-4 h-4" />
+                        </div>
                         <div>
-                          <div className="text-xs font-head font-bold uppercase tracking-wider text-amber-900">
-                            Mandatory Legal Requirement
+                          <div className="text-xs font-head font-bold uppercase tracking-wider text-amber-950 flex items-center gap-1.5">
+                            <span>Mandatory Statutory Document</span>
+                            <span className="text-[9.5px] px-1.5 py-0.2 bg-amber-200 text-amber-900 rounded font-semibold">INS Requirement</span>
                           </div>
-                          <p className="text-[11.5px] text-amber-800 font-sans mt-0.5">
+                          <p className="text-xs text-amber-900/90 font-sans mt-1 leading-relaxed">
                             {currentCategoryObj.requiredDoc}
                           </p>
                         </div>
                       </div>
 
-                      <div className="pt-2">
-                        <label className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-amber-300 text-xs font-head font-semibold text-amber-900 hover:bg-amber-100/50 cursor-pointer shadow-sm transition-colors">
+                      <div className="pt-2 border-t border-amber-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-amber-300 text-xs font-head font-bold uppercase tracking-wider text-amber-900 hover:bg-amber-100/60 cursor-pointer shadow-sm transition-all hover:border-amber-400">
                           <UploadCloud className="w-4 h-4 text-brand" />
-                          <span>{uploadedFile ? `Attached: ${uploadedFile}` : 'Upload Affidavit / Supporting PDF'}</span>
+                          <span>{uploadedFile ? 'Change Attached Document' : 'Upload Affidavit / Supporting PDF'}</span>
                           <input
                             type="file"
                             accept=".pdf,.jpg,.jpeg,.png"
@@ -589,9 +693,15 @@ export const BookAdPage: React.FC = () => {
                             className="hidden"
                           />
                         </label>
-                        {uploadedFile && (
-                          <span className="ml-2 text-[11px] text-emerald-700 font-semibold inline-flex items-center gap-1">
-                            <CheckCircle2 className="w-3.5 h-3.5" /> Ready for Editorial Check
+                        {uploadedFile ? (
+                          <div className="text-xs text-emerald-800 font-medium inline-flex items-center gap-1.5 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl truncate max-w-full">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span className="truncate">{uploadedFile}</span>
+                            <span className="text-[10px] text-emerald-600 shrink-0 font-bold ml-1">• Ready</span>
+                          </div>
+                        ) : (
+                          <span className="text-[11px] text-amber-800/80 font-sans">
+                            Accepted: PDF, JPG, PNG (Max 10MB)
                           </span>
                         )}
                       </div>
@@ -599,11 +709,11 @@ export const BookAdPage: React.FC = () => {
                   )}
 
                   {/* Step 3 Navigation Buttons */}
-                  <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+                  <div className="pt-4 border-t border-paper-line flex flex-col sm:flex-row gap-2.5 sm:gap-3">
                     <button
                       type="button"
-                      onClick={() => setCurrentStep(2)}
-                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer"
+                      onClick={() => goToStep(2)}
+                      className="btn outline py-3 sm:py-3.5 px-6 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer order-2 sm:order-1"
                     >
                       <ArrowLeft className="w-4 h-4" />
                       <span>Back to Step 2</span>
@@ -611,7 +721,7 @@ export const BookAdPage: React.FC = () => {
                     <button
                       type="button"
                       onClick={handleProceed}
-                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                      className="btn accent flex-1 py-3 sm:py-3.5 text-xs font-head uppercase tracking-wider font-bold flex items-center justify-center gap-2 shadow-sm cursor-pointer order-1 sm:order-2"
                     >
                       <span>Proceed to Checkout (Step 4)</span>
                       <ArrowRight className="w-4 h-4" />

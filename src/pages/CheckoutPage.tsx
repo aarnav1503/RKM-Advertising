@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBooking } from '../context/BookingContext';
 import { PageHeader } from '../components/layout/PageHeader';
 import { formatINR } from '../data/publicationsData';
-import { ShieldCheck, Lock, QrCode, ArrowRight, X, CheckCircle2 } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  Lock, 
+  QrCode, 
+  ArrowRight, 
+  ArrowLeft, 
+  X, 
+  CheckCircle2, 
+  Check, 
+  Calendar, 
+  FileText, 
+  CreditCard, 
+  Building2, 
+  Zap,
+  Clock,
+  Sparkles
+} from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export const CheckoutPage: React.FC = () => {
@@ -12,19 +28,21 @@ export const CheckoutPage: React.FC = () => {
   const [isUpiModalOpen, setIsUpiModalOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (customer.paymentMethod === 'upi') {
       setIsUpiModalOpen(true);
     } else {
-      // Simulate direct card / netbanking completion
       handleCompletePayment();
     }
   };
 
   const handleCompletePayment = () => {
     setIsProcessing(true);
-    // Fire celebratory confetti!
     confetti({
       particleCount: 80,
       spread: 70,
@@ -45,32 +63,141 @@ export const CheckoutPage: React.FC = () => {
   return (
     <div className="bg-paper min-h-screen pb-20">
       <PageHeader
-        title="Review &amp; Confirm Booking"
+        title="Review & Confirm Booking"
         subtitle="Complete your billing information and verify publication schedule with 256-Bit SSL encryption."
-        badge="Secure Express Checkout"
-        breadcrumbs={[{ label: 'Book Ad', path: '/book-ad' }, { label: 'Checkout' }]}
+        badge="Step 4 of 4: Final Checkout"
+        breadcrumbs={[{ label: 'Book Ad', path: '/book-ad' }, { label: 'Step 4: Checkout' }]}
       />
 
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-20 sm:pb-12">
-        <form onSubmit={handleSubmit}>
+      {/* 4-Step Wizard Stepper (Consistent with Step 1-3 on BookAdPage) */}
+      <div className="bg-white border-b border-paper-line py-2.5 sm:py-3.5 px-3 sm:px-4 sticky top-[48px] sm:top-16 z-30 shadow-xs">
+        <div className="max-w-7xl mx-auto flex items-center justify-between overflow-x-auto no-scrollbar gap-1 sm:gap-2">
+          {/* Step 1 */}
+          <button
+            type="button"
+            onClick={() => navigate('/book-ad')}
+            className="flex items-center gap-1.5 sm:gap-2 py-1 px-2 sm:px-3 rounded-lg text-emerald-800 hover:bg-emerald-50 transition-all shrink-0 cursor-pointer text-left"
+            title="Click to change edition"
+          >
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 bg-emerald-600 text-white">
+              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+            </span>
+            <div className="flex flex-col">
+              <span className="font-head text-[10px] sm:text-xs uppercase tracking-wider font-bold text-ink">
+                1. Edition & Coverage
+              </span>
+              <span className="text-[9px] text-emerald-700 hidden md:block">
+                {booking.edition}
+              </span>
+            </div>
+          </button>
+
+          <div className="h-px w-3 sm:w-8 bg-paper-line shrink-0" />
+
+          {/* Step 2 */}
+          <button
+            type="button"
+            onClick={() => navigate('/book-ad')}
+            className="flex items-center gap-1.5 sm:gap-2 py-1 px-2 sm:px-3 rounded-lg text-emerald-800 hover:bg-emerald-50 transition-all shrink-0 cursor-pointer text-left"
+            title="Click to change category or date"
+          >
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 bg-emerald-600 text-white">
+              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+            </span>
+            <div className="flex flex-col">
+              <span className="font-head text-[10px] sm:text-xs uppercase tracking-wider font-bold text-ink">
+                2. Category & Date
+              </span>
+              <span className="text-[9px] text-emerald-700 hidden md:block truncate max-w-[120px]">
+                {booking.category}
+              </span>
+            </div>
+          </button>
+
+          <div className="h-px w-3 sm:w-8 bg-paper-line shrink-0" />
+
+          {/* Step 3 */}
+          <button
+            type="button"
+            onClick={() => navigate('/book-ad')}
+            className="flex items-center gap-1.5 sm:gap-2 py-1 px-2 sm:px-3 rounded-lg text-emerald-800 hover:bg-emerald-50 transition-all shrink-0 cursor-pointer text-left"
+            title="Click to edit ad copy"
+          >
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 bg-emerald-600 text-white">
+              <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+            </span>
+            <div className="flex flex-col">
+              <span className="font-head text-[10px] sm:text-xs uppercase tracking-wider font-bold text-ink">
+                3. Compose & Preview
+              </span>
+              <span className="text-[9px] text-emerald-700 hidden md:block">
+                Ad Text Ready
+              </span>
+            </div>
+          </button>
+
+          <div className="h-px w-3 sm:w-8 bg-paper-line shrink-0" />
+
+          {/* Step 4: Active */}
+          <div className="flex items-center gap-1.5 sm:gap-2 py-1 px-2.5 sm:px-3 rounded-lg bg-brand-light text-brand shrink-0">
+            <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold shrink-0 bg-brand text-white shadow-xs">
+              4
+            </span>
+            <div className="flex flex-col">
+              <span className="font-head text-[10px] sm:text-xs uppercase tracking-wider font-bold text-brand">
+                4. Checkout & Pay
+              </span>
+              <span className="text-[9px] text-brand/80 hidden md:block">
+                Final Step
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pt-5 sm:pt-8 pb-20 sm:pb-12">
+        <form onSubmit={handleSubmit} className="step-transition">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-            {/* Left: Billing Form & Payment Options */}
-            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-              {/* Customer Contact Details */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-4 sm:space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-paper-line">
-                  <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
-                    1. Advertiser &amp; Billing Details
-                  </h2>
-                  <span className="text-xs text-ink-muted font-sans flex items-center gap-1">
-                    <Lock className="w-3.5 h-3.5 text-brand" /> 256-Bit SSL Secure
+            
+            {/* Left Column: Billing Details & Payment Mode */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Back to Step 3 Quick Bar (Mobile & Desktop) */}
+              <div className="flex items-center justify-between bg-white rounded-2xl p-3 sm:p-4 border border-paper-line shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => navigate('/book-ad')}
+                  className="inline-flex items-center gap-2 text-xs font-head font-bold uppercase tracking-wider text-ink hover:text-brand transition-colors cursor-pointer"
+                >
+                  <ArrowLeft className="w-4 h-4 text-brand" />
+                  <span>Return to Step 3 (Edit Ad Copy)</span>
+                </button>
+                <span className="text-[11px] font-sans text-ink-muted hidden sm:inline-flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-brand" /> Morning Press Run Closes at 8:00 PM
+                </span>
+              </div>
+
+              {/* 1. Customer Contact & Billing Details */}
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-paper-line shadow-press space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-4 border-b border-paper-line">
+                  <div>
+                    <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-brand-light text-brand text-xs flex items-center justify-center font-bold">1</span>
+                      Advertiser &amp; Billing Details
+                    </h2>
+                    <p className="text-xs text-ink-muted font-sans mt-0.5 ml-8">
+                      Invoice will be generated with these details and sent via WhatsApp &amp; Email.
+                    </p>
+                  </div>
+                  <span className="text-xs text-emerald-700 font-sans flex items-center gap-1 shrink-0 self-start sm:self-auto mt-1 sm:mt-0 ml-8 sm:ml-0 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 font-medium">
+                    <Lock className="w-3.5 h-3.5 text-emerald-600" /> 256-Bit SSL Encrypted
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Full Name *
+                      Full Name of Advertiser *
                     </label>
                     <input
                       required
@@ -78,13 +205,13 @@ export const CheckoutPage: React.FC = () => {
                       value={customer.fullName}
                       onChange={(e) => updateCustomer({ fullName: e.target.value })}
                       placeholder="e.g. Rahul Verma"
-                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium"
+                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand focus:bg-white transition-all font-medium"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Mobile Number (For WhatsApp Receipt) *
+                      WhatsApp Mobile Number *
                     </label>
                     <input
                       required
@@ -92,7 +219,7 @@ export const CheckoutPage: React.FC = () => {
                       value={customer.phone}
                       onChange={(e) => updateCustomer({ phone: e.target.value })}
                       placeholder="+91 98XXXXXXXX"
-                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium"
+                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand focus:bg-white transition-all font-medium"
                     />
                   </div>
                 </div>
@@ -100,7 +227,7 @@ export const CheckoutPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                      Email Address *
+                      Email Address (For Tax Invoice) *
                     </label>
                     <input
                       required
@@ -108,215 +235,275 @@ export const CheckoutPage: React.FC = () => {
                       value={customer.email}
                       onChange={(e) => updateCustomer({ email: e.target.value })}
                       placeholder="rahul.verma@example.com"
-                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium"
+                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand focus:bg-white transition-all font-medium"
                     />
                   </div>
 
                   <div>
                     <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5 flex items-center justify-between">
                       <span>GSTIN (Optional)</span>
-                      <span className="text-[10px] text-ink-muted">For Tax Credit</span>
+                      <span className="text-[10px] text-brand font-medium">Input Tax Credit</span>
                     </label>
                     <input
                       type="text"
                       value={customer.gstin || ''}
                       onChange={(e) => updateCustomer({ gstin: e.target.value.toUpperCase() })}
                       placeholder="07AAAAA0000A1Z5"
-                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium uppercase font-mono"
+                      className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand focus:bg-white transition-all font-medium uppercase font-mono tracking-wider"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-head font-bold uppercase tracking-wider text-ink mb-1.5">
-                    Billing Address &amp; City
+                    Billing Address &amp; City (Optional)
                   </label>
                   <input
                     type="text"
                     value={customer.address || ''}
                     onChange={(e) => updateCustomer({ address: e.target.value })}
                     placeholder="House/Office address, Sector/Area, City, Pincode"
-                    className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand font-medium"
+                    className="w-full bg-paper-tint border border-paper-line rounded-xl px-3.5 py-3 text-xs font-sans text-ink focus:outline-none focus:border-brand focus:bg-white transition-all font-medium"
                   />
                 </div>
               </div>
 
-              {/* Payment Methods */}
-              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 border border-paper-line shadow-press space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-paper-line">
-                  <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
-                    2. Select Payment Method
-                  </h2>
-                  <span className="text-xs text-emerald-700 font-head font-semibold">
-                    Zero Payment Gateway Surcharge
+              {/* 2. Select Payment Mode */}
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-paper-line shadow-press space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-4 border-b border-paper-line">
+                  <div>
+                    <h2 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-full bg-brand-light text-brand text-xs flex items-center justify-center font-bold">2</span>
+                      Select Payment Method
+                    </h2>
+                    <p className="text-xs text-ink-muted font-sans mt-0.5 ml-8">
+                      Direct publication release upon instant payment confirmation.
+                    </p>
+                  </div>
+                  <span className="text-xs text-emerald-700 font-head font-semibold ml-8 sm:ml-0 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 self-start sm:self-auto">
+                    Zero PG Surcharge
                   </span>
                 </div>
 
-                {/* Option 1: Instant UPI QR */}
-                <label
-                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
-                    customer.paymentMethod === 'upi'
-                      ? 'border-brand bg-brand-light/30 shadow-sm'
-                      : 'border-paper-line bg-paper-tint hover:bg-white'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payMethod"
-                    checked={customer.paymentMethod === 'upi'}
-                    onChange={() => updateCustomer({ paymentMethod: 'upi' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-wrap items-center justify-between gap-1.5">
-                      <strong className="text-xs sm:text-sm font-head font-bold text-ink">
-                        Instant UPI QR Code (Recommended)
+                <div className="space-y-3">
+                  {/* Option 1: Instant UPI QR */}
+                  <label
+                    className={`flex items-start gap-3.5 sm:gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                      customer.paymentMethod === 'upi'
+                        ? 'border-brand bg-brand-light/30 shadow-sm ring-1 ring-brand/30'
+                        : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payMethod"
+                      checked={customer.paymentMethod === 'upi'}
+                      onChange={() => updateCustomer({ paymentMethod: 'upi' })}
+                      className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-1.5">
+                        <strong className="text-xs sm:text-sm font-head font-bold text-ink flex items-center gap-2">
+                          <Zap className="w-4 h-4 text-brand fill-brand" />
+                          Instant UPI QR Code (Recommended)
+                        </strong>
+                        <span className="text-[10px] font-head font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full shrink-0">
+                          Fastest Approval
+                        </span>
+                      </div>
+                      <p className="text-xs text-ink-muted font-sans mt-1">
+                        Scan directly using Google Pay, PhonePe, Paytm, or BHIM. Zero convenience fees.
+                      </p>
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2.5 text-[11px] text-ink-muted">
+                        <span className="px-2.5 py-0.5 rounded-md bg-white border border-paper-line font-medium text-ink shadow-xs">Google Pay</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-white border border-paper-line font-medium text-ink shadow-xs">PhonePe</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-white border border-paper-line font-medium text-ink shadow-xs">Paytm</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-white border border-paper-line font-medium text-ink shadow-xs">BHIM UPI</span>
+                      </div>
+                    </div>
+                  </label>
+
+                  {/* Option 2: Card */}
+                  <label
+                    className={`flex items-start gap-3.5 sm:gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                      customer.paymentMethod === 'card'
+                        ? 'border-brand bg-brand-light/30 shadow-sm ring-1 ring-brand/30'
+                        : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payMethod"
+                      checked={customer.paymentMethod === 'card'}
+                      onChange={() => updateCustomer({ paymentMethod: 'card' })}
+                      className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <strong className="text-xs sm:text-sm font-head font-bold text-ink flex items-center gap-2">
+                        <CreditCard className="w-4 h-4 text-ink-muted" />
+                        Credit / Debit Card
                       </strong>
-                      <span className="text-[9.5px] sm:text-[10.5px] font-head font-bold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full shrink-0">
-                        Fastest Approval
-                      </span>
+                      <p className="text-xs text-ink-muted font-sans mt-1">
+                        All major Visa, MasterCard, RuPay, and American Express cards supported.
+                      </p>
                     </div>
-                    <p className="text-xs text-ink-muted font-sans mt-0.5">
-                      Scan via Google Pay, PhonePe, Paytm, or BHIM. Zero convenience fees.
-                    </p>
-                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-2 text-[10.5px] sm:text-[11px] text-ink-muted">
-                      <span className="px-2 py-0.5 rounded bg-white border border-paper-line">Google Pay</span>
-                      <span className="px-2 py-0.5 rounded bg-white border border-paper-line">PhonePe</span>
-                      <span className="px-2 py-0.5 rounded bg-white border border-paper-line">Paytm</span>
-                      <span className="px-2 py-0.5 rounded bg-white border border-paper-line">BHIM UPI</span>
+                  </label>
+
+                  {/* Option 3: Netbanking */}
+                  <label
+                    className={`flex items-start gap-3.5 sm:gap-4 p-4 rounded-2xl border transition-all cursor-pointer ${
+                      customer.paymentMethod === 'netbanking'
+                        ? 'border-brand bg-brand-light/30 shadow-sm ring-1 ring-brand/30'
+                        : 'border-paper-line bg-paper-tint hover:bg-white hover:border-ink-muted/30'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="payMethod"
+                      checked={customer.paymentMethod === 'netbanking'}
+                      onChange={() => updateCustomer({ paymentMethod: 'netbanking' })}
+                      className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <strong className="text-xs sm:text-sm font-head font-bold text-ink flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-ink-muted" />
+                        Net Banking &amp; Corporate NEFT
+                      </strong>
+                      <p className="text-xs text-ink-muted font-sans mt-1">
+                        HDFC, ICICI, SBI, Axis, Kotak and 50+ commercial banks with instant settlement.
+                      </p>
                     </div>
-                  </div>
-                </label>
+                  </label>
+                </div>
 
-                {/* Option 2: Card */}
-                <label
-                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
-                    customer.paymentMethod === 'card'
-                      ? 'border-brand bg-brand-light/30 shadow-sm'
-                      : 'border-paper-line bg-paper-tint hover:bg-white'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payMethod"
-                    checked={customer.paymentMethod === 'card'}
-                    onChange={() => updateCustomer({ paymentMethod: 'card' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <strong className="text-xs sm:text-sm font-head font-bold text-ink block">
-                      Credit / Debit Card
-                    </strong>
-                    <p className="text-xs text-ink-muted font-sans mt-0.5">
-                      Visa, MasterCard, RuPay, American Express corporate cards.
-                    </p>
-                  </div>
-                </label>
+                {/* Primary Action Buttons */}
+                <div className="space-y-3 pt-3">
+                  <button
+                    type="submit"
+                    className="w-full py-4 px-6 rounded-full bg-brand text-white font-head font-bold text-xs sm:text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 active:translate-y-0 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                  >
+                    <Lock className="w-4 h-4 shrink-0" />
+                    <span>Pay {formatINR(totalAmount)} &amp; Release Notice</span>
+                    <ArrowRight className="w-4 h-4 shrink-0" />
+                  </button>
 
-                {/* Option 3: Netbanking */}
-                <label
-                  className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border transition-all cursor-pointer ${
-                    customer.paymentMethod === 'netbanking'
-                      ? 'border-brand bg-brand-light/30 shadow-sm'
-                      : 'border-paper-line bg-paper-tint hover:bg-white'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="payMethod"
-                    checked={customer.paymentMethod === 'netbanking'}
-                    onChange={() => updateCustomer({ paymentMethod: 'netbanking' })}
-                    className="mt-1 text-brand accent-brand focus:ring-brand w-4 h-4 shrink-0 cursor-pointer"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <strong className="text-xs sm:text-sm font-head font-bold text-ink block">
-                      Net Banking &amp; NEFT / RTGS
-                    </strong>
-                    <p className="text-xs text-ink-muted font-sans mt-0.5">
-                      HDFC, ICICI, SBI, Axis, Kotak and 50+ commercial banks.
-                    </p>
-                  </div>
-                </label>
-
-                <button
-                  type="submit"
-                  className="w-full mt-4 py-3.5 sm:py-4 px-4 sm:px-6 rounded-full bg-brand text-white font-head font-bold text-xs sm:text-sm tracking-wider uppercase shadow-accent hover:bg-brand-hover hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                >
-                  <Lock className="w-4 h-4 shrink-0" />
-                  <span className="text-center">
-                    Pay {formatINR(totalAmount)} &amp; Release to Editorial Desk
-                  </span>
-                  <ArrowRight className="w-4 h-4 shrink-0" />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/book-ad')}
+                    className="w-full py-3 px-4 rounded-full border border-paper-line text-ink-muted hover:text-ink text-xs font-head font-bold uppercase tracking-wider hover:bg-paper-soft transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    <span>Back to Step 3: Edit Ad Copy &amp; Options</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* Right: Order Review & Itemized Summary */}
+            {/* Right Column: Order Review & Itemized Receipt */}
             <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-              <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-7 border border-paper-line shadow-press space-y-4 sm:space-y-5">
-                <div className="flex items-center justify-between pb-3 border-b border-paper-line">
-                  <h3 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
-                    Order Summary
-                  </h3>
-                  <span className="text-[10.5px] sm:text-[11px] font-head font-semibold px-2.5 py-0.5 rounded-full bg-paper-tint border border-paper-line text-ink">
-                    Itemized Receipt
+              <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-7 border border-paper-line shadow-press space-y-5">
+                <div className="flex items-center justify-between pb-3.5 border-b border-paper-line">
+                  <div>
+                    <h3 className="font-head text-sm sm:text-base font-bold text-ink uppercase tracking-wider">
+                      Order Summary
+                    </h3>
+                    <p className="text-[11px] text-ink-muted font-sans">
+                      Verified Press Insertion Docket
+                    </p>
+                  </div>
+                  <span className="text-[10px] sm:text-[10.5px] font-head font-bold uppercase px-2.5 py-1 rounded-full bg-paper-tint border border-paper-line text-ink">
+                    Official Receipt
                   </span>
                 </div>
 
-                <div className="space-y-2.5 text-xs font-sans text-ink-muted">
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-ink">Publication:</span>
-                    <span>{booking.publicationName}</span>
+                {/* Insertion Metadata Cards */}
+                <div className="space-y-2.5 text-xs font-sans">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-paper-tint border border-paper-line">
+                    <span className="text-ink-muted font-medium">Publication:</span>
+                    <span className="font-head font-bold text-ink text-right">{booking.publicationName}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-ink">Edition / Territory:</span>
-                    <span>{booking.edition}</span>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-paper-tint border border-paper-line">
+                    <span className="text-ink-muted font-medium">Edition / Zone:</span>
+                    <span className="font-semibold text-ink text-right">{booking.edition}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-ink">Category:</span>
-                    <span className="font-bold text-ink">{booking.category}</span>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-paper-tint border border-paper-line">
+                    <span className="text-ink-muted font-medium">Category:</span>
+                    <span className="font-head font-bold text-brand bg-brand-light/50 px-2.5 py-0.5 rounded-md text-right">
+                      {booking.category}
+                    </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="font-semibold text-ink">Scheduled Print Date:</span>
-                    <span className="font-bold text-brand">{booking.publishDate || 'Next Morning Issue'}</span>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-paper-tint border border-paper-line">
+                    <span className="text-ink-muted font-medium flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-brand" />
+                      Scheduled Release:
+                    </span>
+                    <span className="font-head font-bold text-ink text-right">
+                      {booking.publishDate || 'Next Morning Issue'}
+                    </span>
                   </div>
+
                   {booking.supportingDocName && (
-                    <div className="flex justify-between text-emerald-700">
-                      <span className="font-semibold">Attached Document:</span>
-                      <span className="truncate max-w-[160px]">{booking.supportingDocName}</span>
+                    <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800">
+                      <span className="font-medium flex items-center gap-1.5">
+                        <FileText className="w-3.5 h-3.5 text-emerald-600" />
+                        Attached Legal Affidavit:
+                      </span>
+                      <span className="truncate max-w-[150px] font-semibold text-right">
+                        {booking.supportingDocName}
+                      </span>
                     </div>
                   )}
                 </div>
 
-                {/* Formatted Ad Preview Box */}
-                <div className="p-3.5 rounded-2xl bg-paper-tint border border-paper-line font-serif text-xs leading-relaxed text-ink shadow-inner">
-                  <div className="text-[9.5px] font-head font-bold uppercase tracking-widest text-ink-muted mb-1">
-                    Live Notice Text Preview:
+                {/* Formatted Broadsheet Ad Preview Box */}
+                <div className="p-4 rounded-2xl bg-[#faf7f2] border-2 border-stone-300 font-serif text-xs leading-relaxed text-ink shadow-inner relative overflow-hidden">
+                  <div className="flex items-center justify-between border-b border-stone-200 pb-2 mb-2">
+                    <span className="text-[9px] font-head font-bold uppercase tracking-widest text-stone-500">
+                      Live Newsprint Typography Excerpt
+                    </span>
+                    <span className="text-[9px] font-mono text-stone-400">
+                      {booking.adFormat === 'text' ? 'ROD Classified' : 'Display Ad'}
+                    </span>
                   </div>
-                  <p className="line-clamp-4 italic">
+                  <p className="line-clamp-5 italic text-stone-900 leading-normal selection:bg-amber-100">
                     "{booking.adText}"
                   </p>
+                  {booking.enhancements && (
+                    <div className="mt-2.5 pt-2 border-t border-stone-200 flex flex-wrap gap-1 text-[9.5px] font-head font-semibold text-stone-600">
+                      {booking.enhancements.bold && <span className="bg-stone-200 px-1.5 py-0.5 rounded">Bold Header</span>}
+                      {booking.enhancements.colorBg && <span className="bg-amber-200 px-1.5 py-0.5 rounded text-amber-900">Color Highlight</span>}
+                      {booking.enhancements.borderTick && <span className="bg-stone-200 px-1.5 py-0.5 rounded">Border Box</span>}
+                    </div>
+                  )}
                 </div>
 
-                {/* Price Breakdown */}
+                {/* Itemized Price Breakdown */}
                 <div className="space-y-2 text-xs font-sans pt-3 border-t border-paper-line">
                   <div className="flex justify-between text-ink-muted">
-                    <span>Subtotal</span>
+                    <span>Base Tariff &amp; Composition</span>
                     <span className="font-mono text-ink font-semibold">
                       {formatINR(booking.calculatedPrice.subtotal)}
                     </span>
                   </div>
                   <div className="flex justify-between text-ink-muted">
-                    <span>GST (5% Statutory Print Tax)</span>
+                    <span>GST (5% Statutory Print Media Tax)</span>
                     <span className="font-mono text-ink font-semibold">
                       {formatINR(booking.calculatedPrice.gstAmount)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between gap-3 pt-3 border-t border-dashed border-paper-line">
-                    <span className="font-head font-bold text-sm uppercase text-ink">
-                      Total Payable
-                    </span>
-                    <span className="font-news-serif text-2xl font-bold text-brand font-mono whitespace-nowrap shrink-0">
+                  <div className="flex items-center justify-between gap-3 pt-3.5 border-t border-dashed border-paper-line">
+                    <div>
+                      <span className="font-head font-bold text-sm uppercase text-ink block">
+                        Total Payable
+                      </span>
+                      <span className="text-[10px] text-ink-muted font-sans">
+                        Inclusive of e-Tearsheet delivery
+                      </span>
+                    </div>
+                    <span className="font-news-serif text-2xl sm:text-3xl font-bold text-brand font-mono whitespace-nowrap shrink-0">
                       {formatINR(totalAmount)}
                     </span>
                   </div>
@@ -324,14 +511,18 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Guarantees Box */}
-              <div className="bg-paper-tint rounded-2xl p-4 border border-paper-line text-xs font-sans text-ink-muted space-y-2">
-                <div className="flex items-center gap-2 font-head font-bold uppercase text-[11px] text-ink">
+              <div className="bg-white rounded-2xl p-4 sm:p-5 border border-paper-line text-xs font-sans text-ink space-y-2.5 shadow-xs">
+                <div className="flex items-center gap-2 font-head font-bold uppercase text-[11px] text-emerald-800">
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                  <span>The RKM Ads Guarantee</span>
+                  <span>The Official RKM Ads Guarantee</span>
                 </div>
-                <p className="leading-relaxed">
-                  Every order is verified by our editorial desk and submitted directly into the morning press run. If an ad cannot be printed due to cut-off or affidavit rejection, a 100% refund is credited immediately.
+                <p className="text-xs text-ink-muted leading-relaxed font-sans">
+                  Every booking is verified directly by accredited INS editorial personnel. Certified digital e-tearsheet is delivered to your WhatsApp within 3 hours of morning broadsheet distribution.
                 </p>
+                <div className="pt-2 border-t border-paper-line flex items-center justify-between text-[10px] text-ink-muted font-head uppercase tracking-wider">
+                  <span>100% Refund on rejection</span>
+                  <span>INS Direct Bureau</span>
+                </div>
               </div>
             </div>
           </div>
